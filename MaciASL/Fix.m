@@ -16,6 +16,8 @@
     switch ((enum messages)(([NSUserDefaults.standardUserDefaults integerForKey:@"acpi"] == 4) ? msg4[temp] : msg5[temp])) {
         case ASL_MSG_NAME_OPTIMIZATION:
             return @"";
+        default:
+            ; // nothing
     }
     return @"";
 }

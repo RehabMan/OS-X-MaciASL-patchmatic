@@ -305,7 +305,7 @@ static NSRegularExpression *hid;
     }
     changes = [temp copy];
 #ifndef PATCHMATIC
-    assignWithNotice(self, preview, [list copy]);
+    assignWithNotice(self, preview, [list copy])
 #else
     preview = list;
 #endif

@@ -257,7 +257,7 @@ static char kLockKey;
             break;
         }
         else {
-            [buffer appendString:NSStringForData(data, NSUTF8StringEncoding)];
+            [buffer appendString:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
             if ([buffer rangeOfString:@"\n"].location == NSNotFound) continue;
             NSArray *temp = [buffer componentsSeparatedByString:@"\n"];
             for (NSString *line in [temp subarrayWithRange:NSMakeRange(0, temp.count-1)]) {
@@ -269,7 +269,7 @@ static char kLockKey;
         }
     }
     #pragma clang diagnostic pop
-    objc_setAssociatedObject(self, (handle == [self.standardError fileHandleForReading]) ? &kErrKey : &kOutKey, [NSArray arrayWithArray:lines], OBJC_ASSOCIATION_RETAIN);
+    objc_setAssociatedObject(self, (handle == [self.standardError fileHandleForReading]) ? &kErrKey : &kOutKey, [lines copy], OBJC_ASSOCIATION_RETAIN);
     [cond decrement];
 }
 
