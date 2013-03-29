@@ -35,7 +35,7 @@ static NSString *bootlog;
     if ((expert = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("IOPlatformExpertDevice")))){
         CFDataRef data = IORegistryEntryCreateCFProperty(expert, CFSTR("boot-log"), kCFAllocatorDefault, 0);
         if (data){
-            bootlog = NSStringForData((__bridge NSData *)data, NSASCIIStringEncoding);
+            bootlog = [[NSString alloc] initWithData:(__bridge NSData *)data encoding:NSASCIIStringEncoding];
             CFRelease(data);
         }
         IOObjectRelease(expert);
@@ -43,7 +43,7 @@ static NSString *bootlog;
     if (!bootlog && (expert = IORegistryEntryFromPath(kIOMasterPortDefault, "IODeviceTree:/efi/platform"))) {
         CFDataRef data = IORegistryEntryCreateCFProperty(expert, CFSTR("boot-log"), kCFAllocatorDefault, 0);
         if (data){
-            bootlog = NSStringForData((__bridge NSData *)data, NSASCIIStringEncoding);
+            bootlog = [[NSString alloc] initWithData:(__bridge NSData *)data encoding:NSASCIIStringEncoding];
             CFRelease(data);
         }
         IOObjectRelease(expert);
@@ -87,7 +87,7 @@ static NSString *bootlog;
     if (!decompile.status)
         return @{@"status":@(decompile.status), @"object":[NSError errorWithDomain:kMaciASLDomain code:kDecompileError userInfo:@{NSLocalizedDescriptionKey:@"Decompilation Error", NSLocalizedRecoverySuggestionErrorKey:[NSString stringWithFormat:@"iASL returned:\n%@\n%@", decompile.stdOut, decompile.stdErr]}]};
     path = [path.stringByDeletingPathExtension stringByAppendingPathExtension:@"dsl"];
-    NSString *dsl = NSStringForData([NSFileManager.defaultManager contentsAtPath:path], NSASCIIStringEncoding);
+    NSString *dsl = [[NSString alloc] initWithData:[NSFileManager.defaultManager contentsAtPath:path] encoding:NSASCIIStringEncoding];
     NSError *err;
     if (![NSFileManager.defaultManager removeItemAtPath:path error:&err])
         ModalError(err);
@@ -110,10 +110,11 @@ static NSString *bootlog;
     for (NSString *line in ([NSUserDefaults.standardUserDefaults integerForKey:@"acpi"] == 4)?compile.task.stdOut:compile.task.stdErr)
         if ((notice = [Notice create:line]))
             [temp addObject:notice];
-    return @{@"notices":[NSArray arrayWithArray:temp], @"summary":[[[compile.task.stdOut lastObject] componentsSeparatedByString:@". "] lastObject], @"aml":path, @"success":@(compile.status && [NSFileManager.defaultManager fileExistsAtPath:path])};
+    return @{@"notices":[temp copy], @"summary":[[[compile.task.stdOut lastObject] componentsSeparatedByString:@". "] lastObject], @"aml":path, @"success":@(compile.status && [NSFileManager.defaultManager fileExistsAtPath:path])};
 }
 +(iASL *)create:(NSArray *)args withFile:(NSString *)file{
-    NSMutableArray *arguments = [NSMutableArray arrayWithArray:[@[@"-vs", @"-vi"] arrayByAddingObjectsFromArray:args]];
+    NSMutableArray *arguments = [@[@"-vs", @"-vi"] mutableCopy];
+    [arguments addObjectsFromArray:args];
     iASL *temp = [iASL new];
     if (![NSUserDefaults.standardUserDefaults boolForKey:@"remarks"])
         [arguments insertObject:@"-vr" atIndex:0];
