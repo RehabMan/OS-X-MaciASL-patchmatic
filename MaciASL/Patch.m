@@ -8,11 +8,9 @@
 
 #ifndef PATCHMATIC
 #import "Source.h"
-#endif
-#import "Patch.h"
-#ifndef PATCHMATIC
 #import "Document.h"
 #endif
+#import "Patch.h"
 #import "Navigator.h"
 
 #ifndef PATCHMATIC

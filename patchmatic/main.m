@@ -1,9 +1,18 @@
 //
-//  main.m
-//  patchmatic
+// main.m
+// patchmatic
 //
-//  Created by Admin on 3/28/13.
-//  Copyright (c) 2013 Sourceforge. All rights reserved.
+// Created by RehabMan on 3/28/13.
+// Copyright (c) 2013 RehabMan. All rights reserved.
+//
+// A simple command line driver for patching functionality of MaciASL.
+//
+// Most functionality is in two core components of MaciASL:
+//     Navigator: DSDT parser
+//     Patch: DSDT patching
+//
+// I simply added enough #ifdefs to those source files to get the code
+// to run in a command line environment.
 //
 
 #import <Foundation/Foundation.h>
@@ -26,13 +35,11 @@ static void PatchMatic(NSString* strInputFile, NSString* strPatchesFile, NSStrin
     NSString* strInput = [NSString stringWithContentsOfFile:strInputFile encoding:NSASCIIStringEncoding error:&err];
     if (nil == strInput) {
         NSPrintF(@"%s: unable to open input file '%@'\n", name, strInputFile);
-        NSPrintF(@"error description: %@\n", [err localizedDescription]);
         return;
     }
     NSString* strPatches = [NSString stringWithContentsOfFile:strPatchesFile encoding:NSASCIIStringEncoding error:&err];
     if (nil == strPatches) {
         NSPrintF(@"%s: unable to open patches file '%@'\n", name, strPatchesFile);
-        NSPrintF(@"error description: %@\n", [err localizedDescription]);
         return;
     }
     PatchFile* patches = [PatchFile create:strPatches];
@@ -40,7 +47,6 @@ static void PatchMatic(NSString* strInputFile, NSString* strPatchesFile, NSStrin
     [patches apply];
     if (![patches.text writeToFile:strOutputFile atomically:NO encoding:NSASCIIStringEncoding error:&err]) {
         NSPrintF(@"%s: unable to write output file '%@'\n", name, strOutputFile);
-        NSPrintF(@"error description: %@\n", [err localizedDescription]);
         return;
     }
     NSPrintF(@"patch complete... written to '%@': %d patches, %ld changes, %d rejects\n", strOutputFile, (unsigned)patches.patches.count, patches.preview.count-patches.rejects, (unsigned)patches.rejects);
