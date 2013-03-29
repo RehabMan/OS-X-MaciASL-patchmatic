@@ -62,4 +62,4 @@
 -(id)transformedValue:(id)value;
 
 @end
-#endif
+#endif//PATCHMATIC

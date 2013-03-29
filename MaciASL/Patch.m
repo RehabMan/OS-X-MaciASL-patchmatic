@@ -131,7 +131,7 @@
 }
 
 @end // Patcher
-#endif // PATCHMATIC
+#endif//PATCHMATIC
 
 @implementation PatchFile//TODO: patch generation
 
@@ -317,16 +317,14 @@ static NSRegularExpression *hid;
     if (text.length > NSMaxRange(context))
         context.length++;
     context = [text lineRangeForRange:context];
+    range.location -= context.location;
 #ifndef PATCHMATIC
     NSMutableAttributedString *before = [[NSMutableAttributedString alloc] initWithString:[text substringWithRange:context] attributes:@{NSFontAttributeName:NSFontManager.sharedFontManager.selectedFont, NSForegroundColorAttributeName:[NSColor grayColor]}];
     NSMutableAttributedString *after = [[NSMutableAttributedString alloc] initWithAttributedString:before];
+    [before setAttributes:black range:range];
 #else
     NSMutableString *before = [[NSMutableString alloc] initWithString:[text substringWithRange:context]];
     NSMutableString *after = [[NSMutableString alloc] initWithString:before];
-#endif
-    range.location -= context.location;
-#ifndef PATCHMATIC
-    [before setAttributes:black range:range];
 #endif
     [after replaceCharactersInRange:range withString:string];
 #ifndef PATCHMATIC

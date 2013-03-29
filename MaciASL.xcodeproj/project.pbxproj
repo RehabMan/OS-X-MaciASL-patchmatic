@@ -321,7 +321,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		B025E914163345EE009D5FA6 /* Increment Build Number */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
@@ -329,7 +329,7 @@
 			name = "Increment Build Number";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "CPV=$[ CURRENT_PROJECT_VERSION+1 ]\nsed -i '' \"s/CURRENT_PROJECT_VERSION = $CURRENT_PROJECT_VERSION/CURRENT_PROJECT_VERSION = $CPV/\" $PROJECT_NAME.xcodeproj/project.pbxproj";
 			showEnvVarsInLog = 0;
@@ -392,13 +392,13 @@
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "patchmatic/patchmatic-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"PATCHMATIC=1",
-					"$(inherited)",
-				);
+				LLVM_LTO = NO;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Debug;
 		};
@@ -408,10 +408,13 @@
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "patchmatic/patchmatic-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = "PATCHMATIC=1";
+				LLVM_LTO = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = YES;
 			};
 			name = Release;
 		};

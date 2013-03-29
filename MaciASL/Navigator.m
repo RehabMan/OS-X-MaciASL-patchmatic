@@ -185,4 +185,4 @@ static NSString *prefix = @"/System/Library/CoreServices/CoreTypes.bundle/Conten
 }
 
 @end // NavClassTransformer
-#endif
+#endif//PATCHMATIC

@@ -107,7 +107,7 @@ enum action {
 -(void)preview;
 
 @end // Patcher
-#endif // PATCHMATIC
+#endif//PATCHMATIC
 
 @interface Patch : NSObject
 

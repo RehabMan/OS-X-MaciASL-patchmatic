@@ -6,6 +6,8 @@
     #import <Foundation/Foundation.h>
 #endif
 
+#define PATCHMATIC 1
+
 #define kMaciASLDomain @"MaciASLDomain"
 #define kAMLfileType @"org.acpica.aml"
 #define kDSLfileType @"org.acpica.dsl"
