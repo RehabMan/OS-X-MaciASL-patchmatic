@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		84A4CE6A1704DA820067B745 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84A4CE691704DA820067B745 /* Foundation.framework */; };
+		84A4CE6D1704DA820067B745 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A4CE6C1704DA820067B745 /* main.m */; };
+		84A4CE771704E3BD0067B745 /* Patch.m in Sources */ = {isa = PBXBuildFile; fileRef = B0A6BF8D161A827700DDE1EF /* Patch.m */; };
+		84A4CE781704EC5D0067B745 /* Navigator.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E0186316157084008CAC9B /* Navigator.m */; };
 		B01056A2161CE6CB006A21AC /* MaciASL.icns in Resources */ = {isa = PBXBuildFile; fileRef = B01056A1161CE6CB006A21AC /* MaciASL.icns */; };
 		B013B827160C529600F6A7F2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B013B826160C529600F6A7F2 /* Cocoa.framework */; };
 		B013B833160C529600F6A7F2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B013B832160C529600F6A7F2 /* main.m */; };
@@ -34,6 +38,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		84A4CE661704DA820067B745 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		B0E0186016155C85008CAC9B /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -48,6 +61,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		84A4CE681704DA820067B745 /* patchmatic */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = patchmatic; sourceTree = BUILT_PRODUCTS_DIR; };
+		84A4CE691704DA820067B745 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		84A4CE6C1704DA820067B745 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		84A4CE6F1704DA820067B745 /* patchmatic-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "patchmatic-Prefix.pch"; sourceTree = "<group>"; };
 		B01056A1161CE6CB006A21AC /* MaciASL.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = MaciASL.icns; sourceTree = SOURCE_ROOT; };
 		B013B822160C529600F6A7F2 /* MaciASL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MaciASL.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B013B826160C529600F6A7F2 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -90,6 +107,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		84A4CE651704DA820067B745 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84A4CE6A1704DA820067B745 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B013B81F160C529600F6A7F2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -103,10 +128,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		84A4CE6B1704DA820067B745 /* patchmatic */ = {
+			isa = PBXGroup;
+			children = (
+				84A4CE6C1704DA820067B745 /* main.m */,
+				84A4CE6E1704DA820067B745 /* Supporting Files */,
+			);
+			path = patchmatic;
+			sourceTree = "<group>";
+		};
+		84A4CE6E1704DA820067B745 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				84A4CE6F1704DA820067B745 /* patchmatic-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		B013B817160C529600F6A7F2 = {
 			isa = PBXGroup;
 			children = (
 				B013B82C160C529600F6A7F2 /* MaciASL */,
+				84A4CE6B1704DA820067B745 /* patchmatic */,
 				B013B825160C529600F6A7F2 /* Frameworks */,
 				B013B823160C529600F6A7F2 /* Products */,
 			);
@@ -116,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				B013B822160C529600F6A7F2 /* MaciASL.app */,
+				84A4CE681704DA820067B745 /* patchmatic */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -124,6 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				B013B826160C529600F6A7F2 /* Cocoa.framework */,
+				84A4CE691704DA820067B745 /* Foundation.framework */,
 				B013B828160C529600F6A7F2 /* Other Frameworks */,
 			);
 			name = Frameworks;
@@ -191,6 +236,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		84A4CE671704DA820067B745 /* patchmatic */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 84A4CE741704DA820067B745 /* Build configuration list for PBXNativeTarget "patchmatic" */;
+			buildPhases = (
+				84A4CE641704DA820067B745 /* Sources */,
+				84A4CE651704DA820067B745 /* Frameworks */,
+				84A4CE661704DA820067B745 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = patchmatic;
+			productName = patchmatic;
+			productReference = 84A4CE681704DA820067B745 /* patchmatic */;
+			productType = "com.apple.product-type.tool";
+		};
 		B013B821160C529600F6A7F2 /* MaciASL */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B013B843160C529700F6A7F2 /* Build configuration list for PBXNativeTarget "MaciASL" */;
@@ -232,6 +294,7 @@
 			projectRoot = "";
 			targets = (
 				B013B821160C529600F6A7F2 /* MaciASL */,
+				84A4CE671704DA820067B745 /* patchmatic */,
 			);
 		};
 /* End PBXProject section */
@@ -274,6 +337,16 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		84A4CE641704DA820067B745 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84A4CE6D1704DA820067B745 /* main.m in Sources */,
+				84A4CE771704E3BD0067B745 /* Patch.m in Sources */,
+				84A4CE781704EC5D0067B745 /* Navigator.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B013B81E160C529600F6A7F2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -313,6 +386,35 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		84A4CE721704DA820067B745 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "patchmatic/patchmatic-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"PATCHMATIC=1",
+					"$(inherited)",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		84A4CE731704DA820067B745 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "patchmatic/patchmatic-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = "PATCHMATIC=1";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		B013B841160C529700F6A7F2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -325,7 +427,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_MARKETING_VERSION = 1.1;
-				CURRENT_PROJECT_VERSION = 234;
+				CURRENT_PROJECT_VERSION = 251;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -357,7 +459,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
 				CURRENT_MARKETING_VERSION = 1.1;
-				CURRENT_PROJECT_VERSION = 234;
+				CURRENT_PROJECT_VERSION = 251;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -397,6 +499,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		84A4CE741704DA820067B745 /* Build configuration list for PBXNativeTarget "patchmatic" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84A4CE721704DA820067B745 /* Debug */,
+				84A4CE731704DA820067B745 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		B013B81C160C529600F6A7F2 /* Build configuration list for PBXProject "MaciASL" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

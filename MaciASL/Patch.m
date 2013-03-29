@@ -6,11 +6,16 @@
 //  Licensed under GPLv3, full text at http://www.gnu.org/licenses/gpl-3.0.txt
 //
 
+#ifndef PATCHMATIC
 #import "Source.h"
+#endif
 #import "Patch.h"
+#ifndef PATCHMATIC
 #import "Document.h"
+#endif
 #import "Navigator.h"
 
+#ifndef PATCHMATIC
 @implementation Patcher
 
 @synthesize window;
@@ -83,16 +88,6 @@
 }
 
 #pragma mark Class
-+(NSString *)entab:(NSString *)line with:(NSString *)previous{
-    NSInteger tab = 0;
-    while (tab < previous.length)
-        if ([previous characterAtIndex:tab++] != ' ')
-            break;
-    NSInteger offset = CountCharInStr(previous, '{') + CountCharInStr(previous, '(') - CountCharInStr(previous, ')');
-    if ([line hasPrefix:@"}"]) offset--;
-    tab = (tab > 2)?((tab-3)/4)+1:0;
-    return [@"" stringByPaddingToLength:4*MAX(tab+offset, 0) withString:@" " startingAtIndex:0];
-}
 +(Patcher *)create:(id)sender{
     Patcher *temp = [Patcher new];
     LoadNib(@"Patch", temp);
@@ -135,11 +130,14 @@
     assignWithNotice(self, busy, selection)
 }
 
-@end
+@end // Patcher
+#endif // PATCHMATIC
 
 @implementation PatchFile//TODO: patch generation
 
+#ifndef PATCHMATIC
 static NSDictionary *black;
+#endif
 static NSArray *extents;
 static NSArray *scopes;
 static NSArray *predicates;
@@ -158,7 +156,9 @@ static NSRegularExpression *hid;
 @synthesize state;
 @synthesize text;
 +(void)initialize{
+#ifndef PATCHMATIC
     black = @{NSForegroundColorAttributeName:[NSColor blackColor]};
+#endif
     extents = @[@"into", @"into_all"];
     scopes = @[@"all", @"definitionblock", @"scope", @"method", @"device", @"processor", @"thermalzone"];
     predicates = @[@"label", @"name_adr", @"name_hid", @"code_regex", @"code_regex_not", @"parent_label", @"parent_type", @"parent_adr", @"parent_hid"];
@@ -261,7 +261,9 @@ static NSRegularExpression *hid;
     rejects = 0;
     NSMutableArray *temp = [NSMutableArray array];
     NSMutableArray *list = [NSMutableArray array];
+#ifndef PATCHMATIC
     NSDictionary *red = @{NSFontAttributeName:NSFontManager.sharedFontManager.selectedFont, NSForegroundColorAttributeName:[NSColor redColor]};
+#endif
     for (Patch *patch in patches) {
         DefinitionBlock *nav = [DefinitionBlock build:text];
         NSMutableArray *results = [NSMutableArray array];
@@ -279,7 +281,11 @@ static NSRegularExpression *hid;
             for (NSValue *range in exclusions)
                 if (NSLocationInRange(before.location, range.rangeValue) || NSLocationInRange(range.rangeValue.location, before)) {
                     before.location += offset;
+#ifndef PATCHMATIC
                     [list addObject:@{@"before":[[NSAttributedString alloc] initWithString:[text substringWithRange:before] attributes:red], @"after":[[NSAttributedString alloc] initWithString:delta.after attributes:red]}];
+#else
+                    [list addObject:@{@"before":[[NSString alloc] initWithString:[text substringWithRange:before]], @"after":[[NSString alloc] initWithString:delta.after]}];
+#endif
                     rejects++;
                     before.location = NSNotFound;
                     break;
@@ -298,7 +304,11 @@ static NSRegularExpression *hid;
         [temp addObject:[results copy]];
     }
     changes = [temp copy];
-    assignWithNotice(self, preview, [list copy])
+#ifndef PATCHMATIC
+    assignWithNotice(self, preview, [list copy]);
+#else
+    preview = list;
+#endif
 }
 -(NSDictionary *)context:(NSRange)range with:(NSString *)string{
     NSRange context = [text lineRangeForRange:range];
@@ -307,12 +317,21 @@ static NSRegularExpression *hid;
     if (text.length > NSMaxRange(context))
         context.length++;
     context = [text lineRangeForRange:context];
+#ifndef PATCHMATIC
     NSMutableAttributedString *before = [[NSMutableAttributedString alloc] initWithString:[text substringWithRange:context] attributes:@{NSFontAttributeName:NSFontManager.sharedFontManager.selectedFont, NSForegroundColorAttributeName:[NSColor grayColor]}];
     NSMutableAttributedString *after = [[NSMutableAttributedString alloc] initWithAttributedString:before];
+#else
+    NSMutableString *before = [[NSMutableString alloc] initWithString:[text substringWithRange:context]];
+    NSMutableString *after = [[NSMutableString alloc] initWithString:before];
+#endif
     range.location -= context.location;
+#ifndef PATCHMATIC
     [before setAttributes:black range:range];
+#endif
     [after replaceCharactersInRange:range withString:string];
+#ifndef PATCHMATIC
     [after setAttributes:black range:NSMakeRange(range.location, string.length)];
+#endif
     return @{@"before":[before copy], @"after":[after copy]};
 }
 -(NSArray *)walk:(Scope *)node of:(Scope *)parent with:(Patch *)patch{
@@ -416,10 +435,10 @@ static NSRegularExpression *hid;
         case insert:
             range = NSMakeRange(NSMaxRange([node contentRange:text]), 0);
             if ([text characterAtIndex:NSMaxRange(range)]=='\n' && range.length++)
-            result = @[[PatchDelta create:range withReplacement:[patch argAsInsertion:lineForRange(text, range)]]];
+                result = @[[PatchDelta create:range withReplacement:[patch argAsInsertion:lineForRange(text, range)]]];
             else {
                 NSString *insert = [patch argAsInsertion:lineForRange(text, range)];
-                result = @[[PatchDelta create:range withReplacement:[insert stringByAppendingString:[Patcher entab:@"}" with:lineForRange(insert, NSMakeRange(insert.length-1, 0))]]]];
+                result = @[[PatchDelta create:range withReplacement:[insert stringByAppendingString:[Patch entab:@"}" with:lineForRange(insert, NSMakeRange(insert.length-1, 0))]]]];
             }
             break;
         case replace_content:
@@ -428,7 +447,7 @@ static NSRegularExpression *hid;
                 result = @[[PatchDelta create:range withReplacement:[patch argAsInsertion:lineForRange(text, NSMakeRange(range.location-1, 0))]]];
             else {
                 NSString *replace = [patch argAsInsertion:lineForRange(text, NSMakeRange(range.location-1, 0))];
-            result = @[[PatchDelta create:range withReplacement:[replace stringByAppendingString:[Patcher entab:@"}" with:lineForRange(replace, NSMakeRange(replace.length-1, 0))]]]];
+            result = @[[PatchDelta create:range withReplacement:[replace stringByAppendingString:[Patch entab:@"}" with:lineForRange(replace, NSMakeRange(replace.length-1, 0))]]]];
             }
             break;
         case set_label:
@@ -467,7 +486,7 @@ static NSRegularExpression *hid;
     if (!patch.all && result) @throw result;
     return result;
 }
-@end
+@end // PatchFile
 
 @implementation Patch
 static NSRegularExpression *field;
@@ -483,6 +502,29 @@ static NSRegularExpression *template;
     field = [NSRegularExpression regularExpressionWithPattern:@"\n#(\\w+):(\\w+) (.*)" options:0 error:nil];
     white = [NSCharacterSet whitespaceAndNewlineCharacterSet];
     template = [NSRegularExpression regularExpressionWithPattern:@"%(\\d+)" options:0 error:nil];
+}
++(NSString *)entab:(NSString *)line with:(NSString *)previous{
+//REVIEW: rehabman -- now that it works, might be able to be simplified/made more clear...
+    NSInteger tab = 0;
+    while (tab < previous.length) {
+        if ([previous characterAtIndex:tab] != ' ')
+            break;
+        ++tab;
+    }
+    NSInteger offset = 0, brackets = 0;
+    if ([previous characterAtIndex:tab] != '/') {
+        brackets = CountCharInStr(previous, '{') - CountCharInStr(previous, '}');
+        offset = brackets; // + CountCharInStr(previous, '(') - CountCharInStr(previous, ')');
+    }
+    if ([previous characterAtIndex:tab] == '}')
+        offset = 0;
+    if ([line hasPrefix:@"}"])
+        offset = -1;
+    if (offset >= 2) offset = 1;
+    if (offset <= -2) offset = -1;
+    //tab = (tab > 2)?((tab-3)/4)+1:0;
+    tab /= 4;
+    return [@"" stringByPaddingToLength:4*MAX(tab+offset, 0) withString:@" " startingAtIndex:0];
 }
 +(NSDictionary *)fields:(NSString *)patch{
     __block NSMutableDictionary *dict = [NSMutableDictionary dictionary];
@@ -509,13 +551,13 @@ static NSRegularExpression *template;
     for (__strong NSString *ln in [[Patch unescape:argument] componentsSeparatedByString:@"\n"]) {
         ln = [ln stringByTrimmingCharactersInSet:white];
         if (!ln.length) continue;
-        line = [[Patcher entab:ln with:line] stringByAppendingFormat:@"%@\n",ln];
+        line = [[Patch entab:ln with:line] stringByAppendingFormat:@"%@\n",ln];
         [temp appendString:line];
     }
     return [temp copy];
 }
 
-@end
+@end // Patch
 
 @implementation PatchPredicate
 @synthesize predicate;
@@ -528,7 +570,7 @@ static NSRegularExpression *template;
     return temp;
 }
 
-@end
+@end // PatchPredicate
 
 @implementation PatchDelta
 @synthesize before;
@@ -540,4 +582,4 @@ static NSRegularExpression *template;
     return temp;
 }
 
-@end
+@end // PatchDelta

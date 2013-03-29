@@ -44,6 +44,9 @@ NS_INLINE NSUInteger CountCharInStr(NSString *string, unichar c) {
             count++;
     return count;
 }
+NS_INLINE NSString* NSStringForData(NSData *data, NSStringEncoding encoding) {
+    return [[NSString alloc] initWithBytes:data.bytes length:data.length encoding:encoding];
+}
 NS_INLINE BOOL LoadNib(NSString *nib, id owner) {
 #if MACOSX_DEPLOMENT_TARGET > MAC_OS_X_VERSION_10_7
     return [NSBundle.mainBundle loadNibNamed:nib owner:owner topLevelObjects:nil];

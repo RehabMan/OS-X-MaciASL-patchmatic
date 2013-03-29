@@ -1,0 +1,42 @@
+//
+// Prefix header for all source files of the 'patchmatic' target in the 'patchmatic' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+#endif
+
+#define kMaciASLDomain @"MaciASLDomain"
+#define kAMLfileType @"org.acpica.aml"
+#define kDSLfileType @"org.acpica.dsl"
+#define kCompilerError 1
+#define kFileError 2
+#define kACPIError 3
+#define kNavigatorError 4
+#define kDecompileError 5
+#define kAScriptFileError 6
+#define kURLStandardError 7
+#define kNULLSSDTError 8
+#define kFreqRangeError 9
+#define kNSComparisonPredicateError 10
+#define kLockError 11
+#define kStoreError 12
+
+#define lineForRange(x,y) [x substringWithRange:[x lineRangeForRange:y]]
+
+void NSPrintF(NSString *format, ...) NS_FORMAT_FUNCTION(1,2);
+
+NS_INLINE NSError* ModalError(NSError *error) {
+    if (error)
+        NSPrintF(@"error: %@\n", [error localizedDescription]);
+    return error;
+}
+
+NS_INLINE NSUInteger CountCharInStr(NSString *string, unichar c) {
+    NSUInteger count = 0;
+    NSUInteger i = string.length;
+    while (i-- > 0)
+        if ([string characterAtIndex:i] == c)
+            count++;
+    return count;
+}

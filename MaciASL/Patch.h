@@ -83,8 +83,9 @@ enum action {
 +(PatchFile *)create:(NSString *)patch;
 -(void)apply;
 
-@end
+@end // PatchFile
 
+#ifndef PATCHMATIC
 @interface Patcher : NSObject <NSWindowDelegate, NSTextViewDelegate, NSTableViewDelegate>
 
 @property (strong) IBOutlet NSWindow *window;
@@ -101,12 +102,12 @@ enum action {
 -(IBAction)close:(id)sender;
 -(IBAction)choosePatch:(id)sender;
 
-+(NSString *)entab:(NSString *)line with:(NSString *)previous;
 +(Patcher *)create:(id)sender;
 -(void)beginSheet;
 -(void)preview;
 
-@end
+@end // Patcher
+#endif // PATCHMATIC
 
 @interface Patch : NSObject
 
@@ -118,10 +119,11 @@ enum action {
 
 +(NSDictionary *)fields:(NSString *)patch;
 +(NSString *)unescape:(NSString *)template;
++(NSString *)entab:(NSString *)line with:(NSString *)previous;
 -(NSString *)argAsTemplate:(NSString *)eight nine:(NSString *)nine;
 -(NSString *)argAsInsertion:(NSString *)line;
 
-@end
+@end // Patch
 
 @interface PatchPredicate : NSObject
 
@@ -130,7 +132,7 @@ enum action {
 
 +(PatchPredicate *)create:(enum predicate)predicate withSelector:(id)selector;
 
-@end
+@end // PatchPredicate
 
 @interface PatchDelta : NSObject
 
@@ -139,4 +141,4 @@ enum action {
 
 +(PatchDelta *)create:(NSRange)before withReplacement:(NSString *)after;
 
-@end
+@end // PatchDelta

@@ -127,6 +127,7 @@ static NSCharacterSet *unset;
 
 @end
 
+#ifndef PATCHMATIC
 @implementation NavTransformer
 static NSFont *font;
 static NSAttributedString *separator;
@@ -154,7 +155,7 @@ static NSDictionary *attr;
     return [names copy];
 }
 
-@end
+@end // NavTransformer
 
 @implementation NavClassTransformer
 static NSString *prefix = @"/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/Sidebar";
@@ -183,4 +184,5 @@ static NSString *prefix = @"/System/Library/CoreServices/CoreTypes.bundle/Conten
     return image;
 }
 
-@end
+@end // NavClassTransformer
+#endif
