@@ -109,7 +109,7 @@
     else if ([typeName isEqualToString:kAMLfileType]) {
         NSDictionary *decompile = [iASL decompile:data];
         if ([[decompile objectForKey:@"status"] boolValue])
-            [self setDocument:[NSString stringWithString:[decompile objectForKey:@"object"]]];
+            [self setDocument:[decompile objectForKey:@"object"]];
         else if (outError != NULL)
             *outError = [decompile objectForKey:@"object"];
     }
@@ -138,7 +138,7 @@
 //TODO: add object actions to navigator (delete, copy?)
 #pragma mark Actions
 -(void)quickCompile:(bool)force hold:(bool)hold{
-    assignWithNotice(self, summary, [iASL compile:text.string force:force])
+    self.summary = [iASL compile:text.string force:force];
     if (hold || ![[summary objectForKey:@"success"] boolValue]) return;
     [NSFileManager.defaultManager removeItemAtPath:[summary objectForKey:@"aml"] error:nil];
 }
@@ -170,7 +170,7 @@
     [self quickCompile:false hold:false];
     NSMutableArray *temp = [NSMutableArray arrayWithObjects:[NSMutableArray array], [NSMutableArray array], [NSMutableArray array], [NSMutableArray array], [NSMutableArray array], [NSMutableArray array], nil];
     for (Notice *notice in [summary objectForKey:@"notices"])
-        [[temp objectAtIndex:notice.type] addObject:[NSString stringWithFormat:@"%@: %@", notice.line, notice.message]];
+        [[temp objectAtIndex:notice.type] addObject:[NSString stringWithFormat:@"%ld: %@", notice.line, notice.message]];
     return @{@"errors":[[temp objectAtIndex:3] copy], @"warnings":[[temp objectAtIndex:0] copy], @"remarks":[[temp objectAtIndex:4] copy], @"optimizations":[[temp objectAtIndex:5] copy]};
 }
 
@@ -178,15 +178,15 @@
 -(IBAction)filterTree:(id)sender{//TODO: keep parents, or use oldNav for breadcrumb?
     [self willChangeValueForKey:@"nav"];
     if (![[sender stringValue] length]) {
-        nav = oldNav;
-        oldNav = nil;
+        nav = _oldNav;
+        _oldNav = nil;
     }
     else {
-        if (!oldNav) oldNav = nav;
-        nav = [DefinitionBlock create:oldNav.name withRange:oldNav.range];
-        NSMutableArray *temp = [oldNav flat];
+        if (!_oldNav) _oldNav = nav;
+        nav = [DefinitionBlock create:_oldNav.name withRange:_oldNav.range];
+        NSMutableArray *temp = [_oldNav flat];
         [temp filterUsingPredicate:[NSPredicate predicateWithFormat:@"name contains[c] %@", [sender stringValue]]];
-        if (temp.count && [temp objectAtIndex:0] == oldNav) [temp removeObjectAtIndex:0];
+        if (temp.count && [temp objectAtIndex:0] == _oldNav) [temp removeObjectAtIndex:0];
         [nav setChildren:temp];
     }
     [self didChangeValueForKey:@"nav"];
@@ -256,11 +256,11 @@
 -(void)buildNav{
     if (!navView) return;
     if (filter.stringValue.length) {
-        oldNav = [DefinitionBlock build:text.string];
+        _oldNav = [DefinitionBlock build:text.string];
         [self filterTree:filter];
         return;
     }
-    assignWithNotice(self, nav, [DefinitionBlock build:text.string])
+    self.nav = [DefinitionBlock build:text.string];
     if (!navView) return;
     [navView expandItem:[navView itemAtRow:0]];
     [self textViewDidChangeSelection:nil];
@@ -269,7 +269,7 @@
 -(void)tableViewSelectionDidChange:(NSNotification *)notification{//TODO: autofixes or suggestions
     if ([notification.object selectedRow] == -1) return;
     Notice *notice = [[summary objectForKey:@"notices"] objectAtIndex:[notification.object selectedRow]];
-    NSRange range = [self rangeForLine:notice.line.integerValue];
+    NSRange range = [self rangeForLine:notice.line];
     [textView scrollRangeToVisible:range];
     [textView showFindIndicatorForRange:range];
 }
