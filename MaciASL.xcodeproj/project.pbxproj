@@ -296,7 +296,7 @@
 		B013B819160C529600F6A7F2 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = Sourceforge;
 			};
 			buildConfigurationList = B013B81C160C529600F6A7F2 /* Build configuration list for PBXProject "MaciASL" */;
