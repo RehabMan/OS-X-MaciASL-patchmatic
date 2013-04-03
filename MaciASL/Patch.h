@@ -85,7 +85,7 @@ enum action {
 
 @end // PatchFile
 
-#ifndef PATCHMATIC
+#if !PATCHMATIC
 @interface Patcher : NSObject <NSWindowDelegate, NSTextViewDelegate, NSTableViewDelegate>
 
 @property (strong) IBOutlet NSWindow *window;
@@ -107,7 +107,7 @@ enum action {
 -(void)preview;
 
 @end // Patcher
-#endif//PATCHMATIC
+#endif//!PATCHMATIC
 
 @interface Patch : NSObject
 

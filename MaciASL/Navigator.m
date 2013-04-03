@@ -127,7 +127,7 @@ static NSCharacterSet *unset;
 
 @end
 
-#ifndef PATCHMATIC
+#if !PATCHMATIC
 @implementation NavTransformer
 static NSFont *font;
 static NSAttributedString *separator;
@@ -185,4 +185,4 @@ static NSString *prefix = @"/System/Library/CoreServices/CoreTypes.bundle/Conten
 }
 
 @end // NavClassTransformer
-#endif//PATCHMATIC
+#endif//!PATCHMATIC

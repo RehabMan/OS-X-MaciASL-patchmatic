@@ -6,14 +6,14 @@
 //  Licensed under GPLv3, full text at http://www.gnu.org/licenses/gpl-3.0.txt
 //
 
-#ifndef PATCHMATIC
+#if !PATCHMATIC
 #import "Source.h"
 #import "Document.h"
 #endif
 #import "Patch.h"
 #import "Navigator.h"
 
-#ifndef PATCHMATIC
+#if !PATCHMATIC
 @implementation Patcher
 
 @synthesize window;
@@ -129,11 +129,11 @@
 }
 
 @end // Patcher
-#endif//PATCHMATIC
+#endif//!PATCHMATIC
 
 @implementation PatchFile//TODO: patch generation
 
-#ifndef PATCHMATIC
+#if !PATCHMATIC
 static NSDictionary *black;
 #endif
 static NSArray *extents;
@@ -154,7 +154,7 @@ static NSRegularExpression *hid;
 @synthesize state;
 @synthesize text;
 +(void)initialize{
-#ifndef PATCHMATIC
+#if !PATCHMATIC
     black = @{NSForegroundColorAttributeName:[NSColor blackColor]};
 #endif
     extents = @[@"into", @"into_all"];
@@ -259,7 +259,7 @@ static NSRegularExpression *hid;
     rejects = 0;
     NSMutableArray *temp = [NSMutableArray array];
     NSMutableArray *list = [NSMutableArray array];
-#ifndef PATCHMATIC
+#if !PATCHMATIC
     NSDictionary *red = @{NSFontAttributeName:NSFontManager.sharedFontManager.selectedFont, NSForegroundColorAttributeName:[NSColor redColor]};
 #endif
     for (Patch *patch in patches) {
@@ -279,7 +279,7 @@ static NSRegularExpression *hid;
             for (NSValue *range in exclusions)
                 if (NSLocationInRange(before.location, range.rangeValue) || NSLocationInRange(range.rangeValue.location, before)) {
                     before.location += offset;
-#ifndef PATCHMATIC
+#if !PATCHMATIC
                     [list addObject:@{@"before":[[NSAttributedString alloc] initWithString:[text substringWithRange:before] attributes:red], @"after":[[NSAttributedString alloc] initWithString:delta.after attributes:red]}];
 #else
                     [list addObject:@{@"before":[[NSString alloc] initWithString:[text substringWithRange:before]], @"after":[[NSString alloc] initWithString:delta.after]}];
@@ -302,10 +302,10 @@ static NSRegularExpression *hid;
         [temp addObject:[results copy]];
     }
     changes = [temp copy];
-#ifndef PATCHMATIC
+#if !PATCHMATIC
     assignWithNotice(self, preview, [list copy])
 #else
-    preview = list;
+    preview = [list copy];
 #endif
 }
 -(NSDictionary *)context:(NSRange)range with:(NSString *)string{
@@ -316,7 +316,7 @@ static NSRegularExpression *hid;
         context.length++;
     context = [text lineRangeForRange:context];
     range.location -= context.location;
-#ifndef PATCHMATIC
+#if !PATCHMATIC
     NSMutableAttributedString *before = [[NSMutableAttributedString alloc] initWithString:[text substringWithRange:context] attributes:@{NSFontAttributeName:NSFontManager.sharedFontManager.selectedFont, NSForegroundColorAttributeName:[NSColor grayColor]}];
     NSMutableAttributedString *after = [[NSMutableAttributedString alloc] initWithAttributedString:before];
     [before setAttributes:black range:range];
@@ -325,7 +325,7 @@ static NSRegularExpression *hid;
     NSMutableString *after = [[NSMutableString alloc] initWithString:before];
 #endif
     [after replaceCharactersInRange:range withString:string];
-#ifndef PATCHMATIC
+#if !PATCHMATIC
     [after setAttributes:black range:NSMakeRange(range.location, string.length)];
 #endif
     return @{@"before":[before copy], @"after":[after copy]};
@@ -485,8 +485,8 @@ static NSRegularExpression *hid;
 @end // PatchFile
 
 @implementation Patch
-static NSRegularExpression *field;
 static NSCharacterSet *white;
+static NSRegularExpression *field;
 static NSRegularExpression *template;
 @synthesize all;
 @synthesize scope;
@@ -495,8 +495,8 @@ static NSRegularExpression *template;
 @synthesize argument;
 
 +(void)initialize{
-    field = [NSRegularExpression regularExpressionWithPattern:@"\n#(\\w+):(\\w+) (.*)" options:0 error:nil];
     white = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+    field = [NSRegularExpression regularExpressionWithPattern:@"\n#(\\w+):(\\w+) (.*)" options:0 error:nil];
     template = [NSRegularExpression regularExpressionWithPattern:@"%(\\d+)" options:0 error:nil];
 }
 +(NSString *)entab:(NSString *)line with:(NSString *)previous{

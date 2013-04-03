@@ -6,6 +6,11 @@
     #import <Foundation/Foundation.h>
 #endif
 
+// For SL compatibility, use NSRegularExpression -> RegexKitLit shim
+#if __ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__ < 1070
+    #import "RKL_NSRegularExpression.h"
+#endif
+
 #define PATCHMATIC 1
 
 #define kMaciASLDomain @"MaciASLDomain"

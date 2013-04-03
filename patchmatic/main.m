@@ -15,6 +15,8 @@
 // to run in a command line environment.
 //
 
+//#define REGEXTEST
+
 #import <Foundation/Foundation.h>
 
 #import "../MaciASL/Patch.h"
@@ -45,14 +47,16 @@ static void PatchMatic(NSString* strInputFile, NSString* strPatchesFile, NSStrin
     PatchFile* patches = [PatchFile create:strPatches];
     patches.text = [NSMutableString stringWithString:strInput];
     [patches apply];
+    NSPrintF(@"patch complete: %d patches, %ld changes, %d rejects\n", (unsigned)patches.patches.count, patches.preview.count-patches.rejects, (unsigned)patches.rejects);
     if (![patches.text writeToFile:strOutputFile atomically:NO encoding:NSASCIIStringEncoding error:&err]) {
         NSPrintF(@"%s: unable to write output file '%@'\n", name, strOutputFile);
         return;
     }
-    NSPrintF(@"patch complete... written to '%@': %d patches, %ld changes, %d rejects\n", strOutputFile, (unsigned)patches.patches.count, patches.preview.count-patches.rejects, (unsigned)patches.rejects);
+    NSPrintF(@"patched result written to '%@'\n", strOutputFile);
 }
 
-int main(int argc, const char * argv[]) {
+#ifndef REGEXTEST
+int main(int argc, const char* argv[]) {
     @autoreleasepool {
         if (argc < 4)
         {
@@ -73,3 +77,63 @@ int main(int argc, const char * argv[]) {
     return 0;
 }
 
+#else
+
+int main(int argc, const char* argv[]) {
+    @autoreleasepool {
+        NSError *error = NULL;
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\b(a|b)(c|d)\\b"
+                                                                               options:NSRegularExpressionCaseInsensitive
+                                                                                 error:&error];
+        
+        NSString* string = @"aa bb ab ac bc ba ad bd";
+        NSUInteger numberOfMatches = [regex numberOfMatchesInString:string
+                                                            options:0
+                                                              range:NSMakeRange(0, [string length])];
+        NSPrintF(@"numberOfMatches: %ld\n", numberOfMatches);
+        
+        NSRange rangeOfFirstMatch = [regex rangeOfFirstMatchInString:string options:0 range:NSMakeRange(0, [string length])];
+        if (!NSEqualRanges(rangeOfFirstMatch, NSMakeRange(NSNotFound, 0))) {
+            NSString *substringForFirstMatch = [string substringWithRange:rangeOfFirstMatch];
+            NSPrintF(@"substringForFirstMatch = '%@'\n", substringForFirstMatch);
+        }
+        
+        NSPrintF(@"begin array match...\n");
+        NSArray *matches = [regex matchesInString:string
+                                          options:0
+                                            range:NSMakeRange(0, [string length])];
+        for (NSTextCheckingResult *match in matches) {
+            NSPrintF(@"match.numberOfRanges = %ld\n", [match numberOfRanges]);
+            for (NSUInteger x = 0; x < [match numberOfRanges]; ++x) {
+                NSPrintF(@"match[%ld] = (%ld, %ld)\n", x, [match rangeAtIndex:x].location, [match rangeAtIndex:x].length);
+            }
+        }
+        
+        NSPrintF(@"begin enumeration...\n");
+        [regex enumerateMatchesInString:string options:0 range:NSMakeRange(0, [string length]) usingBlock:^(NSTextCheckingResult *match, NSMatchingFlags flags, BOOL *stop){
+            NSPrintF(@"match.numberOfRanges = %ld\n", [match numberOfRanges]);
+            for (NSUInteger x = 0; x < [match numberOfRanges]; ++x) {
+                NSPrintF(@"match[%ld] = (%ld, %ld)\n", x, [match rangeAtIndex:x].location, [match rangeAtIndex:x].length);
+            }
+        }];
+        
+        NSString* replacement1 =
+        [regex stringByReplacingMatchesInString:string options:0 range:NSMakeRange(0, [string length]) withTemplate:@"$0/$1/$2"];
+        NSPrintF(@"replacement1 = '%@'\n", replacement1);
+        
+        NSMutableString* replacement2 = [NSMutableString stringWithString:string];
+        [regex replaceMatchesInString:replacement2 options:0 range:NSMakeRange(0, [string length]) withTemplate:@"$0-$1-$2"];
+        NSPrintF(@"replacement2 = '%@'\n", replacement2);
+        
+        NSPrintF(@"begin replacementStringForResult test...\n");
+        matches = [regex matchesInString:string
+                                          options:0
+                                            range:NSMakeRange(0, [string length])];
+        for (NSUInteger x = 0; x < [matches count]; x++) {
+            NSString* replacementString = [regex replacementStringForResult:[matches objectAtIndex:x] inString:string offset:0 template:@"TE\\$T0$0_TEST1$1\\TEST2_$2LAST\\$"];
+            NSPrintF(@"replacementString(%ld) = '%@'\n", x, replacementString);
+        }
+    }
+}
+
+#endif

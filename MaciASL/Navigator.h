@@ -46,7 +46,7 @@
 @interface ThermalZone : Scope
 @end
 
-#ifndef PATCHMATIC
+#if !PATCHMATIC
 @interface NavTransformer : NSValueTransformer
 
 +(Class)transformedValueClass;
@@ -62,4 +62,4 @@
 -(id)transformedValue:(id)value;
 
 @end
-#endif//PATCHMATIC
+#endif//!PATCHMATIC
