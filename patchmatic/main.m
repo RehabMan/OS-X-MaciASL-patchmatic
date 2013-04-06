@@ -26,10 +26,13 @@ const char name[] = "patchmatic";
 void NSPrintF(NSString *format, ...) {
     va_list args;
     va_start(args, format);
-    NSString *formattedString = [[NSString alloc] initWithFormat:format arguments:args];
+    NSString* formattedString = [[NSString alloc] initWithFormat:format arguments:args];
     va_end(args);
     NSFileHandle* fileStdout = [NSFileHandle fileHandleWithStandardOutput];
     [fileStdout writeData:[formattedString dataUsingEncoding:NSASCIIStringEncoding]];
+#if !__has_feature(objc_arc)
+    [formattedString release];  // could also be [formattedString autorelease] (especially if we were returning it)
+#endif
 }
 
 static void PatchMatic(NSString* strInputFile, NSString* strPatchesFile, NSString* strOutputFile) {
@@ -130,7 +133,7 @@ int main(int argc, const char* argv[]) {
                                           options:0
                                             range:NSMakeRange(0, [string length])];
         for (NSUInteger x = 0; x < [matches count]; x++) {
-            NSString* replacementString = [regex replacementStringForResult:[matches objectAtIndex:x] inString:string offset:0 template:@"TE\\$T0$0_TEST1$1\\TEST2_$2LAST\\$"];
+            NSString* replacementString = [regex replacementStringForResult:[matches objectAtIndex:x] inString:string offset:0 template:@"$$$$0__$xyz$$TE\\$T0$0_TEST1$1\\TEST2_$2LAST\\$"];
             NSPrintF(@"replacementString(%ld) = '%@'\n", x, replacementString);
         }
     }

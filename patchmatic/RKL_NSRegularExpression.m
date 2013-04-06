@@ -47,24 +47,22 @@ static RKLRegexOptions ConvertOptions(RKL_NSRegularExpressionOptions options) {
     return self;
 }
 
-- (NSString*)pattern {
-    return _p_pattern;
-}
+@synthesize pattern=_p_pattern;
+////- (NSString*)pattern { return _p_pattern; }
 
-- (NSRegularExpressionOptions)options {
-    return _p_options;
-}
+@synthesize options=_p_options;
+////- (NSRegularExpressionOptions)options { return _p_options; }
 
-- (NSUInteger)numberOfCaptureGroups {
-    return [_p_pattern captureCount];
-}
+- (NSUInteger)numberOfCaptureGroups { return [_p_pattern captureCount]; }
 
+#if 0
 + (NSString*)escapedPatternForString:(NSString*)string {
-    //NOTYET: implement me
+    //REVIEW_NOTIMPL: implement me...
     return nil;
 }
+#endif
 
-@end
+@end // RK_NSRegularExpression
 
 @implementation RKL_NSRegularExpression (RKL_NSMatching)
 
@@ -153,8 +151,11 @@ static RKLRegexOptions ConvertOptions(RKL_NSRegularExpressionOptions options) {
         else if ([templ characterAtIndex:i] == '$' && i+1 < length) {
             // characters following $ are decimal index into result (captures)
             NSUInteger begin = i++;
-            NSUInteger idx = 0;
             char digit;
+            // a $ followed by non-digit is just a $
+            if (!((digit = [templ characterAtIndex:i]) >= '0' && digit < '9'))
+                continue;
+            NSUInteger idx = 0;
             while (i < length && (digit = [templ characterAtIndex:i]) >= '0' && digit < '9') {
                 NSUInteger new_idx = idx * 10 + digit - '0';
                 if (new_idx >= count) {
@@ -186,18 +187,18 @@ static RKLRegexOptions ConvertOptions(RKL_NSRegularExpressionOptions options) {
 
 /* This class method will produce a string by adding backslash escapes as necessary to the given string, to escape any characters that would otherwise be treated as template metacharacters.
  */
+#if 0
 + (NSString *)escapedTemplateForString:(NSString *)string {
-    //NOTYET: implement me
+    //REVIEW_NOTIMPL: implement me...
     return nil;
 }
+#endif
 
 @end // RKL_NSRegularExpression (RKL_NSReplacement)
 
 @implementation RKL_NSTextCheckingResult
 
-- (NSRange)range {
-    return _p_ranges[0];
-}
+- (NSRange)range { return [self rangeAtIndex:0]; }
 
 - (id)init {
     self = [super init];
@@ -208,13 +209,15 @@ static RKLRegexOptions ConvertOptions(RKL_NSRegularExpressionOptions options) {
     return self;
 }
 
-- (void)finalize {
-    if (NULL != self->_p_ranges) {
-        free((void*)self->_p_ranges);
+- (void)dealloc {
+    if (self->_p_ranges) {
+        free(self->_p_ranges);
         _p_ranges = NULL;
     }
     _p_count = 0;
-    [super finalize];
+#if !__has_feature(objc_arc)
+    [super dealloc];
+#endif
 }
 
 + (RKL_NSTextCheckingResult*)textCheckingResultWithRanges:(const NSRange*)ranges andCount:(NSUInteger)count {
@@ -228,6 +231,9 @@ static RKLRegexOptions ConvertOptions(RKL_NSRegularExpressionOptions options) {
     memcpy(copy, ranges, sizeof(NSRange) * count);
     result->_p_ranges = copy;
     result->_p_count = count;
+#if !__has_feature(objc_arc)
+    [result autorelease];
+#endif
     return result;
 }
 
@@ -236,9 +242,8 @@ static RKLRegexOptions ConvertOptions(RKL_NSRegularExpressionOptions options) {
 @implementation RKL_NSTextCheckingResult (RKL_NSTextCheckingResultOptional)
 
 /* A result must have at least one range, but may optionally have more (for example, to represent regular expression capture groups).  The range at index 0 always matches the range property.  Additional ranges, if any, will have indexes from 1 to numberOfRanges-1. */
-- (NSUInteger)numberOfRanges {
-    return _p_count;
-}
+////@synthesize numberOfRanges=_p_count;
+- (NSUInteger)numberOfRanges { return _p_count; }
 
 - (NSRange)rangeAtIndex:(NSUInteger)idx {
     if (idx < _p_count)

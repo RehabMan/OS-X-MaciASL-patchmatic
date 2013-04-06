@@ -6,22 +6,24 @@
 //  Copyright (c) 2013 RehabMan. All rights reserved.
 //
 
-#ifndef _RKL_NSREGULAREXPRESSION_H
-
 #import <Foundation/Foundation.h>
+
+// Map all references to NSRegularExpression to RKL_NSRegularExpression
+#define NSRegularExpression RKL_NSRegularExpression
+#define NSTextCheckingResult RKL_NSTextCheckingResult
 
 @interface RKL_NSTextCheckingResult : NSObject {
 @private
-    const NSRange* _p_ranges;
+    NSRange* _p_ranges;
     NSUInteger _p_count;
 };
 
 + (RKL_NSTextCheckingResult*)textCheckingResultWithRanges:(const NSRange*)ranges andCount:(NSUInteger)count;
 
 /* Mandatory properties, used with all types of results. */
-@property (readonly) NSRange range;
+@property(readonly) NSRange range;
 
-@end
+@end // RK_NSTextCheckingResult
 
 @interface RKL_NSTextCheckingResult (RKL_NSTextCheckingResultOptional)
 
@@ -31,15 +33,14 @@
 
 @end // RKL_NSTextCheckingResult (RKL_NSTextCheckingResultOptional)
 
-#define NSTextCheckingResult RKL_NSTextCheckingResult
-
+// Note: unsupported options are not defined to force errors if used
 enum {
     RKL_NSRegularExpressionCaseInsensitive             = 1 << 0,     /* Match letters in the pattern independent of case. */
     RKL_NSRegularExpressionAllowCommentsAndWhitespace  = 1 << 1,     /* Ignore whitespace and #-prefixed comments in the pattern. */
-    RKL_NSRegularExpressionIgnoreMetacharacters        = 1 << 2,     /* Treat the entire pattern as a literal string. */
+  //RKL_NSRegularExpressionIgnoreMetacharacters        = 1 << 2,     /* Treat the entire pattern as a literal string. */
     RKL_NSRegularExpressionDotMatchesLineSeparators    = 1 << 3,     /* Allow . to match any character, including line separators. */
     RKL_NSRegularExpressionAnchorsMatchLines           = 1 << 4,     /* Allow ^ and $ to match the start and end of lines. */
-    RKL_NSRegularExpressionUseUnixLineSeparators       = 1 << 5,     /* Treat only \n as a line separator (otherwise, all standard line separators are used). */
+  //RKL_NSRegularExpressionUseUnixLineSeparators       = 1 << 5,     /* Treat only \n as a line separator (otherwise, all standard line separators are used). */
     RKL_NSRegularExpressionUseUnicodeWordBoundaries    = 1 << 6      /* Use Unicode TR#29 to specify word boundaries (otherwise, traditional regular expression word boundaries are used). */
 };
 typedef NSUInteger RKL_NSRegularExpressionOptions;
@@ -61,25 +62,27 @@ typedef NSUInteger RKL_NSRegularExpressionOptions;
 
 /* An instance of NSRegularExpression is created from a regular expression pattern and a set of options.  If the pattern is invalid, nil will be returned and an NSError will be returned by reference.  The pattern syntax currently supported is that specified by ICU.
  */
-+ (RKL_NSRegularExpression *)regularExpressionWithPattern:(NSString *)pattern options:(NSRegularExpressionOptions)options error:(NSError **)error;
-- (id)initWithPattern:(NSString *)pattern options:(NSRegularExpressionOptions)options error:(NSError **)error;
++ (NSRegularExpression*)regularExpressionWithPattern:(NSString *)pattern options:(NSRegularExpressionOptions)options error:(NSError**)error;
+- (id)initWithPattern:(NSString*)pattern options:(NSRegularExpressionOptions)options error:(NSError**)error;
 
-@property (readonly) NSString *pattern;
-@property (readonly) NSRegularExpressionOptions options;
-@property (readonly) NSUInteger numberOfCaptureGroups;
+@property(readonly) NSString *pattern;
+@property(readonly) NSRegularExpressionOptions options;
+@property(readonly) NSUInteger numberOfCaptureGroups;
 
 /* This class method will produce a string by adding backslash escapes as necessary to the given string, to escape any characters that would otherwise be treated as pattern metacharacters.
  */
-+ (NSString *)escapedPatternForString:(NSString *)string;
+//+ (NSString *)escapedPatternForString:(NSString *)string; //REVIEW_NOTIMPL
 
 @end // RKL_NSRegularExpression
 
+// Note: unsupported options are not defined to force errors if used
 enum {
-    RKL_NSMatchingReportProgress         = 1 << 0,       /* Call the block periodically during long-running match operations. */
-    RKL_NSMatchingReportCompletion       = 1 << 1,       /* Call the block once after the completion of any matching. */
-    RKL_NSMatchingAnchored               = 1 << 2,       /* Limit matches to those at the start of the search range. */
-    RKL_NSMatchingWithTransparentBounds  = 1 << 3,       /* Allow matching to look beyond the bounds of the search range. */
-    RKL_NSMatchingWithoutAnchoringBounds = 1 << 4        /* Prevent ^ and $ from automatically matching the beginning and end of the search range. */
+    RKL_NSMatchingOptionsNotImplemented,
+  //RKL_NSMatchingReportProgress         = 1 << 0,       /* Call the block periodically during long-running match operations. */
+  //RKL_NSMatchingReportCompletion       = 1 << 1,       /* Call the block once after the completion of any matching. */
+  //RKL_NSMatchingAnchored               = 1 << 2,       /* Limit matches to those at the start of the search range. */
+  //RKL_NSMatchingWithTransparentBounds  = 1 << 3,       /* Allow matching to look beyond the bounds of the search range. */
+  //RKL_NSMatchingWithoutAnchoringBounds = 1 << 4        /* Prevent ^ and $ from automatically matching the beginning and end of the search range. */
 };
 typedef NSUInteger RKL_NSMatchingOptions;
 
@@ -90,12 +93,14 @@ typedef NSUInteger RKL_NSMatchingOptions;
 #define NSMatchingWithTransparentBounds     RKL_NSMatchingWithTransparentBounds
 #define NSMatchingWithoutAnchoringBounds    RKL_NSMatchingWithoutAnchoringBounds
 
+// Note: unsupported options are not defined to force errors if used
 enum {
-    RKL_NSMatchingProgress               = 1 << 0,       /* Set when the block is called to report progress during a long-running match operation. */
-    RKL_NSMatchingCompleted              = 1 << 1,       /* Set when the block is called after completion of any matching. */
-    RKL_NSMatchingHitEnd                 = 1 << 2,       /* Set when the current match operation reached the end of the search range. */
-    RKL_NSMatchingRequiredEnd            = 1 << 3,       /* Set when the current match depended on the location of the end of the search range. */
-    RKL_NSMatchingInternalError          = 1 << 4        /* Set when matching failed due to an internal error. */
+    RKL_NSMatchingFlagsNotImplemented,
+  //RKL_NSMatchingProgress               = 1 << 0,       /* Set when the block is called to report progress during a long-running match operation. */
+  //RKL_NSMatchingCompleted              = 1 << 1,       /* Set when the block is called after completion of any matching. */
+  //RKL_NSMatchingHitEnd                 = 1 << 2,       /* Set when the current match operation reached the end of the search range. */
+  //RKL_NSMatchingRequiredEnd            = 1 << 3,       /* Set when the current match depended on the location of the end of the search range. */
+  //RKL_NSMatchingInternalError          = 1 << 4        /* Set when matching failed due to an internal error. */
 };
 typedef NSUInteger RKL_NSMatchingFlags;
 
@@ -145,11 +150,7 @@ typedef NSUInteger RKL_NSMatchingFlags;
 
 /* This class method will produce a string by adding backslash escapes as necessary to the given string, to escape any characters that would otherwise be treated as template metacharacters.
  */
-+ (NSString *)escapedTemplateForString:(NSString *)string;
+//+ (NSString *)escapedTemplateForString:(NSString *)string; //REVIEW_NOTIMPL
 
 @end // RKL_NSRegularExpression (RKL_NSReplacement)
 
-// Map all references to NSRegularExpression to RKL_NSRegularExpression
-#define NSRegularExpression RKL_NSRegularExpression
-
-#endif // _RKL_NSREGULAREXPRESSION_H
