@@ -71,6 +71,7 @@
 		84A4CE691704DA820067B745 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		84A4CE6C1704DA820067B745 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		84A4CE6F1704DA820067B745 /* patchmatic-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "patchmatic-Prefix.pch"; sourceTree = "<group>"; };
+		84D5FA18170FBC0C00287AC3 /* makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = makefile; sourceTree = "<group>"; usesTabs = 1; };
 		B01056A1161CE6CB006A21AC /* MaciASL.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = MaciASL.icns; sourceTree = SOURCE_ROOT; };
 		B013B822160C529600F6A7F2 /* MaciASL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MaciASL.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B013B826160C529600F6A7F2 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -166,6 +167,7 @@
 		B013B817160C529600F6A7F2 = {
 			isa = PBXGroup;
 			children = (
+				84D5FA18170FBC0C00287AC3 /* makefile */,
 				B013B82C160C529600F6A7F2 /* MaciASL */,
 				84A4CE6B1704DA820067B745 /* patchmatic */,
 				B013B825160C529600F6A7F2 /* Frameworks */,
