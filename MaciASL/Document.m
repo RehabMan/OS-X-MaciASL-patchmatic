@@ -55,7 +55,7 @@
     [cont setContainerSize:NSMakeSize(1e7, 1e7)];
     [cont setWidthTracksTextView:false];
     [cont setHeightTracksTextView:false];
-    colorize = [Colorize create:textView];
+    [self colorizeDidChange:[NSUserDefaults.standardUserDefaults objectForKey:@"colorize"]];
 }
 + (BOOL)autosavesInPlace {
     return false;
@@ -176,9 +176,8 @@
 
 #pragma mark GUI
 -(IBAction)filterTree:(id)sender{//TODO: keep parents, or use oldNav for breadcrumb?
-    [self willChangeValueForKey:@"nav"];
     if (![[sender stringValue] length]) {
-        nav = _oldNav;
+        self.nav = _oldNav;
         _oldNav = nil;
     }
     else {
@@ -187,9 +186,8 @@
         NSMutableArray *temp = [_oldNav flat];
         [temp filterUsingPredicate:[NSPredicate predicateWithFormat:@"name contains[c] %@", [sender stringValue]]];
         if (temp.count && [temp objectAtIndex:0] == _oldNav) [temp removeObjectAtIndex:0];
-        [nav setChildren:temp];
+        muteWithNotice(self, nav, [nav setChildren:temp])
     }
-    [self didChangeValueForKey:@"nav"];
     [navView expandItem:[navView itemAtRow:0]];
     [self textViewDidChangeSelection:nil];
 }
@@ -215,6 +213,15 @@
     [textView showFindIndicatorForRange:range];
 }
 #pragma mark Functions
+-(void)colorizeDidChange:(NSNumber *)value {
+    if ([value boolValue]) {
+        if (!colorize) colorize = [Colorize create:textView];
+    }
+    else if (colorize) {
+        colorize = nil;
+        [textView.textContainer.layoutManager removeTemporaryAttribute:NSForegroundColorAttributeName forCharacterRange:NSMakeRange(0, text.string.length)];
+    }
+}
 -(NSRange)rangeForLine:(NSUInteger)ln{
     __block NSUInteger i = 0;
     __block NSUInteger offset = 0;
@@ -245,7 +252,8 @@
 }
 -(void)setDocument:(NSString *)string{
     [text setAttributedString:[[NSAttributedString alloc] initWithString:string attributes:@{NSFontAttributeName:[NSFontManager.sharedFontManager selectedFont]}]];
-    [colorize observeValueForKeyPath:nil ofObject:nil change:nil context:nil];
+    if (colorize) [colorize observeValueForKeyPath:nil ofObject:nil change:nil context:nil];
+    else [self performSelectorOnMainThread:@selector(textStorageDidProcessEditing:) withObject:nil waitUntilDone:false];
 }
 -(void)changeRuler{
     CGFloat size = NSFontManager.sharedFontManager.selectedFont.pointSize;

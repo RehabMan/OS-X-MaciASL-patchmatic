@@ -121,9 +121,7 @@
     if (!patchFile.patches.count) return;
     [patchFile setText:[parent.text.string mutableCopy]];
     [patchFile apply];
-    [self willChangeValueForKey:@"legend"];
-    legend = [NSString stringWithFormat:@"%ld Patch%s, %ld Change%s, %ld Reject%s", patchFile.patches.count, (patchFile.patches.count == 1)?"":"es", patchFile.preview.count-patchFile.rejects, (patchFile.preview.count-patchFile.rejects == 1)?"":"s", patchFile.rejects, (patchFile.rejects == 1)?"":"s"];
-    [self didChangeValueForKey:@"legend"];
+    self.legend = [NSString stringWithFormat:@"%ld Patch%s, %ld Change%s, %ld Reject%s", patchFile.patches.count, (patchFile.patches.count == 1)?"":"es", patchFile.preview.count-patchFile.rejects, (patchFile.preview.count-patchFile.rejects == 1)?"":"s", patchFile.rejects, (patchFile.rejects == 1)?"":"s"];
     if (!patchFile.preview.count) return;
     self.busy = selection;
 }
@@ -245,7 +243,7 @@ static NSRegularExpression *hid;
                 if (![token.lowercaseString isEqualToString:@"begin"]) continue;
                 [subscan scanCharactersFromSet:set intoString:nil];
                 token = [subscan.string substringFromIndex:subscan.scanLocation];
-                if (![token.lowercaseString hasSuffix:@"end"]) continue;
+                if ([token isEqualToString:@"end"] || ![token.lowercaseString hasSuffix:@"end"]) continue;
                 [patch setArgument:[token substringToIndex:token.length-4]];
             } @catch (id obj) {}
             [patches addObject:patch];
