@@ -87,8 +87,6 @@ static NSDictionary *themes;
 }
 
 -(void)colorize{
-    return; //rehabman: disable syntax coloring because it is slow...
-    
     NSRange range = [mgr characterRangeForGlyphRange:[mgr glyphRangeForBoundingRect:view.visibleRect inTextContainer:view.textContainer] actualGlyphRange:nil];
     [mgr removeTemporaryAttribute:NSForegroundColorAttributeName forCharacterRange:range];
     [regNumber enumerateMatchesInString:mgr.attributedString.string options:0 range:range usingBlock:^void(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop){
