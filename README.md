@@ -15,10 +15,10 @@ Forked from the following repo: git://git.code.sf.net/p/maciasl/code
 
 ### How to Install:
 
-This is a command line binary, so you can run it directly or copy to your /usr/bin:
+This is a command line binary, so you can run it directly or copy to your /usr/local/bin:
 
 ```
-sudo cp patchmatic /usr/bin/patchmatic
+cp patchmatic /usr/local/bin/patchmatic
 ```
 
 Usage can be displayed by running the program with no arguments.
