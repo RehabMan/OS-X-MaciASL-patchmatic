@@ -46,16 +46,17 @@
     [super windowControllerDidLoadNib:aController];
     // Add any code here that needs to be executed once the windowController has loaded the document's window.
     [textView.enclosingScrollView setHasVerticalRuler:true];
+    [textView.enclosingScrollView setVerticalRulerView:[FSRulerView new]];
     [textView.enclosingScrollView setRulersVisible:true];
     [textView.layoutManager replaceTextStorage:text];
     [textView setEnabledTextCheckingTypes:0];
     SplitView([[aController.window.contentView subviews] objectAtIndex:0]);
-    [self changeRuler];
     NSTextContainer *cont = textView.textContainer;
     [cont setContainerSize:NSMakeSize(1e7, 1e7)];
     [cont setWidthTracksTextView:false];
     [cont setHeightTracksTextView:false];
-    [self colorizeDidChange:[NSUserDefaults.standardUserDefaults objectForKey:@"colorize"]];
+    colorize = [Colorize create:textView];
+    [[NSApp delegate] changeFont:nil];
 }
 + (BOOL)autosavesInPlace {
     return false;
@@ -105,11 +106,11 @@
     // You can also choose to override -readFromFileWrapper:ofType:error: or -readFromURL:ofType:error: instead.
     // If you override either of these, you should also override -isEntireFileLoaded to return NO if the contents are lazily loaded.
     if ([typeName isEqualToString:kDSLfileType])
-        [self setDocument:[[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding]];
+        [text replaceCharactersInRange:NSMakeRange(0, 0) withString:[[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding]];
     else if ([typeName isEqualToString:kAMLfileType]) {
         NSDictionary *decompile = [iASL decompile:data];
         if ([[decompile objectForKey:@"status"] boolValue])
-            [self setDocument:[decompile objectForKey:@"object"]];
+            [text replaceCharactersInRange:NSMakeRange(0, 0) withString:[decompile objectForKey:@"object"]];
         else if (outError != NULL)
             *outError = [decompile objectForKey:@"object"];
     }
@@ -213,18 +214,6 @@
     [textView showFindIndicatorForRange:range];
 }
 #pragma mark Functions
--(void)colorizeDidChange:(NSNumber *)value {
-    if ([value boolValue]) {
-        if (!colorize) colorize = [Colorize create:textView];
-    }
-    else if (colorize) {
-        colorize = nil;
-        [textView.textContainer.layoutManager removeTemporaryAttribute:NSForegroundColorAttributeName forCharacterRange:NSMakeRange(0, text.string.length)];
-        [textView setBackgroundColor:NSColor.whiteColor];
-        [textView setInsertionPointColor:NSColor.blackColor];
-        [textView setTextColor:NSColor.blackColor];
-    }
-}
 -(NSRange)rangeForLine:(NSUInteger)ln{
     __block NSUInteger i = 0;
     __block NSUInteger offset = 0;
@@ -252,17 +241,6 @@
         if (i) break;
     }
     return [navView rowForItem:obj];
-}
--(void)setDocument:(NSString *)string{
-    [text setAttributedString:[[NSAttributedString alloc] initWithString:string attributes:@{NSFontAttributeName:[NSFontManager.sharedFontManager selectedFont]}]];
-    if (colorize) [colorize observeValueForKeyPath:nil ofObject:nil change:nil context:nil];
-    else [self performSelectorOnMainThread:@selector(textStorageDidProcessEditing:) withObject:nil waitUntilDone:false];
-}
--(void)changeRuler{
-    CGFloat size = NSFontManager.sharedFontManager.selectedFont.pointSize;
-    [NSRulerView registerUnitWithName:[NSString stringWithFormat:@"Lines%lf", size] abbreviation:@"ln" unitToPointsConversionFactor:size+2 stepUpCycle:@[@10] stepDownCycle:@[@0.5]];
-    [textView.enclosingScrollView.verticalRulerView setMeasurementUnits:[NSString stringWithFormat:@"Lines%lf", size]];
-    [textView.enclosingScrollView.verticalRulerView setOriginOffset:-(size+2)];
 }
 -(void)buildNav{
     if (!navView) return;

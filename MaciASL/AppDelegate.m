@@ -32,7 +32,6 @@
     log = [NSMutableArray array];
     [NSUserDefaults.standardUserDefaults addObserver:self forKeyPath:@"acpi" options:0 context:NULL];
     [NSUserDefaults.standardUserDefaults registerDefaults:@{@"theme":@"Light", @"dsdt":@(YES), @"suggest":@(NO), @"acpi":@4, @"context":@(NO), @"isolation":@(NO), @"colorize":@(YES), @"remarks":@(YES), @"optimizations": @(NO), @"werror": @(NO), @"preference": @0, @"font": @{@"name":@"Menlo", @"size": @11}, @"sources":@[@{@"name":@"Sourceforge", @"url":@"http://maciasl.sourceforge.net"}]}];
-    [NSUserDefaults.standardUserDefaults addObserver:self forKeyPath:@"colorize" options:0 context:NULL];
     [NSFontManager.sharedFontManager setTarget:self];
     NSDictionary *font = [NSUserDefaults.standardUserDefaults objectForKey:@"font"];
     [NSFontManager.sharedFontManager setSelectedFont:[NSFont fontWithName:[font objectForKey:@"name"] size:[[font objectForKey:@"size"] floatValue]] isMultiple:false];
@@ -58,10 +57,13 @@
     [CATransaction flush];
 }
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
-    if ([keyPath isEqualToString:@"acpi"])
-        [self acpiDidChangeTo:[object integerForKey:keyPath]];
-    else if ([keyPath isEqualToString:@"colorize"])
-        [self colorizeDidChange:[object objectForKey:keyPath]];
+    iASL *temp = [iASL new];
+    temp.task = [NSTask create:[NSBundle.mainBundle pathForAuxiliaryExecutable:[NSString stringWithFormat:@"iasl%ld", [NSUserDefaults.standardUserDefaults integerForKey:@"acpi"]]] args:@[] callback:NULL listener:nil];
+    [temp.task launchAndWait];
+    NSArray *lines = [[temp.stdOut componentsSeparatedByString:@"\n"] subarrayWithRange:NSMakeRange(0, 3)];
+    for (NSString *line in lines) [self logEntry:line];
+    self.compiler = [lines componentsJoinedByString:@"\n"];
+    [[NSDocumentController.sharedDocumentController documents] makeObjectsPerformSelector:@selector(compile:) withObject:self];
 }
 
 #pragma mark GUI
@@ -120,18 +122,6 @@
 }
 
 #pragma mark Functions
--(void)colorizeDidChange:(NSNumber *)value {
-    [[NSDocumentController.sharedDocumentController documents] makeObjectsPerformSelector:@selector(colorizeDidChange:) withObject:value];
-}
--(void)acpiDidChangeTo:(NSInteger)acpi {
-    iASL *temp = [iASL new];
-    temp.task = [NSTask create:[NSBundle.mainBundle pathForAuxiliaryExecutable:[NSString stringWithFormat:@"iasl%ld", acpi]] args:@[] callback:NULL listener:nil];
-    [temp.task launchAndWait];
-    NSArray *lines = [[temp.stdOut componentsSeparatedByString:@"\n"] subarrayWithRange:NSMakeRange(0, 3)];
-    for (NSString *line in lines) [self logEntry:line];
-    self.compiler = [lines componentsJoinedByString:@"\n"];
-    [[NSDocumentController.sharedDocumentController documents] makeObjectsPerformSelector:@selector(compile:) withObject:self];
-}
 -(void)newDocumentFromACPI:(NSString *)name saveFirst:(bool)save{
     NSString *file = [iASL wasInjected:name];
     NSData *aml;
@@ -156,11 +146,12 @@
 }
 -(Document *)newDocument:(NSString *)text withName:(NSString *)name{
     NSError *err;
-    Document *doc = [NSDocumentController.sharedDocumentController openUntitledDocumentAndDisplay:true error:&err];
+    Document *doc = [NSDocumentController.sharedDocumentController openUntitledDocumentAndDisplay:false error:&err];
     if (ModalError(err)) return nil;
-    [[[doc.windowControllers objectAtIndex:0] window] setTitle:name];
-    [doc setDocument:text];
-    [doc.textView setSelectedRange:NSMakeRange(0, 0)];
+    doc.displayName = name;
+    [doc.text replaceCharactersInRange:NSMakeRange(0, 0) withString:text];
+    [doc makeWindowControllers];
+    [doc showWindows];
     return doc;
 }
 -(void)viewPreference:(id)sender{
@@ -202,7 +193,6 @@
     NSFont *font = [mgr convertFont:[mgr selectedFont]];
     [NSUserDefaults.standardUserDefaults setObject:@{@"name":font.displayName, @"size":@(font.pointSize)} forKey:@"font"];
     muteWithNotice(mgr, selectedFont, [mgr setSelectedFont:font isMultiple:false])
-    [[NSDocumentController.sharedDocumentController documents] makeObjectsPerformSelector:@selector(changeRuler)];
 }
 
 #pragma mark NSTableViewDelegate
@@ -252,6 +242,39 @@
     [super scrollRangeToVisible:range];
     if (!NSEqualRanges(range, self.selectedRange) && [[[NSTextFinder class] performSelector:@selector(_globalTextFinder)] client] == (id)self && [self.delegate respondsToSelector:@selector(textViewDidShowFindIndicator:)])
         [self.delegate performSelector:@selector(textViewDidShowFindIndicator:) withObject:[NSNotification notificationWithName:@"NSTextViewDidShowFindIndicatorNotification" object:self userInfo:@{@"NSFindIndicatorRange":[NSValue valueWithRange:range]}]];
+}
+
+@end
+
+@implementation FSRulerView
+static NSParagraphStyle *pstyle;
+
++(void)initialize {
+    NSMutableParagraphStyle *temp = [NSMutableParagraphStyle new];
+    [temp setAlignment:NSRightTextAlignment];
+    pstyle = [temp copy];
+}
+-(id)init {
+    self = [super init];
+    if (self) {
+        super.reservedThicknessForMarkers = 0;
+    }
+    return self;
+}
+-(void)drawHashMarksAndLabelsInRect:(NSRect)rect {
+    NSInteger height = [[self.scrollView.documentView layoutManager] defaultLineHeightForFont:NSFontManager.sharedFontManager.selectedFont], start = (self.scrollView.documentVisibleRect.origin.y+rect.origin.y)/height+1, stop = 1+start+rect.size.height/height;
+    if (self.ruleThickness != MAX(16,((NSInteger)log10(stop)+1)*8)) {
+        self.ruleThickness = ((NSInteger)log10(stop)+1)*8;
+        return;
+    }
+    NSDictionary *style = @{NSFontAttributeName:[NSFont systemFontOfSize:NSFont.smallSystemFontSize], NSParagraphStyleAttributeName:pstyle};
+    rect.size.width -= 2;
+    rect.origin.y -= (NSInteger)(self.scrollView.documentVisibleRect.origin.y+rect.origin.y) % height - (height-(NSFont.smallSystemFontSize+2))/2;
+    rect.size.height = height;
+    while (start <= stop) {
+        [[NSString stringWithFormat:@"%ld", start++] drawWithRect:rect options:NSStringDrawingUsesLineFragmentOrigin attributes:style];
+        rect.origin.y += height;
+    }
 }
 
 @end
