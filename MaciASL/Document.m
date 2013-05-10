@@ -61,11 +61,34 @@
 + (BOOL)autosavesInPlace {
     return false;
 }
-#if MACOSX_DEPLOYMENT_TARGET <= MAC_OS_X_VERSION_10_7
+/*
+//REVIEW: Gestalt deprecated 10.8.0
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+- (SInt32)osVersion {
+    SInt32 ver;
+    Gestalt(gestaltSystemVersion, &ver);
+    return ver;
+}
+#pragma clang diagnostic pop
+*/
 - (BOOL)isDraft {
+    /*
+    SInt32 ver = [self osVersion];
+    if (ver >= 0x1080)
+        return [super isDraft];
+    */
+    if ([[self superclass] instancesRespondToSelector:@selector(isDraft)])
+        return [super isDraft];
     return !self.fileURL;
 }
 - (BOOL)isLocked {
+    /*
+    SInt32 ver = [self osVersion];
+    if (ver >= 0x1080)
+    */
+    if ([[self superclass] instancesRespondToSelector:@selector(isLocked)])
+        return [super isLocked];
     NSError *err;
     if (![self checkAutosavingSafetyAndReturnError:&err])
         return true;
@@ -77,7 +100,6 @@
         return true;
     return false;
 }
-#endif
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError {
     // Insert code here to write your document to data of the specified type. If outError != NULL, ensure that you create and set an appropriate error when returning nil.
     // You can also choose to override -fileWrapperOfType:error:, -writeToURL:ofType:error:, or -writeToURL:ofType:forSaveOperation:originalContentsURL:error: instead.

@@ -91,7 +91,7 @@
 		B01A8105169C1D020056B5C6 /* SSDT.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SSDT.xib; sourceTree = "<group>"; };
 		B01CAF931618EB4900AB9F0C /* Colorize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Colorize.h; sourceTree = "<group>"; };
 		B01CAF941618EB4900AB9F0C /* Colorize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Colorize.m; sourceTree = "<group>"; };
-		B0207DDE161C356E008CF4E9 /* ToolbarUtilitiesFolderIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = ToolbarUtilitiesFolderIcon.icns; path = ../../../../../../System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/ToolbarUtilitiesFolderIcon.icns; sourceTree = "<group>"; };
+		B0207DDE161C356E008CF4E9 /* ToolbarUtilitiesFolderIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = ToolbarUtilitiesFolderIcon.icns; path = /System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/ToolbarUtilitiesFolderIcon.icns; sourceTree = "<absolute>"; };
 		B059B86B16999332004DB0A9 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		B0899352161D781C00FE7BD8 /* AML.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = AML.icns; sourceTree = SOURCE_ROOT; };
 		B0899353161D781C00FE7BD8 /* DSL.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = DSL.icns; sourceTree = SOURCE_ROOT; };
@@ -477,7 +477,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};
@@ -503,7 +503,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = macosx;
 			};
 			name = Release;
