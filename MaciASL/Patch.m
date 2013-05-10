@@ -519,6 +519,7 @@ static NSRegularExpression *template;
     return [@"" stringByPaddingToLength:4*MAX(tab+offset, 0) withString:@" " startingAtIndex:0];
 }
 +(NSDictionary *)fields:(NSString *)patch{
+    if (!patch) patch = @"";
     __block NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     [field enumerateMatchesInString:patch options:0 range:NSMakeRange(0, patch.length) usingBlock:^void(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop){
         NSString *domain = [patch substringWithRange:[result rangeAtIndex:1]];
