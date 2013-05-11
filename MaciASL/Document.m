@@ -90,7 +90,7 @@
     if ([[self superclass] instancesRespondToSelector:@selector(isLocked)])
         return [super isLocked];
     NSError *err;
-    if (![self checkAutosavingSafetyAndReturnError:&err])
+    if ([[self class] autosavesInPlace] && ![self checkAutosavingSafetyAndReturnError:&err])
         return true;
     if (!self.fileURL)
         return false;
@@ -109,7 +109,7 @@
     else if ([typeName isEqualToString:kAMLfileType]) {
         if (self.isLocked)
             return [NSFileManager.defaultManager contentsAtPath:self.fileURL.path];
-        [self quickCompile:(self.isDraft && self.autosavingIsImplicitlyCancellable) hold:true];
+        [self quickCompile:(self.isDraft && ([[self class] autosavesInPlace] || self.autosavingIsImplicitlyCancellable)) hold:true];
         if ([[summary objectForKey:@"success"] boolValue]) {
             data = [NSFileManager.defaultManager contentsAtPath:[summary objectForKey:@"aml"]];
             NSError *err;
