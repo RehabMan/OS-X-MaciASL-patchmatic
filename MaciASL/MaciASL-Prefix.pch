@@ -47,23 +47,12 @@ NS_INLINE NSUInteger CountCharInStr(NSString *string, unichar c) {
             count++;
     return count;
 }
-/*
-//REVIEW: Gestalt deprecated 10.8.0
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-*/
 NS_INLINE BOOL LoadNib(NSString *nib, id owner) {
-    /*
-    SInt32 ver;
-    Gestalt(gestaltSystemVersion, &ver);
-    if (ver >= 0x1080)
-    */
     if ([NSBundle instancesRespondToSelector:@selector(loadNibNamed:owner:topLevelObjects:)])
         return [NSBundle.mainBundle loadNibNamed:nib owner:owner topLevelObjects:nil];
     else
         return [NSBundle loadNibNamed:nib owner:owner];
 }
-////#pragma clang diagnostic pop
 NS_INLINE void AsynchFetch(NSURL *url, SEL selector, id obj, id hold) {
     [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60] queue:[NSOperationQueue mainQueue] completionHandler:^void(NSURLResponse *response, NSData *data, NSError *err){
         if ([response respondsToSelector:@selector(statusCode)] && [(NSHTTPURLResponse *)response statusCode] != 200) {

@@ -61,32 +61,12 @@
 + (BOOL)autosavesInPlace {
     return false;
 }
-/*
-//REVIEW: Gestalt deprecated 10.8.0
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-- (SInt32)osVersion {
-    SInt32 ver;
-    Gestalt(gestaltSystemVersion, &ver);
-    return ver;
-}
-#pragma clang diagnostic pop
-*/
 - (BOOL)isDraft {
-    /*
-    SInt32 ver = [self osVersion];
-    if (ver >= 0x1080)
-        return [super isDraft];
-    */
     if ([[self superclass] instancesRespondToSelector:@selector(isDraft)])
         return [super isDraft];
     return !self.fileURL;
 }
 - (BOOL)isLocked {
-    /*
-    SInt32 ver = [self osVersion];
-    if (ver >= 0x1080)
-    */
     if ([[self superclass] instancesRespondToSelector:@selector(isLocked)])
         return [super isLocked];
     NSError *err;
