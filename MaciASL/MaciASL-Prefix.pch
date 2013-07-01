@@ -7,8 +7,9 @@
 #endif
 
 #define kMaciASLDomain @"MaciASLDomain"
-#define kAMLfileType @"org.acpica.aml"
-#define kDSLfileType @"org.acpica.dsl"
+#define kUTTypeAML @"org.acpica.aml"
+#define kUTTypeDSL @"org.acpica.dsl"
+#define kUTTypeNavObject @"net.sourceforge.maciasl.navobject"
 #define kTablesetFileType @"net.sourceforge.maciasl.tableset"
 #define kSystemTableset @"//System"
 #define kCompilerError 1
@@ -37,7 +38,7 @@ NS_INLINE void SplitView(NSSplitView *splitView){
     NSUInteger i = 0;
     for (NSString *frame in [NSUserDefaults.standardUserDefaults stringArrayForKey:[@"NSSplitView Subview Frames " stringByAppendingString:splitView.autosaveName]])
          [[splitView.subviews objectAtIndex:i++] setFrame:NSRectFromString(frame)];
-    [splitView setNeedsLayout:true];
+    splitView.needsLayout = true;
 }
 NS_INLINE NSUInteger CountCharInStr(NSString *string, unichar c) {
     NSUInteger count = 0;
@@ -48,10 +49,15 @@ NS_INLINE NSUInteger CountCharInStr(NSString *string, unichar c) {
     return count;
 }
 NS_INLINE BOOL LoadNib(NSString *nib, id owner) {
-    if ([NSBundle instancesRespondToSelector:@selector(loadNibNamed:owner:topLevelObjects:)])
-        return [NSBundle.mainBundle loadNibNamed:nib owner:owner topLevelObjects:nil];
-    else
-        return [NSBundle loadNibNamed:nib owner:owner];
+    ////if ([NSBundle instancesRespondToSelector:@selector(loadNibNamed:owner:topLevelObjects:)])
+    ////    return [NSBundle.mainBundle loadNibNamed:nib owner:owner topLevelObjects:nil];
+    ////else
+    ////    return [NSBundle loadNibNamed:nib owner:owner];
+#if MAC_OS_X_VERSION_MIN_REQUIRED > MAC_OS_X_VERSION_10_7
+    return [NSBundle.mainBundle loadNibNamed:nib owner:owner topLevelObjects:nil];
+#else
+    return [NSBundle loadNibNamed:nib owner:owner];
+#endif
 }
 NS_INLINE void AsynchFetch(NSURL *url, SEL selector, id obj, id hold) {
     [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60] queue:[NSOperationQueue mainQueue] completionHandler:^void(NSURLResponse *response, NSData *data, NSError *err){
@@ -63,7 +69,7 @@ NS_INLINE void AsynchFetch(NSURL *url, SEL selector, id obj, id hold) {
         else
             #pragma clang diagnostic push
             #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-            [obj performSelector:selector withObject:@{@"response":[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding], @"hold":!hold?NSNull.null:hold}];
+            [obj performSelector:selector withObject:@{@"response":[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding], @"hold":hold?:NSNull.null}];
             #pragma clang diagnostic pop
     }];
 }

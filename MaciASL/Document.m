@@ -33,7 +33,7 @@
         jumpLine = 1;
         nav = [DefinitionBlock create:@"Unknown" withRange:NSMakeRange(0, 0)];
         text = [NSTextStorage new];
-        [text setDelegate:self];
+        text.delegate = self;
     }
     return self;
 }
@@ -45,16 +45,17 @@
 - (void)windowControllerDidLoadNib:(NSWindowController *)aController {
     [super windowControllerDidLoadNib:aController];
     // Add any code here that needs to be executed once the windowController has loaded the document's window.
-    [textView.enclosingScrollView setHasVerticalRuler:true];
-    [textView.enclosingScrollView setVerticalRulerView:[FSRulerView new]];
-    [textView.enclosingScrollView setRulersVisible:true];
+    [navView registerForDraggedTypes:@[kUTTypeNavObject]];
+    textView.enclosingScrollView.hasVerticalRuler = true;
+    textView.enclosingScrollView.verticalRulerView = [FSRulerView new];
+    textView.enclosingScrollView.rulersVisible = true;
     [textView.layoutManager replaceTextStorage:text];
-    [textView setEnabledTextCheckingTypes:0];
+    textView.enabledTextCheckingTypes = 0;
     SplitView([[aController.window.contentView subviews] objectAtIndex:0]);
     NSTextContainer *cont = textView.textContainer;
-    [cont setContainerSize:NSMakeSize(1e7, 1e7)];
-    [cont setWidthTracksTextView:false];
-    [cont setHeightTracksTextView:false];
+    cont.containerSize = NSMakeSize(1e7, 1e7);
+    cont.widthTracksTextView = false;
+    cont.heightTracksTextView = false;
     colorize = [Colorize create:textView];
     [[NSApp delegate] changeFont:nil];
 }
@@ -62,13 +63,17 @@
     return false;
 }
 - (BOOL)isDraft {
-    if ([[self superclass] instancesRespondToSelector:@selector(isDraft)])
-        return [super isDraft];
+    ////if ([[self superclass] instancesRespondToSelector:@selector(isDraft)])
+    ////    return [super isDraft];
+    if ([self.superclass instancesRespondToSelector:_cmd])
+        return [self.superclass instanceMethodForSelector:_cmd](self,_cmd) != nil;
     return !self.fileURL;
 }
 - (BOOL)isLocked {
-    if ([[self superclass] instancesRespondToSelector:@selector(isLocked)])
-        return [super isLocked];
+    ////if ([[self superclass] instancesRespondToSelector:@selector(isLocked)])
+    ////    return [super isLocked];
+    if ([self.superclass instancesRespondToSelector:_cmd])
+        return [self.superclass instanceMethodForSelector:_cmd](self,_cmd) != nil;
     NSError *err;
     if ([[self class] autosavesInPlace] && ![self checkAutosavingSafetyAndReturnError:&err])
         return true;
@@ -84,9 +89,9 @@
     // Insert code here to write your document to data of the specified type. If outError != NULL, ensure that you create and set an appropriate error when returning nil.
     // You can also choose to override -fileWrapperOfType:error:, -writeToURL:ofType:error:, or -writeToURL:ofType:forSaveOperation:originalContentsURL:error: instead.
     NSData *data;
-    if ([typeName isEqualToString:kDSLfileType])
+    if ([typeName isEqualToString:kUTTypeDSL])
         data = [text.string dataUsingEncoding:NSASCIIStringEncoding];
-    else if ([typeName isEqualToString:kAMLfileType]) {
+    else if ([typeName isEqualToString:kUTTypeAML]) {
         if (self.isLocked)
             return [NSFileManager.defaultManager contentsAtPath:self.fileURL.path];
         [self quickCompile:(self.isDraft && ([[self class] autosavesInPlace] || self.autosavingIsImplicitlyCancellable)) hold:true];
@@ -107,12 +112,12 @@
     // Insert code here to read your document from the given data of the specified type. If outError != NULL, ensure that you create and set an appropriate error when returning NO.
     // You can also choose to override -readFromFileWrapper:ofType:error: or -readFromURL:ofType:error: instead.
     // If you override either of these, you should also override -isEntireFileLoaded to return NO if the contents are lazily loaded.
-    if ([typeName isEqualToString:kDSLfileType])
-        [text.mutableString setString:[[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding]];
-    else if ([typeName isEqualToString:kAMLfileType]) {
+    if ([typeName isEqualToString:kUTTypeDSL])
+        text.mutableString.string = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+    else if ([typeName isEqualToString:kUTTypeAML]) {
         NSDictionary *decompile = [iASL decompile:data withResolution:nil];
         if ([[decompile objectForKey:@"status"] boolValue])
-            [text.mutableString setString:[decompile objectForKey:@"object"]];
+            text.mutableString.string = [decompile objectForKey:@"object"];
         else if (outError != NULL)
             *outError = [decompile objectForKey:@"object"];
     }
@@ -126,7 +131,7 @@
 }
 -(NSPrintOperation *)printOperationWithSettings:(NSDictionary *)printSettings error:(NSError *__autoreleasing *)outError{
     NSTextView *print = [[NSTextView alloc] initWithFrame:self.printInfo.imageablePageBounds];
-    [print setString:text.string];
+    print.string = text.string;
     return [NSPrintOperation printOperationWithView:print];
 }
 -(void)close{
@@ -147,15 +152,15 @@
 }
 -(void)quickPatch:(NSString *)string{
     if (self.isLocked) return;
-    [self.patch setPatch:string];
-    [NSObject cancelPreviousPerformRequestsWithTarget:self.patch selector:@selector(preview) object:nil];
+    self.patch.patch = string;
+    [Document cancelPreviousPerformRequestsWithTarget:self.patch selector:@selector(preview) object:nil];
     [self.patch preview];
     [self.patch apply:self];
 }
 -(id)asPatch:(NSScriptCommand *)command{
     if (self.isLocked) {
-        [command setScriptErrorNumber:kLockError];
-        [command setScriptErrorString:@"Document is locked"];
+        command.scriptErrorNumber = kLockError;
+        command.scriptErrorString = @"Document is locked";
         return nil;
     }
     NSString *path = [[command.arguments objectForKey:@"patchfile"] path];
@@ -163,9 +168,9 @@
         [self quickPatch:[[NSString alloc] initWithData:[NSFileManager.defaultManager contentsAtPath:path] encoding:NSUTF8StringEncoding]];
         return @{@"patches":[NSNumber numberWithLong:self.patch.patchFile.patches.count], @"changes":[NSNumber numberWithLong:self.patch.patchFile.preview.count-self.patch.patchFile.rejects], @"rejects":[NSNumber numberWithLong:self.patch.patchFile.rejects]};
     } else {
-        [command setScriptErrorNumber:kAScriptFileError];
-        [command setScriptErrorString:@"File not found"];
-        [command setScriptErrorOffendingObjectDescriptor:[NSAppleEventDescriptor descriptorWithString:path]];
+        command.scriptErrorNumber = kAScriptFileError;
+        command.scriptErrorString = @"File not found";
+        command.scriptErrorOffendingObjectDescriptor = [NSAppleEventDescriptor descriptorWithString:path];
         return nil;
     }
 }
@@ -187,7 +192,9 @@
         if (!_oldNav) _oldNav = nav;
         nav = [DefinitionBlock create:_oldNav.name withRange:_oldNav.range];
         NSMutableArray *temp = [_oldNav flat];
-        [temp filterUsingPredicate:[NSPredicate predicateWithFormat:@"name contains[c] %@", [sender stringValue]]];
+        [temp filterUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings){
+            return [[evaluatedObject name] rangeOfString:[sender stringValue] options:NSCaseInsensitiveSearch].location != NSNotFound;
+        }]];
         if (temp.count && [temp objectAtIndex:0] == _oldNav) [temp removeObjectAtIndex:0];
         muteWithNotice(self, nav, [nav setChildren:temp])
     }
@@ -202,7 +209,12 @@
     [[NSApp delegate] showSummary:sender];
 }
 -(IBAction)hexConvert:(id)sender{
-    //TODO: hex converter popup or sheet
+    NSString *number = [text.string substringWithRange:textView.selectedRange];
+    if (!number.length) return;
+    errno = 0;
+    UInt64 internal = strtoll(number.UTF8String, nil, 0);
+    if (errno) NSBeep();
+    else [textView insertText:[NSString stringWithFormat:[number hasPrefix:@"0x"]?@"%lld":@"0x%llX",internal] replacementRange:textView.selectedRange];
 }
 -(IBAction)jumpToLine:(id)sender{
     [NSApp beginSheet:jump modalForWindow:[self windowForSheet] modalDelegate:nil didEndSelector:nil contextInfo:nil];
@@ -268,13 +280,87 @@
 -(void)outlineViewSelectionDidChange:(NSNotification *)notification{//TODO: better integration, use Tab/Return/Esc hotkeys?
     if (navView != navView.window.firstResponder) return;
     NSRange range = NSMakeRange([[[navView itemAtRow:navView.selectedRow] representedObject] range].location, 0);
+    if (NSMaxRange(range) == 0) return;
     [textView scrollRangeToVisible:range];
     [textView showFindIndicatorForRange:[text.string lineRangeForRange:range]];
+}
+#pragma mark NSOutlineViewDataSource
+-(BOOL)outlineView:(NSOutlineView *)outlineView writeItems:(NSArray *)items toPasteboard:(NSPasteboard *)pasteboard {
+    NSMutableArray *objects = [NSMutableArray arrayWithCapacity:items.count];
+    for (NSTreeNode *item in items) {
+        NSUInteger path[item.indexPath.length];
+        [item.indexPath getIndexes:(NSUInteger *)&path];
+        [objects addObject:[NSPasteboardItem new]];
+        [objects.lastObject setData:[NSData dataWithBytes:path length:sizeof(path)] forType:kUTTypeNavObject];
+        [objects.lastObject setString:[text.string substringWithRange:[[item representedObject] range]] forType:NSPasteboardTypeString];
+    }
+    [pasteboard writeObjects:objects];
+    return true;
+}
+-(void)outlineView:(NSOutlineView *)outlineView draggingSession:(NSDraggingSession *)session endedAtPoint:(NSPoint)screenPoint operation:(NSDragOperation)operation {
+    if (operation == NSDragOperationDelete)
+        NSShowAnimationEffect(NSAnimationEffectDisappearingItemDefault, screenPoint, NSZeroSize, nil, nil, nil);
+    if (operation & (NSDragOperationDelete|NSDragOperationMove)) {
+        for (NSPasteboardItem *paste in session.draggingPasteboard.pasteboardItems) {
+            NSData *data = [paste dataForType:kUTTypeNavObject];
+            NSTreeNode *node = [navController.arrangedObjects descendantNodeAtIndexPath:[NSIndexPath indexPathWithIndexes:data.bytes length:data.length/sizeof(NSUInteger)]];
+            [textView insertText:@"" replacementRange:[[node representedObject] range]];
+            [outlineView removeItemsAtIndexes:[NSIndexSet indexSetWithIndex:[node.parentNode.childNodes indexOfObjectIdenticalTo:node]] inParent:node.parentNode withAnimation:NSTableViewAnimationEffectFade|NSTableViewAnimationSlideUp];//TODO: allow Generic?
+        }
+    }
+}
+-(NSDragOperation)outlineView:(NSOutlineView *)outlineView validateDrop:(id<NSDraggingInfo>)info proposedItem:(id)item proposedChildIndex:(NSInteger)index {//TODO: disallow replacing parent?
+    if (!item) return NSDragOperationNone;
+    if ([[item representedObject] isMemberOfClass:DefinitionBlock.class] && index == NSOutlineViewDropOnItemIndex) return NSDragOperationNone;
+    if (NSEvent.modifierFlags&NSControlKeyMask) {
+        [outlineView setDropItem:nil dropChildIndex:NSOutlineViewDropOnItemIndex];
+        if (NSCursor.currentCursor != NSCursor.disappearingItemCursor) [NSCursor.disappearingItemCursor push];
+        return NSDragOperationDelete;
+    }
+    else {
+        [NSCursor.disappearingItemCursor pop];
+        return  NSEvent.modifierFlags&NSAlternateKeyMask?NSDragOperationCopy:NSDragOperationMove;
+    }
+}
+-(BOOL)outlineView:(NSOutlineView *)outlineView acceptDrop:(id<NSDraggingInfo>)info item:(id)item childIndex:(NSInteger)index {
+    if (NSEvent.modifierFlags&NSControlKeyMask) return true;
+    bool move = ~NSEvent.modifierFlags&NSAlternateKeyMask, insert = index != NSOutlineViewDropOnItemIndex;
+    NSRange range;
+    if (insert) {
+        if (index) range = [[item childNodes] count]?[[[[item childNodes] objectAtIndex:index-1] representedObject] range]:[[item representedObject] range];
+        else range = NSMakeRange([[item representedObject] contentRange:text.string].location, 0);
+        range = NSMakeRange(NSMaxRange(range), 0);//TODO: better insertion range
+    }
+    else {
+        range = [[item representedObject] range];
+        index = [[[item parentNode] childNodes] indexOfObjectIdenticalTo:item];
+        item = [item parentNode];
+        [outlineView removeItemsAtIndexes:[NSIndexSet indexSetWithIndex:index] inParent:item withAnimation:NSTableViewAnimationEffectFade|NSTableViewAnimationSlideUp];
+    }
+    for (NSPasteboardItem *paste in [info.draggingPasteboard.pasteboardItems copy]) {
+        [textView.undoManager beginUndoGrouping];
+        [textView insertText:[paste stringForType:NSPasteboardTypeString] replacementRange:range];
+        if (move && info.draggingSource == outlineView) {
+            NSData *data = [paste dataForType:kUTTypeNavObject];
+            NSTreeNode *node = [navController.arrangedObjects descendantNodeAtIndexPath:[NSIndexPath indexPathWithIndexes:data.bytes length:data.length/sizeof(NSUInteger)]];
+            NSRange oldRange = [[node representedObject] range];
+            if (NSMaxRange(range) < oldRange.location) oldRange.location+=oldRange.length-range.length;
+            [textView insertText:@"" replacementRange:oldRange];
+            NSInteger oldIndex = [node.parentNode.childNodes indexOfObjectIdenticalTo:node];
+            [outlineView moveItemAtIndex:oldIndex-(item == node.parentNode && oldIndex > index && !insert) inParent:node.parentNode toIndex:index-(item == node.parentNode && oldIndex < index) inParent:item];
+        }
+        [textView.undoManager endUndoGrouping];
+        textView.selectedRange = NSMakeRange(range.location, 0);
+    }
+    if (move && info.draggingSource == outlineView) [info.draggingPasteboard clearContents];
+    [Document cancelPreviousPerformRequestsWithTarget:self selector:@selector(buildNav) object:nil];
+    [self buildNav];
+    return true;
 }
 #pragma mark NSTextStorageDelegate
 -(void)textStorageDidProcessEditing:(NSNotification *)notification{
     [colorize textStorageDidProcessEditing:notification];
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(buildNav) object:nil];
+    [Document cancelPreviousPerformRequestsWithTarget:self selector:@selector(buildNav) object:nil];
     [self performSelector:@selector(buildNav) withObject:nil afterDelay:1.5];
 }
 #pragma mark NSTextViewDelegate

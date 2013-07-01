@@ -74,15 +74,15 @@ static NSDictionary *themes;
     else if ([keyPath isEqualToString:@"theme"]) {
         if (!(theme = [themes objectForKey:[NSUserDefaults.standardUserDefaults stringForKey:@"theme"]]))
             theme = [themes.allKeys objectAtIndex:0];
-        [view setBackgroundColor:theme.background];
-        [view setTextColor:theme.text];
-        [view setInsertionPointColor:theme.text];
+        view.backgroundColor = theme.background;
+        view.textColor = theme.text;
+        view.insertionPointColor = theme.text;
     }
 }
 
 -(void)textStorageDidProcessEditing:(NSNotification *)notification{
     if (![NSUserDefaults.standardUserDefaults boolForKey:@"colorize"]) return;
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(colorize) object:nil];
+    [Colorize cancelPreviousPerformRequestsWithTarget:self selector:@selector(colorize) object:nil];
     [self performSelector:@selector(colorize) withObject:nil afterDelay:0.15];
 }
 
