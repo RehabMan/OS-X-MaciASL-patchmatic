@@ -89,7 +89,8 @@
 
 #pragma mark Class
 
-#if 0 //REVIEW: This is SJ's version, but in different class and I need to test it...
+//REVIEW: rehabman: This is SJ's version, but in different class and I need to test it...
+#if 0
 +(NSString *)entab:(NSString *)line with:(NSString *)previous{
     NSInteger tab = 0, offset = 0, i;
     while (tab < previous.length)
@@ -515,8 +516,26 @@ static NSRegularExpression *template;
     field = [NSRegularExpression regularExpressionWithPattern:@"\n#(\\w+):(\\w+) (.*)" options:0 error:nil];
     template = [NSRegularExpression regularExpressionWithPattern:@"%(\\d+)" options:0 error:nil];
 }
+#if 1
 +(NSString *)entab:(NSString *)line with:(NSString *)previous{
-//REVIEW: rehabman -- now that it works, might be able to be simplified/made more clear...
+    NSInteger tab = 0, offset = 0, i;
+    while (tab < previous.length)
+        if ([previous characterAtIndex:tab] == ' ') tab++;
+        else break;
+    i = tab;
+    if ([line characterAtIndex:0] == '}') offset = -1;
+    else if ([previous characterAtIndex:tab] == '/') ;
+    else if ([previous characterAtIndex:tab] == '}') offset = 0;
+    else while (i < previous.length)
+        switch ([previous characterAtIndex:i++]) {
+            case '{': offset++; break;
+            case '}': offset--; break;
+        }
+    return [@"" stringByPaddingToLength:4*MAX(tab/4+MAX(MIN(offset, 1), -1), 0) withString:@" " startingAtIndex:0];
+}
+#else
++(NSString *)entab:(NSString *)line with:(NSString *)previous{
+//REVIEW: rehabman: SJ's version above seems to be working better now, can probably get rid of this
     NSInteger tab = 0;
     while (tab < previous.length) {
         if ([previous characterAtIndex:tab] != ' ')
@@ -538,6 +557,7 @@ static NSRegularExpression *template;
     tab /= 4;
     return [@"" stringByPaddingToLength:4*MAX(tab+offset, 0) withString:@" " startingAtIndex:0];
 }
+#endif
 +(NSDictionary *)fields:(NSString *)patch{
     if (!patch) patch = @"";
     __block NSMutableDictionary *dict = [NSMutableDictionary dictionary];

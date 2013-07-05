@@ -90,8 +90,8 @@
 		B01CAF931618EB4900AB9F0C /* Colorize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Colorize.h; sourceTree = "<group>"; };
 		B01CAF941618EB4900AB9F0C /* Colorize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Colorize.m; sourceTree = "<group>"; };
 		B059B86B16999332004DB0A9 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		B06352E3177EA65B00956EB1 /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = en.lproj/Patch.xib; sourceTree = "<group>"; };
-		B06352E6177EA65F00956EB1 /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = en.lproj/SSDT.xib; sourceTree = "<group>"; };
+		B06352E3177EA65B00956EB1 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/Patch.xib; sourceTree = "<group>"; };
+		B06352E6177EA65F00956EB1 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SSDT.xib; sourceTree = "<group>"; };
 		B0899352161D781C00FE7BD8 /* AML.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = AML.icns; sourceTree = SOURCE_ROOT; };
 		B0899353161D781C00FE7BD8 /* DSL.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = DSL.icns; sourceTree = SOURCE_ROOT; };
 		B0A6BF8C161A827700DDE1EF /* Patch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Patch.h; sourceTree = "<group>"; };
@@ -351,7 +351,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "CPV=$[ CURRENT_PROJECT_VERSION+1 ]\nsed -i '' \"s/CURRENT_PROJECT_VERSION = $CURRENT_PROJECT_VERSION/CURRENT_PROJECT_VERSION = $CPV/\" $PROJECT_NAME.xcodeproj/project.pbxproj";
+			shellScript = "exit 0\nCPV=$[ CURRENT_PROJECT_VERSION+1 ]\nsed -i '' \"s/CURRENT_PROJECT_VERSION = $CURRENT_PROJECT_VERSION/CURRENT_PROJECT_VERSION = $CPV/\" $PROJECT_NAME.xcodeproj/project.pbxproj";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
