@@ -88,6 +88,26 @@
 }
 
 #pragma mark Class
+
+#if 0 //REVIEW: This is SJ's version, but in different class and I need to test it...
++(NSString *)entab:(NSString *)line with:(NSString *)previous{
+    NSInteger tab = 0, offset = 0, i;
+    while (tab < previous.length)
+        if ([previous characterAtIndex:tab] == ' ') tab++;
+        else break;
+    i = tab;
+    if ([line characterAtIndex:0] == '}') offset = -1;
+    else if ([previous characterAtIndex:tab] == '/') ;
+    else if ([previous characterAtIndex:tab] == '}') offset = 0;
+    else while (i < previous.length)
+        switch ([previous characterAtIndex:i++]) {
+            case '{': offset++; break;
+            case '}': offset--; break;
+        }
+    return [@"" stringByPaddingToLength:4*MAX(tab/4+MAX(MIN(offset, 1), -1), 0) withString:@" " startingAtIndex:0];
+}
+#endif
+
 +(Patcher *)create:(id)sender{
     Patcher *temp = [Patcher new];
     LoadNib(@"Patch", temp);

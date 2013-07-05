@@ -143,7 +143,6 @@
     if (!_patch) _patch = [Patcher create:self];
     return _patch;
 }
-//TODO: add object actions to navigator (delete, copy?)
 #pragma mark Actions
 -(void)quickCompile:(bool)force hold:(bool)hold{
     self.summary = [iASL compile:text.string force:force];
@@ -303,7 +302,7 @@
     if (operation & (NSDragOperationDelete|NSDragOperationMove)) {
         for (NSPasteboardItem *paste in session.draggingPasteboard.pasteboardItems) {
             NSData *data = [paste dataForType:kUTTypeNavObject];
-            NSTreeNode *node = [navController.arrangedObjects descendantNodeAtIndexPath:[NSIndexPath indexPathWithIndexes:data.bytes length:data.length/sizeof(NSUInteger)]];
+            NSTreeNode *node = [navController.arrangedObjects descendantNodeAtIndexPath:[NSIndexPath indexPathWithIndexes:(NSUInteger *)data.bytes length:data.length/sizeof(NSUInteger)]];
             [textView insertText:@"" replacementRange:[[node representedObject] range]];
             [outlineView removeItemsAtIndexes:[NSIndexSet indexSetWithIndex:[node.parentNode.childNodes indexOfObjectIdenticalTo:node]] inParent:node.parentNode withAnimation:NSTableViewAnimationEffectFade|NSTableViewAnimationSlideUp];//TODO: allow Generic?
         }
@@ -342,7 +341,7 @@
         [textView insertText:[paste stringForType:NSPasteboardTypeString] replacementRange:range];
         if (move && info.draggingSource == outlineView) {
             NSData *data = [paste dataForType:kUTTypeNavObject];
-            NSTreeNode *node = [navController.arrangedObjects descendantNodeAtIndexPath:[NSIndexPath indexPathWithIndexes:data.bytes length:data.length/sizeof(NSUInteger)]];
+            NSTreeNode *node = [navController.arrangedObjects descendantNodeAtIndexPath:[NSIndexPath indexPathWithIndexes:(NSUInteger *)data.bytes length:data.length/sizeof(NSUInteger)]];
             NSRange oldRange = [[node representedObject] range];
             if (NSMaxRange(range) < oldRange.location) oldRange.location+=oldRange.length-range.length;
             [textView insertText:@"" replacementRange:oldRange];
