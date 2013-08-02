@@ -132,8 +132,8 @@ static RKLRegexOptions ConvertOptions(RKL_NSRegularExpressionOptions options) {
 /* For clients implementing their own replace functionality, this is a method to perform the template substitution for a single result, given the string from which the result was matched, an offset to be added to the location of the result in the string (for example, in case modifications to the string moved the result since it was matched), and a replacement template.
  */
 - (NSString*)replacementStringForResult:(NSTextCheckingResult*)result inString:(NSString*)string offset:(NSInteger)offset template:(NSString*)templ {
-    // start with copy of template
-    NSMutableString* mutable = [NSMutableString string];
+    // start with empty string
+    NSMutableString* mutable = [NSMutableString new];
     NSUInteger count = [result numberOfRanges];
     // walk through the template looking for things to replace...
     NSUInteger length = [templ length];
@@ -181,18 +181,32 @@ static RKLRegexOptions ConvertOptions(RKL_NSRegularExpressionOptions options) {
     // collect from anchor to end
     if (length > anchor)
         [mutable appendString:[templ substringWithRange:NSMakeRange(anchor, length-anchor)]];
-    
     return mutable;
 }
 
 /* This class method will produce a string by adding backslash escapes as necessary to the given string, to escape any characters that would otherwise be treated as template metacharacters.
  */
-#if 0
 + (NSString *)escapedTemplateForString:(NSString *)string {
-    //REVIEW_NOTIMPL: implement me...
-    return nil;
+    // start with empty string
+    NSMutableString* mutable = [NSMutableString new];
+    // walk through the template looking for things to escape...
+    NSUInteger length = [string length];
+    NSUInteger anchor = 0, i = 0;
+    while (i < length) {
+        if ([string characterAtIndex:i] == '$') {
+            if (i > anchor)
+                [mutable appendString:[string substringWithRange:NSMakeRange(anchor, i-anchor)]];
+            [mutable appendString:@"\\$"];
+            anchor = ++i;
+            continue;
+        }
+        ++i;
+    }
+    // collect from anchor to end
+    if (length > anchor)
+        [mutable appendString:[string substringWithRange:NSMakeRange(anchor, length-anchor)]];
+    return mutable;
 }
-#endif
 
 @end // RKL_NSRegularExpression (RKL_NSReplacement)
 

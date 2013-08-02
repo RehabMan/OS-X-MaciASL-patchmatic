@@ -136,6 +136,18 @@ int main(int argc, const char* argv[]) {
             NSString* replacementString = [regex replacementStringForResult:[matches objectAtIndex:x] inString:string offset:0 template:@"$$$$0__$xyz$$TE\\$T0$0_TEST1$1\\TEST2_$2LAST\\$"];
             NSPrintF(@"replacementString(%ld) = '%@'\n", x, replacementString);
         }
+        
+        NSPrintF(@"begin escapedTemplateForString test...\n");
+        NSString* escapedTemplate = [NSRegularExpression escapedTemplateForString:@"This is without escapes"];
+        NSPrintF(@"without escapes: %@\n", escapedTemplate);
+        escapedTemplate = [NSRegularExpression escapedTemplateForString:@"$1 $2 $3 escapes at beginning"];
+        NSPrintF(@"escapes at beginning: %@\n", escapedTemplate);
+        escapedTemplate = [NSRegularExpression escapedTemplateForString:@"escapes at end $1 $2 $3"];
+        NSPrintF(@"escapes at end: %@\n", escapedTemplate);
+        escapedTemplate = [NSRegularExpression escapedTemplateForString:@"escapes in middle $1 $2 $3 after middle"];
+        NSPrintF(@"escapes in middle: %@\n", escapedTemplate);
+        escapedTemplate = [NSRegularExpression escapedTemplateForString:@"$1 $2 $3 $$$$ escapes in beginning/middle/end $4 $5 $6 $$$$ after middle $$$$ $7 $8 $9"];
+        NSPrintF(@"escapes everywhere: %@\n", escapedTemplate);
     }
 }
 

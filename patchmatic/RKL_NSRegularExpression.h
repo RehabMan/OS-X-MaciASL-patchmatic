@@ -150,7 +150,7 @@ typedef NSUInteger RKL_NSMatchingFlags;
 
 /* This class method will produce a string by adding backslash escapes as necessary to the given string, to escape any characters that would otherwise be treated as template metacharacters.
  */
-//+ (NSString *)escapedTemplateForString:(NSString *)string; //REVIEW_NOTIMPL
++ (NSString *)escapedTemplateForString:(NSString *)string;
 
 @end // RKL_NSRegularExpression (RKL_NSReplacement)
 
