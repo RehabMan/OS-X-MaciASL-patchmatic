@@ -122,8 +122,10 @@
     SplitView([[window.contentView subviews] objectAtIndex:0]);
     SplitView([[[[[[window.contentView subviews] objectAtIndex:0] subviews] objectAtIndex:1] subviews] objectAtIndex:0]);
     patchView.enabledTextCheckingTypes = 0;
-    if (!sourceView.sortDescriptors.count)
-        sourceView.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:true selector:@selector(localizedStandardCompare:)]];
+    //REVIEW_REHABMAN: this screws up various .maciasl repos where the order has already been pre-determined
+    // and customized.  Let's just not sort for now...
+    //if (!sourceView.sortDescriptors.count)
+    //    sourceView.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:true selector:@selector(localizedStandardCompare:)]];
     [self expandTree];
     [self preview];
 }
