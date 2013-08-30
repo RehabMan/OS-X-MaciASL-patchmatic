@@ -140,7 +140,10 @@ static NSString *bootlog;
     path = [path.stringByDeletingPathExtension stringByAppendingPathExtension:@"aml"];
     NSMutableArray *temp = [NSMutableArray array];
     Notice *notice;
-    for (NSString *line in ([NSUserDefaults.standardUserDefaults integerForKey:@"acpi"] == 4)?compile.task.stdOut:compile.task.stdErr)
+    for (NSString *line in compile.task.stdOut)
+        if ((notice = [Notice create:line]))
+            [temp addObject:notice];
+    for (NSString *line in compile.task.stdErr)
         if ((notice = [Notice create:line]))
             [temp addObject:notice];
     return @{@"notices":[temp copy], @"summary":[[[compile.task.stdOut lastObject] componentsSeparatedByString:@". "] lastObject], @"aml":path, @"success":@(compile.status && [NSFileManager.defaultManager fileExistsAtPath:path])};
