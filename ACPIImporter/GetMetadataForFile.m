@@ -13,11 +13,57 @@ static NSRegularExpression *_string;
 NSArray *StringsForAML(NSData *aml) {
     if (!_string)
         _string = [NSRegularExpression regularExpressionWithPattern:@"\x0D([\x20-\x7E]{2,})\x00" options:0 error:nil];
-    __block NSMutableArray *strings = [NSMutableArray array];
+    __block NSMutableSet *strings = [NSMutableSet set];
     [_string enumerateMatchesInString:[[NSString alloc] initWithData:aml encoding:NSASCIIStringEncoding] options:0 range:NSMakeRange(0, aml.length) usingBlock:^void(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop){
         [strings addObject:[[NSString alloc] initWithData:[aml subdataWithRange:[result rangeAtIndex:1]] encoding:NSASCIIStringEncoding]];
     }];
-    return [strings copy];
+    return [strings allObjects];
+}
+
+bool MetadataForAML(NSData *aml, CFMutableDictionaryRef metadata) {
+    struct {
+        UInt8 Signature[4];
+        UInt32 Length;
+        UInt8 Revision;
+        UInt8 Checksum;
+        UInt8 OemId[6];
+        UInt8 OemTableId[8];
+        UInt32 OemRevision;
+        UInt8 AslCompilerId[4];
+        UInt32 AslCompilerRevision;
+    } header;
+    [aml getBytes:&header range:NSMakeRange(0, sizeof(header))];
+    CFTypeRef item = CFStringCreateWithFormat(kCFAllocatorDefault, 0, CFSTR("%c%c%c%c %d"), header.Signature[0], header.Signature[1], header.Signature[2], header.Signature[3], header.Revision);
+    CFDictionaryAddValue(metadata, kMDItemTitle, item);
+    CFRelease(item);
+    if (memcmp(header.Signature, "FACS", 4) == 0)
+        return true;
+    if (header.OemId[0]) {
+        CFTypeRef items[] = {CFStringCreateWithBytes(kCFAllocatorDefault, header.OemId, 6, kCFStringEncodingASCII, false)};
+        item = CFArrayCreate(kCFAllocatorDefault, items, 1, NULL);
+        CFDictionaryAddValue(metadata, kMDItemOrganizations, item);
+        CFRelease(item);
+    }
+    if (header.OemTableId[0]) {
+        item = CFStringCreateWithBytes(kCFAllocatorDefault, header.OemTableId, 8, kCFStringEncodingASCII, false);
+        CFDictionaryAddValue(metadata, kMDItemSubject, item);
+        CFRelease(item);
+    }
+    if (header.AslCompilerId[0]) {
+        item = CFStringCreateWithFormat(kCFAllocatorDefault, 0, CFSTR("%c%c%c%c %x"), header.AslCompilerId[0], header.AslCompilerId[1], header.AslCompilerId[2], header.AslCompilerId[3], header.AslCompilerRevision);
+        CFDictionaryAddValue(metadata, kMDItemCreator, item);
+        CFRelease(item);
+    }
+    if (header.OemRevision) {
+        item = CFStringCreateWithFormat(kCFAllocatorDefault, 0, CFSTR("%#010x"), header.OemRevision);
+        CFDictionaryAddValue(metadata, kMDItemVersion, item);
+        CFRelease(item);
+    }
+    CFStringRef string = CFStringCreateByCombiningStrings(kCFAllocatorDefault, (__bridge CFArrayRef)StringsForAML(aml), CFSTR(" "));
+    if (CFStringGetLength(string))
+        CFDictionaryAddValue(metadata, kMDItemTextContent, string);
+    CFRelease(string);
+    return true;
 }
 
 Boolean GetMetadataForFile(void *thisInterface, CFMutableDictionaryRef attributes, CFStringRef contentTypeUTI, CFStringRef pathToFile);
@@ -43,38 +89,28 @@ Boolean GetMetadataForFile(void *thisInterface, CFMutableDictionaryRef attribute
 
     Boolean ok = FALSE;
     @autoreleasepool {
-        NSError *error = nil;
         
         if ([(__bridge NSString *)contentTypeUTI isEqualToString:@"org.acpica.aml"]) {
             // import from store file metadata
             
-            // Create the URL, then attempt to get the meta-data from the store
-            NSURL *url = [NSURL fileURLWithPath:(__bridge NSString *)pathToFile];
-            
-            // If there is no error, add the info
-            if (error == NULL) {
                 // Get the information you are interested in from the dictionary
                 // "YOUR_INFO" should be replaced by key(s) you are interested in
                 
-                NSArray *contentToIndex = StringsForAML([NSData dataWithContentsOfURL:url]);
-                if (contentToIndex != nil) {
-                    // Add the metadata to the text content for indexing
-                    ((__bridge NSMutableDictionary *)attributes)[(NSString *)kMDItemTextContent] = [contentToIndex componentsJoinedByString:@" "];
-                    ok = TRUE;
-                }
-            }
+                ok = MetadataForAML([NSData dataWithContentsOfFile:(__bridge NSString *)pathToFile], attributes);
             
         } else if ([(__bridge NSString *)contentTypeUTI isEqualToString:@"net.sourceforge.maciasl.tableset"]) {
             // import from an external record file
             
             NSMutableArray *strings = [NSMutableArray array];
-            NSDictionary *tables = [[NSDictionary dictionaryWithContentsOfFile:(__bridge NSString *)pathToFile] objectForKey:@"Tables"];
+            NSDictionary *tables = [NSDictionary dictionaryWithContentsOfFile:(__bridge NSString *)pathToFile];
+            CFDictionaryAddValue(attributes, kMDItemSubject, (__bridge CFStringRef)[tables objectForKey:@"Hostname"]);
+            tables = [tables objectForKey:@"Tables"];
             for (NSString *table in tables) {
                 [strings addObject:table];
                 [strings addObjectsFromArray:StringsForAML([tables objectForKey:table])];
             }
             
-            ((__bridge NSMutableDictionary *)attributes)[(NSString *)kMDItemTextContent] = [strings componentsJoinedByString:@" "];
+            CFDictionaryAddValue(attributes, kMDItemTextContent, (__bridge CFStringRef)[strings componentsJoinedByString:@" "]);
             ok = TRUE;
         }
     }
