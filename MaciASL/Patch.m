@@ -124,8 +124,9 @@
     patchView.enabledTextCheckingTypes = 0;
     //REVIEW_REHABMAN: this screws up various .maciasl repos where the order has already been pre-determined
     // and customized.  Let's just not sort for now...
-    //if (!sourceView.sortDescriptors.count)
-    //    sourceView.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:true selector:@selector(localizedStandardCompare:)]];
+    // And... re-enabled for now.  I will implement a workaround in my repo's .maciasl
+    if (!sourceView.sortDescriptors.count)
+        sourceView.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:true selector:@selector(localizedStandardCompare:)]];
     [self expandTree];
     [self preview];
 }
