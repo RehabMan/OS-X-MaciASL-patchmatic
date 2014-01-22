@@ -7,6 +7,7 @@
 //
 
 #import "Source.h"
+#import <SystemConfiguration/SystemConfiguration.h>
 
 @implementation SourcePatch
 
@@ -35,12 +36,19 @@
 
 @end
 
-@implementation SourceList
+@implementation SourceList {
+    @private
+    SCNetworkReachabilityRef _reachability;
+}
 
 static SourceList *sharedList;
 
 @synthesize archive;
 @synthesize providers;
+
+void ReachabilityDidChange(SCNetworkReachabilityRef target, SCNetworkReachabilityFlags flags, void *info) {
+    [(__bridge SourceList *)info reachabilityDidChange:flags];
+}
 
 +(SourceList *)sharedList{
     if (!sharedList) return [SourceList new];
@@ -53,22 +61,62 @@ static SourceList *sharedList;
     if (self) {
         self.archive = [NSMutableDictionary dictionary];
         self.providers = [NSMutableArray array];
-        [NSUserDefaults.standardUserDefaults addObserver:self forKeyPath:@"sources" options:0 context:nil];
-        [self observeValueForKeyPath:nil ofObject:nil change:nil context:nil];
+        _queue = dispatch_queue_create("SourceList", DISPATCH_QUEUE_CONCURRENT);
+        dispatch_set_context(_queue, (void *)true);
+        _reachability = SCNetworkReachabilityCreateWithName(kCFAllocatorDefault, "sourceforge.net");
+        SCNetworkReachabilityFlags flags;
+        SCNetworkReachabilityGetFlags(_reachability, &flags);
+        [self reachabilityDidChange:flags];
+        SCNetworkReachabilityContext context = {0, (__bridge void *)self, CFRetain, CFRelease, CFCopyDescription};
+        SCNetworkReachabilitySetCallback(_reachability, ReachabilityDidChange, &context);
+        SCNetworkReachabilitySetDispatchQueue(_reachability, dispatch_get_main_queue());
+        [NSUserDefaults.standardUserDefaults addObserver:self forKeyPath:@"sources" options:NSKeyValueObservingOptionInitial context:nil];
         sharedList = self;
     }
     return self;
 }
+-(void)reachabilityDidChange:(SCNetworkReachabilityFlags)flags {
+    bool active = (bool)dispatch_get_context(_queue), reachable = flags & kSCNetworkFlagsReachable;
+    if (!active && reachable)
+        dispatch_resume(_queue);
+    else if (active && !reachable)
+        dispatch_suspend(_queue);
+    dispatch_set_context(_queue, (void *)reachable);
+}
 -(void)dealloc{
     if (providers)
         [NSUserDefaults.standardUserDefaults removeObserver:self forKeyPath:@"sources"];
+    if (_reachability) {
+        SCNetworkReachabilitySetDispatchQueue(_reachability, NULL);
+        CFRelease(_reachability);
+    }
 }
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
     NSArray *oldNames = [providers valueForKey:@"name"];
     NSArray *new = [NSUserDefaults.standardUserDefaults objectForKey:@"sources"];
     for (NSDictionary *provider in new) {
-        if (![archive objectForKey:[provider objectForKey:@"url"]])
-            [self fetchProvider:[provider objectForKey:@"name"] withURL:[provider objectForKey:@"url"]];
+        if (![archive objectForKey:[provider objectForKey:@"url"]]) {
+            NSString *name = [provider objectForKey:@"name"], *url = [provider objectForKey:@"url"];
+            if (![name isKindOfClass:[NSString class]] || ![url isKindOfClass:[NSString class]])
+                continue;
+            NSURL *realURL = [NSURL URLWithString:url];
+            AsynchB([realURL URLByAppendingPathComponent:@".maciasl"], ^(NSString *response) {
+                NSMutableArray *dsdt = [NSMutableArray array];
+                NSMutableArray *ssdt = [NSMutableArray array];
+                for(NSString *line in [response componentsSeparatedByString:@"\n"]) {
+                    if ([line rangeOfString:@"\t"].location == NSNotFound) continue;
+                    NSArray *temp = [line componentsSeparatedByString:@"\t"];
+                    if (temp.count == 3 && [[temp objectAtIndex:1] isEqualToString:@"SSDT"])
+                        [ssdt addObject:[SourcePatch create:[temp objectAtIndex:0] withURL:[realURL URLByAppendingPathComponent:temp.lastObject]]];
+                    else
+                        [dsdt addObject:[SourcePatch create:[temp objectAtIndex:0] withURL:[realURL URLByAppendingPathComponent:temp.lastObject]]];
+                }
+                if (dsdt.count + ssdt.count == 0) return;
+                SourceProvider *temp = [SourceProvider create:name withURL:realURL andChildren:@{@"DSDT":[dsdt copy], @"SSDT":[ssdt copy]}];
+                [archive setObject:temp forKey:url];
+                muteWithNotice(self, providers, [providers addObject:temp])
+            }, _queue);
+        }
         else if (![oldNames containsObject:[provider objectForKey:@"name"]]) {
             muteWithNotice(self, providers, [providers addObject:[archive objectForKey:[provider objectForKey:@"url"]]])
         }
@@ -78,31 +126,6 @@ static SourceList *sharedList;
         if (![newNames containsObject:provider.name]) {
             muteWithNotice(self, providers, [providers removeObject:provider])
         }
-}
--(void)fetchProvider:(NSString *)name withURL:(NSString *)url{
-    if (!name || ![name isKindOfClass:[NSString class]] || !url || ![url isKindOfClass:[NSString class]]) return;
-    NSURL *realURL = [NSURL URLWithString:url];
-    AsynchFetch([realURL URLByAppendingPathComponent:@".maciasl"], @selector(buildProvider:), self, @{@"name":name, @"url":url, @"realURL":realURL});
-}
--(void)buildProvider:(NSDictionary *)dict{
-    NSString *list = [dict objectForKey:@"response"];
-    NSString *name = [[dict objectForKey:@"hold"] objectForKey:@"name"];
-    NSString *url = [[dict objectForKey:@"hold"] objectForKey:@"url"];
-    NSURL *realURL = [[dict objectForKey:@"hold"] objectForKey:@"realURL"];
-    NSMutableArray *dsdt = [NSMutableArray array];
-    NSMutableArray *ssdt = [NSMutableArray array];
-    for(NSString *line in [list componentsSeparatedByString:@"\n"]) {
-        if ([line rangeOfString:@"\t"].location == NSNotFound) continue;
-        NSArray *temp = [line componentsSeparatedByString:@"\t"];
-        if (temp.count == 3 && [[temp objectAtIndex:1] isEqualToString:@"SSDT"])
-            [ssdt addObject:[SourcePatch create:[temp objectAtIndex:0] withURL:[realURL URLByAppendingPathComponent:temp.lastObject]]];
-        else
-            [dsdt addObject:[SourcePatch create:[temp objectAtIndex:0] withURL:[realURL URLByAppendingPathComponent:temp.lastObject]]];
-    }
-    if (dsdt.count + ssdt.count == 0) return;
-    SourceProvider *temp = [SourceProvider create:name withURL:realURL andChildren:@{@"DSDT":[dsdt copy], @"SSDT":[ssdt copy]}];
-    [archive setObject:temp forKey:url];
-    muteWithNotice(self, providers, [providers addObject:temp])
 }
 @end
 
