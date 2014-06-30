@@ -47,11 +47,12 @@ static void PatchMatic(NSString* strInputFile, NSString* strPatchesFile, NSStrin
         NSPrintF(@"%s: unable to open patches file '%@'\n", name, strPatchesFile);
         return;
     }
-    PatchFile* patches = [PatchFile create:strPatches];
-    patches.text = [NSMutableString stringWithString:strInput];
-    [patches apply];
-    NSPrintF(@"patch complete: %d patches, %ld changes, %d rejects\n", (unsigned)patches.patches.count, patches.preview.count-patches.rejects, (unsigned)patches.rejects);
-    if (![patches.text writeToFile:strOutputFile atomically:NO encoding:NSASCIIStringEncoding error:&err]) {
+    PatchFile* patches = [[PatchFile alloc] initWithPatch:strPatches];
+    NSMutableString* text = [NSMutableString stringWithString:strInput];
+    [patches patchText:text apply:true];
+    PatchFileStats* stats = [patches patchStats];
+    NSPrintF(@"patch complete: %d patches, %d changes, %d rejects\n", stats.patches, stats.changes, stats.rejects);
+    if (![text writeToFile:strOutputFile atomically:NO encoding:NSASCIIStringEncoding error:&err]) {
         NSPrintF(@"%s: unable to write output file '%@'\n", name, strOutputFile);
         return;
     }

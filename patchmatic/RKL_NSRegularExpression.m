@@ -151,7 +151,7 @@ static RKLRegexOptions ConvertOptions(RKL_NSRegularExpressionOptions options) {
         else if ([templ characterAtIndex:i] == '$' && i+1 < length) {
             // characters following $ are decimal index into result (captures)
             NSUInteger begin = i++;
-            char digit;
+            unichar digit;
             // a $ followed by non-digit is just a $
             if (!((digit = [templ characterAtIndex:i]) >= '0' && digit < '9'))
                 continue;

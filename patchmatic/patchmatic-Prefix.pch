@@ -47,3 +47,14 @@ NS_INLINE NSUInteger CountCharInStr(NSString *string, unichar c) {
             count++;
     return count;
 }
+
+#undef MIN
+#define MIN(a,b) (((a)<(b))?(a):(b))
+#undef MAX
+#define MAX(a,b) (((a)>(b))?(a):(b))
+
+#undef assignWithNotice
+#define assignWithNotice(x,y,z) { }
+
+#undef NS_ENUM
+#define NS_ENUM(_type, _name) enum _name : _type _name; enum _name : _type
