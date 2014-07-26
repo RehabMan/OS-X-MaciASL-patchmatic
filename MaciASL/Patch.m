@@ -14,6 +14,7 @@
 #import "Document.h"
 #endif
 #import "Navigator.h"
+#import "Navigator_Scopes.h"
 
 #if PATCHMATIC
 @implementation PatchFileStats
