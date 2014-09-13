@@ -58,18 +58,48 @@ static void PatchMatic(NSString* strInputFile, NSString* strPatchesFile, NSStrin
     NSPrintF(@"patched result written to '%@'\n", strOutputFile);
 }
 
+void ExtractTables()
+{
+    io_service_t expert;
+    if ((expert = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("AppleACPIPlatformExpert")))) {
+        NSDictionary* tableset = (__bridge NSDictionary *)IORegistryEntryCreateCFProperty(expert, CFSTR("ACPI Tables"), kCFAllocatorDefault, 0);
+        for (NSString* table in tableset.allKeys) {
+            NSPrintF(@"%@\n", table);
+            NSData* aml = [tableset objectForKey:table];
+            if (aml) {
+                NSMutableString* name = [NSMutableString stringWithString:table];
+                [name appendString:@".aml"];
+                [aml writeToFile:name atomically:false];
+            }
+        }
+        IOObjectRelease(expert);
+    }
+}
+
 #ifndef REGEXTEST
 int main(int argc, const char* argv[]) {
     @autoreleasepool {
+        if (2 == argc && 0 == strcmp(argv[1], "-extract"))
+        {
+            ExtractTables();
+            return 0;
+        }
         if (argc < 4)
         {
             NSString* usage =
-               @"Usage: %s <dsl-input> <patches-file> <dsl-output>\n"
+               @"Usage: patchmatic <dsl-input> <patches-file> <dsl-output>\n"
                 " where:\n"
                 "   <dsl-input>     name of ASCII DSL input file (output from iasl -d)\n"
                 "   <patches-file>  name of file containing patches to apply to <dsl-input>\n"
-                "   <dsl-output>    name of patched output file (to be compiled with iasl)\n";
-            NSPrintF(usage, name);
+                "   <dsl-output>    name of patched output file (to be compiled with iasl)\n"
+                ">> Patches <dsl-input> with <patches-file> and produces patched <dsl-output>\n"
+                "\n"
+                "-OR-\n"
+                "\n"
+                "Usage: patchmatic -extract\n"
+                ">> Extracts loaded ACPI binaries from ioreg\n"
+                "\n";
+            NSPrintF(@"%@", usage);
             return 1;
         }
         NSString* strInputFile = [NSString stringWithCString:argv[1] encoding:NSASCIIStringEncoding];

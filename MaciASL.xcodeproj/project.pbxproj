@@ -9,10 +9,11 @@
 /* Begin PBXBuildFile section */
 		847ECD8F170CE45800FA8774 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 8452CFAE170B6DB70007B3F4 /* RegexKitLite.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		847ECD90170CE45C00FA8774 /* RKL_NSRegularExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 8405F157170B763A0084D4BE /* RKL_NSRegularExpression.m */; };
-		84A4CE6A1704DA820067B745 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84A4CE691704DA820067B745 /* Foundation.framework */; };
+		8483B01D19C49FFD00253A20 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8483B01C19C49FFD00253A20 /* IOKit.framework */; };
 		84A4CE6D1704DA820067B745 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A4CE6C1704DA820067B745 /* main.m */; };
 		84A4CE771704E3BD0067B745 /* Patch.m in Sources */ = {isa = PBXBuildFile; fileRef = B0A6BF8D161A827700DDE1EF /* Patch.m */; };
 		84A4CE781704EC5D0067B745 /* Navigator.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E0186316157084008CAC9B /* Navigator.m */; };
+		84EE674319C4A86D006A80B0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EE674219C4A86D006A80B0 /* Foundation.framework */; };
 		B01056A2161CE6CB006A21AC /* MaciASL.icns in Resources */ = {isa = PBXBuildFile; fileRef = B01056A1161CE6CB006A21AC /* MaciASL.icns */; };
 		B013B827160C529600F6A7F2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B013B826160C529600F6A7F2 /* Cocoa.framework */; };
 		B013B833160C529600F6A7F2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B013B832160C529600F6A7F2 /* main.m */; };
@@ -85,11 +86,12 @@
 		8405F157170B763A0084D4BE /* RKL_NSRegularExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKL_NSRegularExpression.m; sourceTree = "<group>"; };
 		8452CFAD170B6DA80007B3F4 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RegexKitLite.h; path = "RegexKitLite-4.0/RegexKitLite.h"; sourceTree = SOURCE_ROOT; };
 		8452CFAE170B6DB70007B3F4 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RegexKitLite.m; path = "RegexKitLite-4.0/RegexKitLite.m"; sourceTree = SOURCE_ROOT; };
+		8483B01C19C49FFD00253A20 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/IOKit.framework; sourceTree = DEVELOPER_DIR; };
 		84A4CE681704DA820067B745 /* patchmatic */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = patchmatic; sourceTree = BUILT_PRODUCTS_DIR; };
-		84A4CE691704DA820067B745 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		84A4CE6C1704DA820067B745 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		84A4CE6F1704DA820067B745 /* patchmatic-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "patchmatic-Prefix.pch"; sourceTree = "<group>"; };
 		84D5FA18170FBC0C00287AC3 /* makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = makefile; sourceTree = "<group>"; usesTabs = 1; };
+		84EE674219C4A86D006A80B0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		B01056A1161CE6CB006A21AC /* MaciASL.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = MaciASL.icns; sourceTree = SOURCE_ROOT; };
 		B013B822160C529600F6A7F2 /* MaciASL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MaciASL.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B013B826160C529600F6A7F2 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -145,7 +147,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84A4CE6A1704DA820067B745 /* Foundation.framework in Frameworks */,
+				84EE674319C4A86D006A80B0 /* Foundation.framework in Frameworks */,
+				8483B01D19C49FFD00253A20 /* IOKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,6 +228,8 @@
 		B013B825160C529600F6A7F2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				84EE674219C4A86D006A80B0 /* Foundation.framework */,
+				8483B01C19C49FFD00253A20 /* IOKit.framework */,
 				B017FB2A1861532200DA033A /* SystemConfiguration.framework */,
 				B013B826160C529600F6A7F2 /* Cocoa.framework */,
 				B0663F3517E815EB008D6686 /* CoreServices.framework */,
@@ -322,7 +327,6 @@
 			buildPhases = (
 				84A4CE641704DA820067B745 /* Sources */,
 				84A4CE651704DA820067B745 /* Frameworks */,
-				84A4CE661704DA820067B745 /* CopyFiles */,
 			);
 			buildRules = (
 			);
