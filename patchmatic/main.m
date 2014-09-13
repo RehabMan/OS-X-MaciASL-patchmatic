@@ -64,7 +64,7 @@ void ExtractTables()
     if ((expert = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("AppleACPIPlatformExpert")))) {
         NSDictionary* tableset = (__bridge NSDictionary *)IORegistryEntryCreateCFProperty(expert, CFSTR("ACPI Tables"), kCFAllocatorDefault, 0);
         for (NSString* table in tableset.allKeys) {
-            NSPrintF(@"%@\n", table);
+            ////NSPrintF(@"%@\n", table);
             NSData* aml = [tableset objectForKey:table];
             if (aml) {
                 NSMutableString* name = [NSMutableString stringWithString:table];
