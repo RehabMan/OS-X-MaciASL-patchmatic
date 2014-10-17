@@ -16,7 +16,10 @@ static NSCharacterSet *unset;
 
 +(void)initialize{
     containers = @[/*@"Alias", @"Buffer",*/ @"Device", @"DefinitionBlock", /*@"Function",*/ @"Method", /*@"Name", @"Package", @"PowerResource",*/ @"Processor", /*@"RawDataBuffer",*/ @"Scope", @"ThermalZone"];
-    conts = [NSRegularExpression regularExpressionWithPattern:[NSString stringWithFormat:@"(%@)\\s*\\(\\s*([\\^\\\\]*[A-Z0-9_.]+)\\s*[),]", [containers componentsJoinedByString:@"|"]] options:0 error:nil];
+    //from development branch
+    //conts = [NSRegularExpression regularExpressionWithPattern:[NSString stringWithFormat:@"(%@)\\s*\\(\\s*([\\^\\\\]*[A-Z0-9_.]+)\\s*[),]", [containers componentsJoinedByString:@"|"]] options:0 error:nil];
+    //original
+    conts = [NSRegularExpression regularExpressionWithPattern:[NSString stringWithFormat:@"(%@)\\s*\\(\\s*([^),]+)", [containers componentsJoinedByString:@"|"]] options:0 error:nil];
     braces = [NSCharacterSet characterSetWithCharactersInString:@"{}"];
     unset = [[NSCharacterSet characterSetWithCharactersInString:@" \n"] invertedSet];
 }
