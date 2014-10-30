@@ -58,18 +58,20 @@ static void PatchMatic(NSString* strInputFile, NSString* strPatchesFile, NSStrin
     NSPrintF(@"patched result written to '%@'\n", strOutputFile);
 }
 
-void ExtractTables()
+void ExtractTables(bool all)
 {
     io_service_t expert;
     if ((expert = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("AppleACPIPlatformExpert")))) {
         NSDictionary* tableset = (__bridge NSDictionary *)IORegistryEntryCreateCFProperty(expert, CFSTR("ACPI Tables"), kCFAllocatorDefault, 0);
         for (NSString* table in tableset.allKeys) {
-            ////NSPrintF(@"%@\n", table);
-            NSData* aml = [tableset objectForKey:table];
-            if (aml) {
-                NSMutableString* name = [NSMutableString stringWithString:table];
-                [name appendString:@".aml"];
-                [aml writeToFile:name atomically:false];
+            if (all || [table hasPrefix:@"DSDT"] || [table hasPrefix:@"SSDT"]) {
+                ////NSPrintF(@"%@\n", table);
+                NSData* aml = [tableset objectForKey:table];
+                if (aml) {
+                    NSMutableString* name = [NSMutableString stringWithString:table];
+                    [name appendString:@".aml"];
+                    [aml writeToFile:name atomically:false];
+                }
             }
         }
         IOObjectRelease(expert);
@@ -81,7 +83,12 @@ int main(int argc, const char* argv[]) {
     @autoreleasepool {
         if (2 == argc && 0 == strcmp(argv[1], "-extract"))
         {
-            ExtractTables();
+            ExtractTables(false);
+            return 0;
+        }
+        if (2 == argc && 0 == strcmp(argv[1], "-extractall"))
+        {
+            ExtractTables(true);
             return 0;
         }
         if (argc < 4)
@@ -97,7 +104,10 @@ int main(int argc, const char* argv[]) {
                 "-OR-\n"
                 "\n"
                 "Usage: patchmatic -extract\n"
+                "Usage: patchmatic -extractall\n"
                 ">> Extracts loaded ACPI binaries from ioreg\n"
+                "  -extract will extract just DSDT/SSDTs\n"
+                "  -extractall will extract all ACPI tables\n"
                 "\n";
             NSPrintF(@"%@", usage);
             return 1;
