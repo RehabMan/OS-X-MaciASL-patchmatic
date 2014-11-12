@@ -27,6 +27,9 @@ int main(int argc, char *argv[])
 {
     NSSetUncaughtExceptionHandler(&handle_exception);
     NSImage *temp = [[NSImage alloc] initByReferencingFile:@"/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/ToolbarUtilitiesFolderIcon.icns"];
+    if (![temp isValid]) {
+        temp = [[NSImage alloc] initByReferencingFile:@"/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/ToolbarCustomizeIcon.icns"];
+    }
     temp.name = @"ToolbarUtilitiesFolderIcon";
     return NSApplicationMain(argc, (const char **)argv);
 }
