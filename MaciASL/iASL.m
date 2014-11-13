@@ -154,7 +154,7 @@ static NSString *bootlog;
     return nil;
 }
 +(NSDictionary *)decompile:(NSData *)aml withResolution:(NSString *)tableset {
-    NSArray *args = @[];
+    NSMutableArray *args = [NSMutableArray array];
     NSMutableArray *amls;
     NSDictionary *tabs;
     if (tableset && (tabs = [tableset isEqualToString:kSystemTableset]?self.tableset:[[NSDictionary dictionaryWithContentsOfFile:tableset] objectForKey:@"Tables"]) && [[tabs allKeysForObject:aml] containsObject:@"DSDT"]) {
@@ -164,8 +164,11 @@ static NSString *bootlog;
             [amls addObject:[iASL tempFile:@"iASLXXXXXX.aml"]];
             [NSFileManager.defaultManager createFileAtPath:amls.lastObject contents:[tabs objectForKey:table] attributes:nil];
         }
-        args = @[@"-e",[[amls valueForKey:@"lastPathComponent"] componentsJoinedByString:@","]];
+        [args addObjectsFromArray:@[@"-e",[[amls valueForKey:@"lastPathComponent"] componentsJoinedByString:@","]]];
+        ////args = @[@"-e",[[amls valueForKey:@"lastPathComponent"] componentsJoinedByString:@","]];
     }
+    if ([NSUserDefaults.standardUserDefaults integerForKey:@"acpi"] == 5)
+        [args insertObject:@"-dl" atIndex:0];
     NSString *path = [iASL tempFile:@"iASLXXXXXX.aml"];
     [NSFileManager.defaultManager createFileAtPath:path contents:aml attributes:nil];
     iASL *decompile = [iASL create:[args arrayByAddingObjectsFromArray:@[@"-d",path.lastPathComponent]] withFile:path];
