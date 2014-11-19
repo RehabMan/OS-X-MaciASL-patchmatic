@@ -91,10 +91,10 @@ int main(int argc, const char* argv[]) {
             ExtractTables(true);
             return 0;
         }
-        if (argc < 4)
+        if (argc < 3)
         {
             NSString* usage =
-               @"Usage: patchmatic <dsl-input> <patches-file> <dsl-output>\n"
+               @"Usage: patchmatic <dsl-input> <patches-file> [<dsl-output>]\n"
                 " where:\n"
                 "   <dsl-input>     name of ASCII DSL input file (output from iasl -d)\n"
                 "   <patches-file>  name of file containing patches to apply to <dsl-input>\n"
@@ -114,7 +114,7 @@ int main(int argc, const char* argv[]) {
         }
         NSString* strInputFile = [NSString stringWithCString:argv[1] encoding:NSASCIIStringEncoding];
         NSString* strPatchesFile = [NSString stringWithCString:argv[2] encoding:NSASCIIStringEncoding];
-        NSString* strOutputFile = [NSString stringWithCString:argv[3] encoding:NSASCIIStringEncoding];
+        NSString* strOutputFile = argc > 3 ? [NSString stringWithCString:argv[3] encoding:NSASCIIStringEncoding] : strInputFile;
         PatchMatic(strInputFile, strPatchesFile, strOutputFile);
     }
     return 0;
