@@ -18,7 +18,7 @@ clean:
 .PHONY: install
 install:
 	cp -R Build/Products/Release/MaciASL.app /Applications
-	cp Build/Products/Release/patchmatic /usr/local/bin
+	cp Build/Products/Release/patchmatic /usr/bin
 
 .PHONY: distribute
 distribute:
