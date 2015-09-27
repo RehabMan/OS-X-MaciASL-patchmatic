@@ -136,7 +136,7 @@ void ReachabilityDidChange(SCNetworkReachabilityRef target, SCNetworkReachabilit
                 for(NSString *line in [response componentsSeparatedByString:@"\n"]) {
                     if ([line rangeOfString:@"\t"].location == NSNotFound) continue;
                     NSArray *temp = [line componentsSeparatedByString:@"\t"];
-                    SourcePatch *p = [[SourcePatch alloc] initWithName:[temp objectAtIndex:0] URL:[realURL URLByAppendingPathComponent:temp.lastObject]];
+                    SourcePatch *p = [[SourcePatch alloc] initWithName:temp.firstObject URL:[realURL URLByAppendingPathComponent:temp.lastObject]];
                     if (temp.count == 3 && [[temp objectAtIndex:1] isEqualToString:@"SSDT"])
                         [ssdt addObject:p];
                     else
@@ -167,7 +167,15 @@ void ReachabilityDidChange(SCNetworkReachabilityRef target, SCNetworkReachabilit
 @end
 
 @implementation SrcClassTransformer
-static NSString *prefix = @"/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/Sidebar";
+
+static NSImage *patch, *provider;
+
++(void)load {
+    NSBundle *ct = [NSBundle bundleWithPath:@"/System/Library/CoreServices/CoreTypes.bundle"];
+    patch = [ct imageForResource:@"SidebarGenericFile"];
+    provider = [ct imageForResource:@"SidebarGenericFolder"];
+    patch.template = provider.template = true;
+}
 
 +(Class)transformedValueClass {
     return [NSImage class];
@@ -178,13 +186,11 @@ static NSString *prefix = @"/System/Library/CoreServices/CoreTypes.bundle/Conten
 }
 
 -(id)transformedValue:(id)value {
-    NSImage *image = [NSImage alloc];
-    image.template = true;
     if ([value class] == [SourcePatch class])
-        return [image initByReferencingFile:[prefix stringByAppendingString:@"GenericFile.icns"]];
+        return patch;
     else if ([value class] == [SourceProvider class])
-        return [image initByReferencingFile:[prefix stringByAppendingString:@"GenericFolder.icns"]];
-    return image;
+        return provider;
+    return nil;
 }
 
 @end

@@ -24,7 +24,7 @@ static NSCharacterSet *unset;
     for (NSString *cls in containers)
         [classes addObject:NSClassFromString(cls)];
     containerClasses = [classes copy];
-    conts = [NSRegularExpression regularExpressionWithPattern:[NSString stringWithFormat:@"(%@)\\s*\\(\\s*([\\^\\\\]*[A-Z0-9_.]+)\\s*[),]", [containers componentsJoinedByString:@"|"]] options:0 error:nil];
+    conts = [NSRegularExpression regularExpressionWithPattern:[NSString stringWithFormat:@"(%@)\\s*\\(\\s*([\\^\\\\]*[A-Z0-9_.]*)\\s*[),]", [containers componentsJoinedByString:@"|"]] options:0 error:nil];
     braces = [NSCharacterSet characterSetWithCharactersInString:@"{}"];
     unset = [[NSCharacterSet characterSetWithCharactersInString:@" \n"] invertedSet];
 }
@@ -126,7 +126,7 @@ static NSCharacterSet *unset;
 }
 
 +(DefinitionBlock *)build:(NSString *)dsl{
-    NSString *test;
+    NSString *prefix, *test;
     NSScanner *scan = [NSScanner scannerWithString:dsl];
     [scan scanUpToString:@"DefinitionBlock" intoString:NULL];
     if ([scan isAtEnd]) return nil;
@@ -137,19 +137,24 @@ static NSCharacterSet *unset;
     DefinitionBlock *root = [[DefinitionBlock alloc] initWithName:test range:NSMakeRange(0, dsl.length)];
     NSMutableArray *path = [NSMutableArray arrayWithObject:root];
     Scope *container = (Scope *)path.lastObject;
-    NSUInteger depth = 1;
+    NSUInteger depth = 1, open, close;
     [scan scanUpToCharactersFromSet:braces intoString:&test];
     [scan scanCharactersFromSet:braces intoString:NULL];
     while (![scan isAtEnd]) {
         __block bool found = false;
-        [scan scanUpToCharactersFromSet:braces intoString:&test];
-        [conts enumerateMatchesInString:test options:0 range:NSMakeRange(0, test.length) usingBlock:^void(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop){
-            found = true;
-            [container addChildrenObject:[[NSClassFromString([test substringWithRange:[result rangeAtIndex:1]]) alloc] initWithName:[test substringWithRange:[result rangeAtIndex:2]] range:NSMakeRange(result.range.location+(scan.scanLocation-test.length),result.range.length)]];
-        }];
+        if ([scan scanUpToCharactersFromSet:braces intoString:&prefix])
+            [conts enumerateMatchesInString:prefix options:0 range:NSMakeRange(0, prefix.length) usingBlock:^void(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop){
+                found = true;
+                [container addChildrenObject:[[NSClassFromString([prefix substringWithRange:[result rangeAtIndex:1]]) alloc] initWithName:[prefix substringWithRange:[result rangeAtIndex:2]] range:NSMakeRange(result.range.location+(scan.scanLocation-prefix.length),result.range.length)]];
+            }];
         [scan scanCharactersFromSet:braces intoString:&test];
         Scope *child = container.children.lastObject;
-        if ([test isEqualToString:@"{}"]) {
+        if ((open = [prefix rangeOfString:@"/*" options:NSBackwardsSearch].location) != NSNotFound
+            && ((close = [prefix rangeOfString:@"*/" options:NSBackwardsSearch].location) == NSNotFound || open > close)) {
+            [scan scanUpToString:@"*/" intoString:NULL];
+            [scan scanString:@"*/" intoString:NULL];
+        }
+        else if ([test isEqualToString:@"{}"]) {
             if (found && [containerClasses containsObject:child.class])
                 child.range = NSMakeRange(child.range.location, scan.scanLocation - child.range.location);
         }
@@ -184,15 +189,17 @@ static NSCharacterSet *unset;
     return root;
 }
 
+#if !PATCHMATIC
 -(DefinitionBlock *)filteredWithString:(NSString *)filter {
     NSMutableArray *temp = [self.flat mutableCopy];
     [temp filterUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings){
         return [[evaluatedObject name] rangeOfString:filter options:NSCaseInsensitiveSearch].location != NSNotFound;
     }]];
-    if (temp.count && [temp objectAtIndex:0] == self)
+    if (temp.firstObject == self)
         [temp removeObjectAtIndex:0];
     return [[DefinitionBlock alloc] initWithName:self.name range:self.range flatChildren:temp];
 }
+#endif
 
 -(instancetype)initWithName:(NSString *)name range:(NSRange)range flatChildren:(NSArray *)children {
     self = [super initWithName:name range:range];
@@ -230,7 +237,7 @@ static NSDictionary *attr;
 
 -(id)transformedValue:(id)value{
     if (![value count]) return nil;
-    value = [value objectAtIndex:0];
+    value = [value firstObject];
     NSMutableAttributedString *names = [[NSMutableAttributedString alloc] initWithString:[[(NSTreeNode *)value representedObject] name] attributes:attr];
     while ((value = [value parentNode]) && [[(NSTreeNode *)value representedObject] isKindOfClass:[NavObject class]]) {
         [names insertAttributedString:separator atIndex:0];
@@ -247,7 +254,18 @@ static NSDictionary *attr;
 
 @implementation NavClassTransformer
 
-static NSString *prefix = @"/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/Sidebar";
+static NSImage *db, *sc, *mt, *dv, *pr, *tz;
+
++(void)load {
+    NSBundle *ct = [NSBundle bundleWithPath:@"/System/Library/CoreServices/CoreTypes.bundle"];
+    db = [ct imageForResource:@"SidebarHomeFolder"];
+    sc = [ct imageForResource:@"SidebarGenericFolder"];
+    mt = [ct imageForResource:@"SidebarApplicationsFolder"];
+    dv = [ct imageForResource:@"SidebarExternalDisk"];
+    pr = [ct imageForResource:@"SidebarMacPro"];
+    tz = [ct imageForResource:@"SidebarBurnFolder"];
+    db.template = sc.template = mt.template = dv.template = pr.template = tz.template = true;
+}
 
 +(Class)transformedValueClass {
     return [NSImage class];
@@ -258,21 +276,19 @@ static NSString *prefix = @"/System/Library/CoreServices/CoreTypes.bundle/Conten
 }
 
 -(id)transformedValue:(id)value {
-    NSImage *image = [NSImage alloc];
-    image.template = true;
     if ([value  class] == [DefinitionBlock class])
-        return [image initByReferencingFile:[prefix stringByAppendingString:@"HomeFolder.icns"]];
+        return db;
     else if ([value  class] == [Scope class])
-        return [image initByReferencingFile:[prefix stringByAppendingString:@"GenericFolder.icns"]];
+        return sc;
     else if ([value  class] == [Method class])
-        return [image initByReferencingFile:[prefix stringByAppendingString:@"ApplicationsFolder.icns"]];
+        return mt;
     else if ([value  class] == [Device class])
-        return [image initByReferencingFile:[prefix stringByAppendingString:@"ExternalDisk.icns"]];
+        return dv;
     else if ([value  class] == [Processor class])
-        return [image initByReferencingFile:[prefix stringByAppendingString:@"MacPro.icns"]];
+        return pr;
     else if ([value  class] == [ThermalZone class])
-        return [image initByReferencingFile:[prefix stringByAppendingString:@"BurnFolder.icns"]];
-    return image;
+        return tz;
+    return nil;
 }
 
 @end

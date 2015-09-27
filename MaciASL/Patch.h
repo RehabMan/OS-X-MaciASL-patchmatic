@@ -111,6 +111,7 @@ typedef NS_ENUM(NSUInteger, PatchAction) {
 @property (readonly) NSArray *preview;
 @property (readonly) NSDictionary *results;
 
++(NSDictionary *)fieldsForPatch:(NSString *)patch;
 -(instancetype)initWithPatch:(NSString *)patch;
 #if !PATCHMATIC
 -(void)patchTextView:(NSTextView *)view apply:(bool)apply;

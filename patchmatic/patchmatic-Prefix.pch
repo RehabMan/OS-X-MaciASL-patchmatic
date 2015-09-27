@@ -28,6 +28,9 @@
 #define kNSComparisonPredicateError 10
 #define kLockError 11
 #define kStoreError 12
+#define kTablesetError 13
+#define kiASLBuildError 14
+#define kiASLCheckError 15
 
 #define lineForRange(x,y) [x substringWithRange:[x lineRangeForRange:y]]
 

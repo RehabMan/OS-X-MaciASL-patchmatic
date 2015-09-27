@@ -107,32 +107,16 @@ static NSArray *typeIndex;
 NSURL *const kSystemTableset = (NSURL *)@"//System";
 static NSDictionary *tableset, *stdTables;
 static NSArray *deviceProperties;
-static NSMenu *menu;
-static NSString *bootlog;
+static NSRegularExpression *signon;
+static NSString *bootlog, *_compiler;
+static NSUInteger _build;
 
-+(void)initialize {
-    stdTables = @{@"APIC":@"Advanced Programmable Interrupt Controller", @"ASF!":@"Alert Standard Format", @"BERT":@"Boot Error Record", @"BGRT":@"Boot Graphics Resource", @"BOOT":@"Simple Boot Flag", @"CPEP":@"Corrected Platform Error Polling", @"CSRT":@"Core System Resource", @"DBG2":@"Debug Port Type 2", @"DBGP":@"Debug Port", @"DMAR":@"DMA Remapping", @"DRTM":@"Dynamic Root of Trust for Measurement", @"DSDT":@"Differentiated System Description", @"ECDT":@"Embedded Controller Boot Resources", @"EINJ":@"Error Injection", @"ERST":@"Error Record Serialization", @"FACP":@"Fixed ACPI Control Pointer", @"FACS":@"Firmware ACPI Control Structure", @"FADT":@"Fixed ACPI Description", @"FPDT":@"Firmware Performance Data", @"GTDT":@"Generic Timer Description", @"HEST":@"Hardware Error Source", @"HPET":@"High Precision Event Timer", @"IVRS":@"I/O Virtualization Reporting Structure", @"MADT":@"Multiple APIC Description", @"MCFG":@"PCI Memory Mapped Configuration", @"MCHI":@"Management Controller Host Interface", @"MPST":@"Memory Power State", @"MSCT":@"Maximum System Characteristics", @"MTMR":@"MID Timer", @"PCCT":@"Platform Communications Channel", @"PMTT":@"Platform Memory Topology", @"RASF":@"RAS Feature", @"RSDP":@"Root System Description Pointer", @"RSDT":@"Root System Description", @"S3PT":@"S3 Performance", @"SBST":@"Smart Battery Specification", @"SLIC":@"Software Licensing Description", @"SLIT":@"System Locality Distance Information", @"SPCR":@"Serial Port Console Redirection", @"SPMI":@"Server Platform Management Interface", @"SRAT":@"System Resource Affinity", @"SSDT":@"Secondary System Description", @"TCPA":@"Trusted Computing Platform Alliance", @"TPM2":@"Trusted Platform Module", @"UEFI":@"Uefi Boot Optimization", @"VRTC":@"Virtual Real-Time Clock", @"WAET":@"Windows ACPI Emulated devices", @"WDAT":@"Watchdog Action", @"WDDT":@"Watchdog Timer Description", @"WDRT":@"Watchdog Resource", @"XSDT":@"Extended System Description"};
++(void)load {
+    stdTables = @{@"APIC":@"Advanced Programmable Interrupt Controller", @"ASF!":@"Alert Standard Format", @"BERT":@"Boot Error Record", @"BGRT":@"Boot Graphics Resource", @"BOOT":@"Simple Boot Flag", @"CPEP":@"Corrected Platform Error Polling", @"CSRT":@"Core System Resource", @"DBG2":@"Debug Port Type 2", @"DBGP":@"Debug Port", @"DMAR":@"DMA Remapping", @"DRTM":@"Dynamic Root of Trust for Measurement", @"DSDT":@"Differentiated System Description", @"ECDT":@"Embedded Controller Boot Resources", @"EINJ":@"Error Injection", @"ERST":@"Error Record Serialization", @"FACP":@"Fixed ACPI Control Pointer", @"FACS":@"Firmware ACPI Control Structure", @"FADT":@"Fixed ACPI Description", @"FPDT":@"Firmware Performance Data", @"GTDT":@"Generic Timer Description", @"HEST":@"Hardware Error Source", @"HPET":@"High Precision Event Timer", @"IVRS":@"I/O Virtualization Reporting Structure", @"MADT":@"Multiple APIC Description", @"MCFG":@"PCI Memory Mapped Configuration", @"MCHI":@"Management Controller Host Interface", @"MPST":@"Memory Power State", @"MSCT":@"Maximum System Characteristics", @"MTMR":@"MID Timer", @"PCCT":@"Platform Communications Channel", @"PMTT":@"Platform Memory Topology", @"RASF":@"RAS Feature", @"RSDP":@"Root System Description Pointer", @"RSDT":@"Root System Description", @"S3PT":@"S3 Performance", @"SBST":@"Smart Battery Specification", @"SLIC":@"Software Licensing Description", @"SLIT":@"System Locality Distance Information", @"SPCR":@"Serial Port Console Redirection", @"SPMI":@"Server Platform Management Interface", @"SRAT":@"System Resource Affinity", @"SSDT":@"Secondary System Description", @"TCPA":@"Trusted Computing Platform Alliance", @"TPM2":@"Trusted Platform Module", @"UEFI":@"Uefi Boot Optimization", @"VRTC":@"Virtual Real-Time Clock", @"WAET":@"Windows ACPI Emulated devices", @"WPBT":@"Windows Platform Binary", @"WDAT":@"Watchdog Action", @"WDDT":@"Watchdog Timer Description", @"WDRT":@"Watchdog Resource", @"XSDT":@"Extended System Description"};
+    signon = [NSRegularExpression regularExpressionWithPattern:@"Compiler version (\\d+)" options:0 error:NULL];
     io_service_t expert;
     if ((expert = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("AppleACPIPlatformExpert")))) {
         tableset = (__bridge NSDictionary *)IORegistryEntryCreateCFProperty(expert, CFSTR("ACPI Tables"), kCFAllocatorDefault, 0);
-        NSString *prefix = @"Presave ";
-        menu = [NSMenu new];
-        for (NSString *table in [tableset.allKeys sortedArrayUsingSelector:@selector(localizedStandardCompare:)]) {
-            NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:table action:@selector(documentFromACPI:) keyEquivalent:@""], *alternate = [item copy];
-            alternate.keyEquivalentModifierMask = NSAlternateKeyMask;
-            alternate.alternate = true;
-            if (table.length >= 4 && [stdTables objectForKey:[table substringToIndex:4]]) {
-                NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithRTF:[[NSString stringWithFormat:@"{\\rtf1\\ansi {\\fonttbl\\f0 LucidaGrande;}\\f0\\fs28 %@%@\\line\\fs20 %@}", table, [table hasPrefix:@"SSDT"] ? [NSString stringWithFormat:@" (%@)", [[NSString alloc] initWithData:[[tableset objectForKey:table] subdataWithRange:NSMakeRange(16, 8)] encoding:NSASCIIStringEncoding]] : @"", [stdTables objectForKey:[table substringToIndex:4]]] dataUsingEncoding:NSUTF8StringEncoding] documentAttributes:NULL];
-                item.attributedTitle = title;
-                [title replaceCharactersInRange:NSMakeRange(0, 0) withString:prefix];
-                alternate.attributedTitle = title;
-                item.title = table;
-            }
-            else alternate.attributedTitle = [[NSAttributedString alloc] initWithString:[prefix stringByAppendingString:table] attributes:@{NSFontAttributeName:[NSFont systemFontOfSize:14.0]}];
-            alternate.title = table;
-            [menu addItem:item];
-            [menu addItem:alternate];
-        }
         IOObjectRelease(expert);
     }
     if ((expert = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("IOPlatformExpertDevice")))){
@@ -157,9 +141,58 @@ static NSString *bootlog;
 
 +(void)applicationWillFinishLaunching:(NSNotification *)notification {
     [NSNotificationCenter.defaultCenter removeObserver:self name:NSApplicationWillFinishLaunchingNotification object:nil];
-    NSMenu *acpi = [[[NSApp mainMenu] itemWithTitle:@"File"] submenu];
-    [[acpi insertItemWithTitle:@"New from ACPI" action:NULL keyEquivalent:@"" atIndex:[acpi indexOfItemWithTitle:@"New"] + 1] setSubmenu:menu];
-    menu = nil;
+    io_service_t expert;
+    if ((expert = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("AppleACPIPlatformExpert")))) {
+        NSString *prefix = @"Presave ";
+        NSMenu *menu = [NSMenu new];
+        for (NSString *table in [tableset.allKeys sortedArrayUsingSelector:@selector(localizedStandardCompare:)]) {
+            NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:table action:@selector(documentFromACPI:) keyEquivalent:@""], *alternate = [item copy];
+            alternate.keyEquivalentModifierMask = NSAlternateKeyMask;
+            alternate.alternate = true;
+            if (table.length >= 4 && [stdTables objectForKey:[table substringToIndex:4]]) {
+                NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithRTF:[[NSString stringWithFormat:@"{\\rtf1\\ansi {\\fonttbl\\f0 LucidaGrande;}\\f0\\fs28 %@%@\\line\\fs20 %@}", table, [table hasPrefix:@"SSDT"] ? [NSString stringWithFormat:@" (%@)", [[NSString alloc] initWithData:[[tableset objectForKey:table] subdataWithRange:NSMakeRange(16, 8)] encoding:NSASCIIStringEncoding]] : @"", [stdTables objectForKey:[table substringToIndex:4]]] dataUsingEncoding:NSUTF8StringEncoding] documentAttributes:NULL];
+                item.attributedTitle = title;
+                [title replaceCharactersInRange:NSMakeRange(0, 0) withString:prefix];
+                alternate.attributedTitle = title;
+                item.title = table;
+            }
+            else alternate.attributedTitle = [[NSAttributedString alloc] initWithString:[prefix stringByAppendingString:table] attributes:@{NSFontAttributeName:[NSFont systemFontOfSize:14.0]}];
+            alternate.title = table;
+            [menu addItem:item];
+            [menu addItem:alternate];
+        }
+        IOObjectRelease(expert);
+        NSMenu *acpi = [[[NSApp mainMenu] itemWithTitle:@"File"] submenu];
+        [[acpi insertItemWithTitle:@"New from ACPI" action:NULL keyEquivalent:@"" atIndex:[acpi indexOfItemWithTitle:@"New"] + 1] setSubmenu:menu];
+    }
+    [NSUserDefaults.standardUserDefaults addObserver:(id)self forKeyPath:@"acpi" options:NSKeyValueObservingOptionInitial context:NULL];
+}
+
+
++(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    NSMutableData *d = [NSMutableData data];
+    NSTask *t = [NSTask new];
+    t.launchPath = [NSBundle.mainBundle pathForAuxiliaryExecutable:[NSString stringWithFormat:@"iasl%ld", [NSUserDefaults.standardUserDefaults integerForKey:@"acpi"]]];
+    t.standardOutput = [NSPipe pipe];
+    [[t.standardOutput fileHandleForReading] setReadabilityHandler:^(NSFileHandle *h) { [d appendData:h.availableData]; }];
+    @try { [t launch]; }
+    @catch (NSException *e) { [(AppDelegate *)[(NSApplication *)NSApp delegate] logEntry:[NSString stringWithFormat:@"Could not launch %@", t.launchPath]]; return; }
+    [t waitUntilExit];
+    NSArray *lines = [[[[NSString alloc] initWithData:d encoding:NSUTF8StringEncoding] componentsSeparatedByString:@"\n"] subarrayWithRange:NSMakeRange(0, 3)];
+    for (NSString *line in lines)
+        [(AppDelegate *)[(NSApplication *)NSApp delegate] logEntry:line];
+    NSString *version = lines.lastObject;
+    assignWithNotice(self, compiler, [lines componentsJoinedByString:@"\n"]);
+    NSTextCheckingResult *result = [signon firstMatchInString:version options:0 range:NSMakeRange(0, version.length)];
+    assignWithNotice(self, build, [[version substringWithRange:[result rangeAtIndex:1]] integerValue]);
+}
+
++(NSString *)compiler {
+    return _compiler;
+}
+
++(NSUInteger)build {
+    return _build;
 }
 
 +(NSDictionary *)tableset {
@@ -191,8 +224,7 @@ static NSString *bootlog;
 }
 
 +(NSString *)isInjected:(NSURL *)url {
-    NSArray *matches = [self.tableset allKeysForObject:[NSData dataWithContentsOfURL:url]];
-    return matches.count ? [matches objectAtIndex:0] : nil;
+    return [[self.tableset allKeysForObject:[NSData dataWithContentsOfURL:url]] firstObject];
 }
 
 +(NSURL *)wasInjected:(NSString *)table {
@@ -237,7 +269,7 @@ static NSString *bootlog;
     return nil;
 }
 
-+(int)taskWithURL:(NSURL *)url arguments:(NSArray *)arguments output:(NSArray * __strong *)output error:(NSArray * __strong *)error {
++(NSError *)taskWithURL:(NSURL *)url arguments:(NSArray *)arguments output:(NSArray * __strong *)output error:(NSArray * __strong *)error {
     NSTask *task = [NSTask new];
     NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
     NSMutableArray *args = [NSMutableArray arrayWithObjects:@"-vs", @"-vi", nil];
@@ -254,7 +286,8 @@ static NSString *bootlog;
     task.currentDirectoryPath = url.URLByDeletingLastPathComponent.path;
     task.standardOutput = [NSPipe pipe];
     task.standardError = [NSPipe pipe];
-    [task launch];
+    @try { [task launch]; }
+    @catch (NSException *e) { return [NSError errorWithDomain:kMaciASLDomain code:0 userInfo:@{NSLocalizedRecoverySuggestionErrorKey:@"The compiler could not be found, or is not executable."}]; }
     dispatch_apply(2, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(size_t isOutput) {
         NSFileHandle *h = [isOutput ? task.standardOutput : task.standardError fileHandleForReading];
         NSData *d;
@@ -283,7 +316,8 @@ static NSString *bootlog;
             *error = [lines copy];
     });
     [task waitUntilExit];
-    return task.terminationStatus;
+    NSString *suggestion = task.terminationStatus ? [NSString stringWithFormat:@"iASL returned:\n%@\n%@", [*output componentsJoinedByString:@"\n"], [*error componentsJoinedByString:@"\n"]] : nil, *failure = suggestion && task.terminationReason == NSTaskTerminationReasonUncaughtSignal ? [NSString stringWithFormat:@"The compiler crashed with code %d.", task.terminationStatus] : nil;
+    return suggestion ? [NSError errorWithDomain:kMaciASLDomain code:task.terminationStatus userInfo:failure ? @{NSLocalizedFailureReasonErrorKey:failure, NSLocalizedRecoverySuggestionErrorKey:suggestion} : @{NSLocalizedRecoverySuggestionErrorKey:suggestion}] : nil;
 }
 
 +(iASLDecompilationResult *)decompileAML:(NSData *)aml name:(NSString *)name tableset:(NSURL *)tableset {
@@ -300,7 +334,14 @@ static NSString *bootlog;
     NSURL *url = self.tempAML;
     [aml writeToURL:url atomically:true];
     NSArray *output, *error;
-    int status = [self taskWithURL:url arguments:[externals ? @[@"-e", [[externals valueForKey:@"lastPathComponent"] componentsJoinedByString:@","]] : @[] arrayByAddingObjectsFromArray:@[@"-d", url.lastPathComponent]] output:&output error:&error];
+    NSArray *args;
+    if (externals) {
+        if ([NSUserDefaults.standardUserDefaults integerForKey:@"acpi"] == 4)
+            args = @[@"-e", [[externals valueForKey:@"lastPathComponent"] componentsJoinedByString:@","]];
+        else
+            args = [@[@"-e"] arrayByAddingObjectsFromArray:[externals valueForKey:@"lastPathComponent"]];
+    }
+    NSError *result = [self taskWithURL:url arguments:[args ?: @[] arrayByAddingObjectsFromArray:@[@"-d", url.lastPathComponent]] output:&output error:&error];
     NSError *err;
     NSFileManager *manager = NSFileManager.defaultManager;
     for (NSURL *external in externals)
@@ -308,7 +349,7 @@ static NSString *bootlog;
             ModalError(err);
     if (![manager removeItemAtURL:url error:&err])
         ModalError(err);
-    if (status == EXIT_SUCCESS) {
+    if (!result) {
         url = [url.URLByDeletingPathExtension URLByAppendingPathExtension:@"dsl"];
         NSString *dsl = [NSString stringWithContentsOfURL:url encoding:NSASCIIStringEncoding error:&err];
         ModalError(err);
@@ -325,8 +366,11 @@ static NSString *bootlog;
         [(AppDelegate *)[(NSApplication *)NSApp delegate] logEntry:@"Decompilation with resolution failed, trying without resolution"];
         return [self decompileAML:aml name:name tableset:nil];
     }
-    else
-        return [[iASLDecompilationResult alloc] initWithError:[NSError errorWithDomain:kMaciASLDomain code:kDecompileError userInfo:@{NSLocalizedDescriptionKey:@"Decompilation Error", NSLocalizedRecoverySuggestionErrorKey:[NSString stringWithFormat:@"iASL returned:\n%@\n%@", [output componentsJoinedByString:@"\n"], [error componentsJoinedByString:@"\n"]]}] string:nil];
+    else {
+        NSMutableDictionary *d = [result.userInfo mutableCopy];
+        [d setObject:@"Decompilation Error" forKey:NSLocalizedDescriptionKey];
+        return [[iASLDecompilationResult alloc] initWithError:[NSError errorWithDomain:kMaciASLDomain code:kDecompileError userInfo:[d copy]] string:nil];
+    }
 }
 
 +(iASLCompilationResult *)compileDSL:(NSString *)dsl name:(NSString *)name tableset:(NSURL *)tableset force:(bool)force {
@@ -335,7 +379,7 @@ static NSString *bootlog;
     if (![dsl writeToURL:url atomically:true encoding:NSASCIIStringEncoding error:&err])
         ModalError(err);
     NSArray *output, *error;
-    int status = [self taskWithURL:url arguments:[force ? @[@"-f"] : @[] arrayByAddingObjectsFromArray:@[@"-p", url.lastPathComponent.stringByDeletingPathExtension, url.lastPathComponent]] output:&output error:&error];
+    NSError *result = [self taskWithURL:url arguments:[force ? @[@"-f"] : @[] arrayByAddingObjectsFromArray:@[@"-p", url.lastPathComponent.stringByDeletingPathExtension, url.lastPathComponent]] output:&output error:&error];
     NSFileManager *manager = NSFileManager.defaultManager;
     if (![manager removeItemAtURL:url error:&err])
         ModalError(err);
@@ -346,14 +390,20 @@ static NSString *bootlog;
     for (NSString *line in [NSUserDefaults.standardUserDefaults integerForKey:@"acpi"] == 4 ? output : error)
         if ((notice = [[Notice alloc] initWithLine:line]))
             [notices addObject:notice];
-#endif
+#else
     for (NSString *line in output)
         if ((notice = [[Notice alloc] initWithLine:line]))
             [notices addObject:notice];
     for (NSString *line in error)
         if ((notice = [[Notice alloc] initWithLine:line]))
             [notices addObject:notice];
-    return [[iASLCompilationResult alloc] initWithError:status == EXIT_SUCCESS && [url checkResourceIsReachableAndReturnError:&err] ? nil : [NSError errorWithDomain:kMaciASLDomain code:kCompilerError userInfo:@{NSLocalizedDescriptionKey:@"Compilation Error", NSLocalizedRecoverySuggestionErrorKey:[NSString stringWithFormat:@"iASL returned:\n%@\n%@", [output componentsJoinedByString:@"\n"], [error componentsJoinedByString:@"\n"]]}] string:[[output.lastObject componentsSeparatedByString:@". "] lastObject] notices:[notices copy] url:url];
+#endif
+    if (result) {
+        NSMutableDictionary *d = [result.userInfo mutableCopy];
+        [d setObject:@"Compilation Error" forKey:NSLocalizedDescriptionKey];
+        result = [NSError errorWithDomain:kMaciASLDomain code:kCompilerError userInfo:[d copy]];
+    }
+    return [[iASLCompilationResult alloc] initWithError:!result && [url checkResourceIsReachableAndReturnError:&err] ? nil : result string:[[output.lastObject componentsSeparatedByString:@". "] lastObject] notices:[notices copy] url:url];
 }
 
 @end
@@ -409,23 +459,31 @@ static NSDateFormatter *rfc822;
 +(void)conditionalGet:(NSURL *)url toURL:(NSURL *)file perform:(void(^)(bool))handler {
     NSError *err;
     NSDate *filemtime;
+    NSProgress *progress = [NSProgress progressWithTotalUnitCount:2];
     if ([file getResourceValue:&filemtime forKey:NSURLContentModificationDateKey error:&err] && !ModalError(err)) {
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         request.HTTPMethod = @"HEAD";
         [NSURLConnection sendAsynchronousRequest:[request copy] queue:SourceList.sharedList.queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+            progress.completedUnitCount++;
+            bool result = false;
             if (!ModalError(connectionError)) {
                 NSDate *urlmtime = [rfc822 dateFromString:[[(NSHTTPURLResponse *)response allHeaderFields] objectForKey:@"Last-Modified"]];
                 if (([filemtime compare:urlmtime] == NSOrderedAscending)) {
-                    if ([[NSData dataWithContentsOfURL:url] writeToURL:file options:NSDataWritingAtomic error:&connectionError] && !ModalError(connectionError))
-                        dispatch_async(dispatch_get_main_queue(), ^{ handler(true); });
+                    result = [[NSData dataWithContentsOfURL:url options:0 error:NULL] writeToURL:file options:NSDataWritingAtomic error:&connectionError] && !ModalError(connectionError);
                 }
-                if (![file setResourceValue:urlmtime forKey:NSURLContentModificationDateKey error:&connectionError] || ModalError(connectionError))
-                    dispatch_async(dispatch_get_main_queue(), ^{ handler(false); });
+                else {
+                    [file setResourceValue:urlmtime forKey:NSURLContentModificationDateKey error:&connectionError];
+                    ModalError(connectionError);
+                }
             }
+            progress.completedUnitCount++;
+            dispatch_async(dispatch_get_main_queue(), ^{ handler(result); });
         }];
     }
-    else
+    else {
+        progress.completedUnitCount += 2;
         dispatch_async(dispatch_get_main_queue(), ^{ handler(false); });
+    }
 }
 
 @end

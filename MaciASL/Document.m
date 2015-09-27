@@ -55,7 +55,7 @@
     _textView.enclosingScrollView.rulersVisible = true;
     [_textView.layoutManager replaceTextStorage:_text];
     _textView.enabledTextCheckingTypes = 0;
-    SplitView([[aController.window.contentView subviews] objectAtIndex:0]);
+    SplitView([[aController.window.contentView subviews] firstObject]);
     NSTextContainer *cont = _textView.textContainer;
     cont.containerSize = NSMakeSize(1e7, 1e7);
     cont.widthTracksTextView = false;
@@ -137,6 +137,16 @@
     return false;
 }
 
+-(BOOL)revertToContentsOfURL:(NSURL *)url ofType:(NSString *)typeName error:(NSError *__autoreleasing *)outError {
+    if (url)
+        return [super revertToContentsOfURL:url ofType:typeName error:outError];
+    else if ([_tableset isEqual:kSystemTableset])
+        return [self readFromData:[iASL fetchTable:_tableName] ofType:kUTTypeAML error:outError];
+    else if (_tableset)
+        return [self readFromData:[(NSDictionary *)[(NSDictionary *)[NSDictionary dictionaryWithContentsOfURL:_tableset] objectForKey:@"Tables"] objectForKey:_tableName] ofType:kUTTypeAML error:outError];
+    return true;
+}
+
 -(instancetype)initWithType:(NSString *)typeName tableName:(NSString *)tableName tableset:(NSURL *)tableset text:(NSString *)text error:(NSError *__autoreleasing *)outError {
     self = [super initWithType:typeName error:outError];
     if (self) {
@@ -171,7 +181,7 @@
 #pragma mark Actions
 -(void)quickCompile:(bool)force hold:(bool)hold {
     assignWithNotice(self, result, [iASL compileDSL:_text.string name:_tableName tableset:_tableset force:force]);
-    if (!hold && !_result.error)
+    if (!hold)
         [NSFileManager.defaultManager removeItemAtURL:_result.url error:nil];
 }
 
@@ -204,13 +214,13 @@
     NSMutableArray *temp = [NSMutableArray arrayWithObjects:[NSMutableArray array], [NSMutableArray array], [NSMutableArray array], [NSMutableArray array], [NSMutableArray array], [NSMutableArray array], nil];
     for (Notice *notice in _result.notices)
         [[temp objectAtIndex:notice.type] addObject:[NSString stringWithFormat:@"%ld: %@", notice.line, notice.message]];
-    return @{@"errors":[[temp objectAtIndex:3] copy], @"warnings":[[temp objectAtIndex:0] copy], @"remarks":[[temp objectAtIndex:4] copy], @"optimizations":[[temp objectAtIndex:5] copy]};
+    return @{@"errors":[[temp objectAtIndex:3] copy], @"warnings":[temp.firstObject copy], @"remarks":[[temp objectAtIndex:4] copy], @"optimizations":[[temp objectAtIndex:5] copy]};
 }
 
 #pragma mark GUI
 -(IBAction)filterTree:(id)sender {
     if (![[sender stringValue] length]) {
-        assignWithNotice(self, nav, _oldNav);
+        assignWithNotice(self, nav, _oldNav ?: _nav);
         _oldNav = nil;
     }
     else {
@@ -228,7 +238,11 @@
 
 -(IBAction)compile:(id)sender {
     [self quickCompile:false hold:false];
-    [(AppDelegate *)[(NSApplication *)NSApp delegate] showSummary:sender];
+    NSError *e = _result.error;
+    if (e.localizedFailureReason)
+        [[NSAlert alertWithError:[NSError errorWithDomain:e.domain code:e.code userInfo:@{NSLocalizedDescriptionKey:e.localizedDescription,NSLocalizedRecoverySuggestionErrorKey:e.localizedFailureReason}]] beginSheetModalForWindow:self.windowForSheet modalDelegate:nil didEndSelector:NULL contextInfo:NULL];
+    else
+        [(AppDelegate *)[(NSApplication *)NSApp delegate] showSummary:sender];
 }
 
 -(IBAction)hexConvert:(id)sender {

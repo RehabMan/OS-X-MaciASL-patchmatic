@@ -53,7 +53,7 @@
     NSDictionary *font = [NSUserDefaults.standardUserDefaults objectForKey:@"font"];
     [NSFontManager.sharedFontManager setSelectedFont:[NSFont fontWithName:[font objectForKey:@"name"] size:[[font objectForKey:@"size"] floatValue]] isMultiple:false];
     _logView.level = NSNormalWindowLevel;
-    [NSUserDefaults.standardUserDefaults addObserver:self forKeyPath:@"acpi" options:NSKeyValueObservingOptionInitial context:NULL];
+    [iASL addObserver:self forKeyPath:@"compiler" options:0 context:NULL];
 }
 
 -(BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender {
@@ -66,22 +66,18 @@
 
 #pragma mark Logging
 -(void)logEntry:(NSString *)entry {
-    insertWithNotice(self, log, [[LogEntry alloc] initWithEntry:entry])
+    if (NSThread.isMainThread) {
+        insertWithNotice(self, log, [[LogEntry alloc] initWithEntry:entry])
+    }
+    else
+        [self performSelectorOnMainThread:_cmd withObject:entry waitUntilDone:false];
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    NSMutableData *d = [NSMutableData data];
-    NSTask *t = [NSTask new];
-    t.launchPath = [NSBundle.mainBundle pathForAuxiliaryExecutable:[NSString stringWithFormat:@"iasl%ld", [NSUserDefaults.standardUserDefaults integerForKey:@"acpi"]]];
-    t.standardOutput = [NSPipe pipe];
-    [[t.standardOutput fileHandleForReading] setReadabilityHandler:^(NSFileHandle *h) { [d appendData:h.availableData]; }];
-    [t launch];
-    [t waitUntilExit];
-    NSArray *lines = [[[[NSString alloc] initWithData:d encoding:NSUTF8StringEncoding] componentsSeparatedByString:@"\n"] subarrayWithRange:NSMakeRange(0, 3)];
-    for (NSString *line in lines)
-        [self logEntry:line];
-    assignWithNotice(self, compiler, [lines componentsJoinedByString:@"\n"]);
-    [[NSDocumentController.sharedDocumentController documents] makeObjectsPerformSelector:@selector(compile:) withObject:self];
+    muteWithNotice(self, compiler,);
+    for (Document *doc in [NSDocumentController.sharedDocumentController documents])
+        if (!doc.isDocumentEdited)
+            [doc revertToContentsOfURL:doc.fileURL ofType:doc.fileType error:NULL];
 }
 
 #pragma mark Actions
@@ -131,15 +127,25 @@
 }
 
 -(IBAction)update:(id)sender {
-    NSString *version = [[[(NSDictionary *)[NSDictionary dictionaryWithContentsOfFile:@"/System/Library/CoreServices/SystemVersion.plist"] objectForKey:@"ProductVersion"] componentsSeparatedByString:@"."] objectAtIndex:1];
     [sender setEnabled:false];
-    void(^handler)(bool) = ^(bool success){
-        if (success)
-            [self observeValueForKeyPath:nil ofObject:nil change:nil context:nil];
+    NSString *os = [[[(NSDictionary *)[NSDictionary dictionaryWithContentsOfFile:@"/System/Library/CoreServices/SystemVersion.plist"] objectForKey:@"ProductVersion"] componentsSeparatedByString:@"."] objectAtIndex:1];
+    muteWithNotice(self, update, _update = [NSProgress progressWithTotalUnitCount:3]);
+    dispatch_group_t g = dispatch_group_create();
+    for (NSNumber *iasl in @[@4, @5, @51]) {
+        [_update becomeCurrentWithPendingUnitCount:1];
+        dispatch_group_enter(g);
+        [URLTask conditionalGet:[NSURL URLWithString:[NSString stringWithFormat:@"http://maciasl.sourceforge.net/10.%@/iasl%ld", os, iasl.unsignedIntegerValue]] toURL:[NSBundle.mainBundle URLForAuxiliaryExecutable:[NSString stringWithFormat:@"iasl%ld", iasl.unsignedIntegerValue]] perform:^(bool success){
+            muteWithNotice(self->_update, fractionCompleted,);
+            if (success && [NSUserDefaults.standardUserDefaults integerForKey:@"acpi"] == iasl.unsignedIntegerValue)
+                [self observeValueForKeyPath:nil ofObject:nil change:nil context:nil];
+            dispatch_group_leave(g);
+        }];
+        [_update resignCurrent];
+    }
+    dispatch_group_notify(g, dispatch_get_main_queue(), ^{
+        muteWithNotice(self, update, self->_update = nil);
         [sender setEnabled:true];
-    };
-    [URLTask conditionalGet:[NSURL URLWithString:[NSString stringWithFormat:@"http://maciasl.sourceforge.net/10.%@/iasl4", version]] toURL:[NSBundle.mainBundle URLForAuxiliaryExecutable:@"iasl4"] perform:handler];
-    [URLTask conditionalGet:[NSURL URLWithString:[NSString stringWithFormat:@"http://maciasl.sourceforge.net/10.%@/iasl5", version]] toURL:[NSBundle.mainBundle URLForAuxiliaryExecutable:@"iasl5"] perform:handler];
+    });
 }
 
 -(IBAction)newSource:(id)sender {
@@ -162,12 +168,24 @@
 }
 
 #pragma mark Readonly Properties
+-(NSString *)compiler {
+    return iASL.compiler;
+}
+
 -(NSArray *)deviceProperties {
     return iASL.deviceProperties;
 }
 
 -(NSArray *)log {
     return [_log copy];
+}
+
+-(NSArray *)logAtIndexes:(NSIndexSet *)indexes {
+    return [_log objectsAtIndexes:indexes];
+}
+
+-(id)objectInLogAtIndex:(NSUInteger)index {
+    return [_log objectAtIndex:index];
 }
 
 -(NSArray *)themes {

@@ -15,6 +15,7 @@
 #endif
 #import "Navigator.h"
 #import "Navigator_Scopes.h"
+#import "iASL.h"
 
 #if PATCHMATIC
 @implementation PatchFileStats
@@ -103,14 +104,9 @@ static NSRegularExpression *template;
 #if !PATCHMATIC
 static NSDictionary *black;
 #endif
-static NSArray *extents;
-static NSArray *scopes;
-static NSArray *predicates;
-static NSArray *actions;
+static NSArray *extents, *scopes, *predicates, *actions;
 static NSCharacterSet *set;
-static NSRegularExpression *lbl;
-static NSRegularExpression *adr;
-static NSRegularExpression *hid;
+static NSRegularExpression *lbl, *adr, *hid, *field;
 
 +(void)load {
 #if !PATCHMATIC
@@ -124,6 +120,25 @@ static NSRegularExpression *hid;
     lbl = [NSRegularExpression regularExpressionWithPattern:[NSString stringWithFormat:@"(?:%@)\\s*\\(\\s*([^\\s),]+)", [[scopes subarrayWithRange:NSMakeRange(1, scopes.count-1)] componentsJoinedByString:@"|"]] options:NSRegularExpressionCaseInsensitive error:nil];
     adr = [NSRegularExpression regularExpressionWithPattern:@"Name\\s*\\(\\s*\\_ADR\\s*,\\s*(.*)\\s*\\)" options:0 error:nil];
     hid = [NSRegularExpression regularExpressionWithPattern:@"Name\\s*\\(\\s*\\_HID\\s*,\\s*(?:EISAID\\s*\\()?\"(.*)\"\\s*\\)?\\s*\\)" options:NSRegularExpressionCaseInsensitive error:nil];
+    field = [NSRegularExpression regularExpressionWithPattern:@"(?:^|\n)#(\\w+):(\\w+) (.*)" options:0 error:nil];
+}
+
+/*! \brief Parses the patch for fields
+ *
+ * \param patch The patch string to be parsed for fields
+ * \returns A Dictionary of field names keyed to field values, present in the patch
+ */
++(NSDictionary *)fieldsForPatch:(NSString *)patch{
+    if (!patch) patch = @"";
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    [field enumerateMatchesInString:patch options:0 range:NSMakeRange(0, patch.length) usingBlock:^void(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop){
+        NSString *domain = [patch substringWithRange:[result rangeAtIndex:1]];
+        if (![dict objectForKey:domain]) [dict setObject:[NSMutableDictionary dictionary] forKey:domain];
+        [(NSMutableDictionary *)[dict objectForKey:domain] setObject:[patch substringWithRange:[result rangeAtIndex:3]] forKey:[patch substringWithRange:[result rangeAtIndex:2]]];
+    }];
+    for (NSString *key in dict)
+        [dict setObject:[[dict objectForKey:key] copy] forKey:key];
+    return [dict copy];
 }
 
 -(instancetype)initWithPatch:(NSString *)text {
@@ -131,6 +146,18 @@ static NSRegularExpression *hid;
         return nil;
     self = [super init];
     if (self) {
+#if !PATCHMATIC
+        NSString *build = [(NSDictionary *)[[PatchFile fieldsForPatch:text] objectForKey:@"IASL"] objectForKey:@"Check"];
+        if (build)
+            @try {
+                if (![[NSPredicate predicateWithFormat:build] evaluateWithObject:nil substitutionVariables:@{@"BUILD":@(iASL.build)}])
+                    @throw [NSError errorWithDomain:kMaciASLDomain code:kiASLBuildError userInfo:@{NSLocalizedDescriptionKey:@"Compiler Version Rejected", NSLocalizedRecoverySuggestionErrorKey:@"The patch has rejected the compiler version selected in Preferences."}];
+            }
+            @catch (id e) {
+                ModalError([e class] == NSError.class ? e : [NSError errorWithDomain:kMaciASLDomain code:kiASLCheckError userInfo:@{NSLocalizedDescriptionKey:@"iASL Check Expression Invalid", NSLocalizedRecoverySuggestionErrorKey:@"The patch specified a check expression which could not be evaluated."}]);
+                return nil;
+            }
+#endif
         NSMutableArray *patches = [NSMutableArray array];
         __autoreleasing NSString *token;
         NSScanner *scan = [NSScanner scannerWithString:[text stringByTrimmingCharactersInSet:set]];
@@ -562,8 +589,8 @@ static NSRegularExpression *hid;
 #pragma mark Actions
 -(IBAction)show:(id)sender {
     [NSApp beginSheet:_window modalForWindow:_textView.window modalDelegate:nil didEndSelector:nil contextInfo:nil];
-    SplitView([[_window.contentView subviews] objectAtIndex:0]);
-    SplitView([[[[[[_window.contentView subviews] objectAtIndex:0] subviews] objectAtIndex:1] subviews] objectAtIndex:0]);
+    SplitView([[_window.contentView subviews] firstObject]);
+    SplitView([[[[[[_window.contentView subviews] firstObject] subviews] objectAtIndex:1] subviews] firstObject]);
     _patchView.enabledTextCheckingTypes = 0;
     if (!_sourceView.sortDescriptors.count)
         _sourceView.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:true selector:@selector(localizedStandardCompare:)]];
@@ -572,8 +599,8 @@ static NSRegularExpression *hid;
 }
 
 -(IBAction)hide:(id)sender {
-    [[[_window.contentView subviews] objectAtIndex:0] performSelector:@selector(adjustSubviews)];
-    [[[[[[[_window.contentView subviews] objectAtIndex:0] subviews] objectAtIndex:1] subviews] objectAtIndex:0] performSelector:@selector(adjustSubviews)];
+    [[[_window.contentView subviews] firstObject] performSelector:@selector(adjustSubviews)];
+    [[[[[[[_window.contentView subviews] firstObject] subviews] objectAtIndex:1] subviews] firstObject] performSelector:@selector(adjustSubviews)];
     [NSApp endSheet:_window];
     [_window orderOut:sender];
 }

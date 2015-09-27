@@ -60,7 +60,8 @@
         [tempTables addObject:name];
     }
     assignWithNotice(self, tableNames, [tempNames copy]);
-    NSInteger modal = [NSApp runModalForWindow:_tableView];
+    __block NSInteger modal;
+    dispatch_sync(dispatch_get_main_queue(), ^{ modal = [NSApp runModalForWindow:self->_tableView]; });
     if (modal == NSRunAbortedResponse)
         return nil;
     else if (modal == NSRunStoppedResponse)
@@ -92,6 +93,8 @@
         if ([@{@"Hostname":hostname, @"Tables":tables} writeToURL:url atomically:true])
             return [self openTablesetTableWithContentsOfURL:url];
     }
+    else
+        ModalError([NSError errorWithDomain:kMaciASLDomain code:kTablesetError userInfo:@{NSLocalizedDescriptionKey:@"IOJones Error", NSLocalizedRecoverySuggestionErrorKey:[NSString stringWithFormat:@"Could not find /AppleACPIPlatformExpert/ACPI Tables"]}]);
     return nil;
 }
 
