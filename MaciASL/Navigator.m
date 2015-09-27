@@ -18,13 +18,22 @@ static NSRegularExpression *conts;
 static NSCharacterSet *braces;
 static NSCharacterSet *unset;
 
+//for conts, below
+//old dev: "(%@)\\s*\\(\\s*([\\^\\\\]*[A-Z0-9_.]+)\\s*[),]"
+//new dev: "(%@)\\s*\\(\\s*([\\^\\\\]*[A-Z0-9_.]*)\\s*[),]"
+//original: "(%@)\\s*\\(\\s*([^),]+)"
 +(void)load {
     NSArray *containers = @[/*@"Alias", @"Buffer",*/ @"Device", @"DefinitionBlock", /*@"Function",*/ @"Method", /*@"Name", @"Package", @"PowerResource",*/ @"Processor", /*@"RawDataBuffer",*/ @"Scope", @"ThermalZone"];
     NSMutableSet *classes = [NSMutableSet setWithCapacity:containers.count];
     for (NSString *cls in containers)
         [classes addObject:NSClassFromString(cls)];
     containerClasses = [classes copy];
+    //from "old" development branch
+    //conts = [NSRegularExpression regularExpressionWithPattern:[NSString stringWithFormat:@"(%@)\\s*\\(\\s*([\\^\\\\]*[A-Z0-9_.]+)\\s*[),]", [containers componentsJoinedByString:@"|"]] options:0 error:nil];
+    //from development branch
     conts = [NSRegularExpression regularExpressionWithPattern:[NSString stringWithFormat:@"(%@)\\s*\\(\\s*([\\^\\\\]*[A-Z0-9_.]*)\\s*[),]", [containers componentsJoinedByString:@"|"]] options:0 error:nil];
+    //original
+    //conts = [NSRegularExpression regularExpressionWithPattern:[NSString stringWithFormat:@"(%@)\\s*\\(\\s*([^),]+)", [containers componentsJoinedByString:@"|"]] options:0 error:nil];
     braces = [NSCharacterSet characterSetWithCharactersInString:@"{}"];
     unset = [[NSCharacterSet characterSetWithCharactersInString:@" \n"] invertedSet];
 }

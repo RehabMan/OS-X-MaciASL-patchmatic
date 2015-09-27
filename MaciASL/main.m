@@ -28,6 +28,13 @@ int main(int argc, char *argv[])
     NSSetUncaughtExceptionHandler(&handle_exception);
     NSBundle *ct = [NSBundle bundleWithPath:@"/System/Library/CoreServices/CoreTypes.bundle"];
     NSImage *temp = [NSOpenGLContext instancesRespondToSelector:@selector(lock)] ? [ct imageForResource:@"ToolbarCustomizeIcon"] : [ct imageForResource:@"ToolbarUtilitiesFolderIcon"];
+    /*//REVIEW_REHAB: this makes more sense than instancesRespondToSelector:@selector(lock)
+      //      (which appears to be some sort of version check hack)
+    NSImage *temp = [[NSImage alloc] initByReferencingFile:@"/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/ToolbarUtilitiesFolderIcon.icns"];
+    if (![temp isValid]) {
+        temp = [[NSImage alloc] initByReferencingFile:@"/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/ToolbarCustomizeIcon.icns"];
+    }
+    */
     temp.name = @"ToolbarUtilitiesFolderIcon";
     return NSApplicationMain(argc, (const char **)argv);
 }

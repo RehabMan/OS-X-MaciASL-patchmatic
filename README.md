@@ -26,9 +26,14 @@ Usage can be displayed by running the program with no arguments.
 
 ### Downloads:
 
-Downloads are available on Google Code:
+Downloads are available on Bitbucket:
+
+https://bitbucket.org/RehabMan/os-x-maciasl-patchmatic/downloads
+
+Note: Archived (old) downloads are available on Google Code:
 
 https://code.google.com/p/os-x-maciasl-patchmatic/downloads/list
+
 
 ### Feedback
 
@@ -39,7 +44,7 @@ http://www.tonymacx86.com/dsdt/83565-native-dsdt-aml-ide-compiler-maciasl-open-b
 
 ### Build Environment
 
-My build environment is currently Xcode 4.61, using SDK 10.8, targeting OS X 10.6.
+My build environment is currently Xcode 6.1, using SDK 10.8, targeting OS X 10.6.
 
 No other build environment is supported.
 
@@ -61,6 +66,15 @@ https://github.com/RehabMan/OS-X-MaciASL-patchmatic
 
 
 ### Change Log:
+
+2014-10-14
+
+- Merged with latest MaciASL from SJ...
+
+- Includes latest iasl build from Intel in iasl5
+
+- Added "-extract" feature to patchmatic
+
 
 2013-04-07
 
