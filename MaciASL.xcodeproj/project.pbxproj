@@ -28,7 +28,6 @@
 		B06352E5177EA65F00956EB1 /* SSDT.xib in Resources */ = {isa = PBXBuildFile; fileRef = B06352E7177EA65F00956EB1 /* SSDT.xib */; };
 		B0663F4417E815EB008D6686 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = B0663F4317E815EB008D6686 /* main.c */; };
 		B0663F4617E815EB008D6686 /* GetMetadataForFile.m in Sources */ = {isa = PBXBuildFile; fileRef = B0663F4517E815EB008D6686 /* GetMetadataForFile.m */; };
-		B0663F5017E81829008D6686 /* ACPI.mdimporter in Copy Spotlight Importer */ = {isa = PBXBuildFile; fileRef = B0663F3417E815EB008D6686 /* ACPI.mdimporter */; };
 		B0663F5317E81958008D6686 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0663F3517E815EB008D6686 /* CoreServices.framework */; };
 		B073C419180CE89B00424B2F /* DocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = B073C418180CE89B00424B2F /* DocumentController.m */; };
 		B0899354161D781C00FE7BD8 /* AML.icns in Resources */ = {isa = PBXBuildFile; fileRef = B0899352161D781C00FE7BD8 /* AML.icns */; };
@@ -44,17 +43,11 @@
 		B0E0186416157084008CAC9B /* Navigator.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E0186316157084008CAC9B /* Navigator.m */; };
 		B0E7DD0A165DEDB700B9B67B /* Fix.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E7DD09165DEDB700B9B67B /* Fix.m */; };
 		B0FD8AB4165D84820074DC84 /* iasl4 in CopyFiles */ = {isa = PBXBuildFile; fileRef = B0FD8AB1165D847C0074DC84 /* iasl4 */; };
+		ED3EF1AA1BB9C1240068CC5A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B013B82B160C529600F6A7F2 /* Foundation.framework */; };
+		ED3EF1AB1BB9C2A60068CC5A /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0663F3517E815EB008D6686 /* CoreServices.framework */; };
+		ED3EF1AD1BB9C3DC0068CC5A /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED3EF1AC1BB9C3DC0068CC5A /* CFNetwork.framework */; };
+		ED3EF1AE1BB9C4BB0068CC5A /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED3EF1AC1BB9C3DC0068CC5A /* CFNetwork.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		B0663F5117E8183C008D6686 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B013B819160C529600F6A7F2 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = B0663F3317E815EB008D6686;
-			remoteInfo = ACPI;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		B0663F4F17E81809008D6686 /* Copy Spotlight Importer */ = {
@@ -63,7 +56,6 @@
 			dstPath = Contents/Library/Spotlight;
 			dstSubfolderSpec = 1;
 			files = (
-				B0663F5017E81829008D6686 /* ACPI.mdimporter in Copy Spotlight Importer */,
 			);
 			name = "Copy Spotlight Importer";
 			runOnlyForDeploymentPostprocessing = 1;
@@ -140,6 +132,7 @@
 		B0E7DD08165DEDB700B9B67B /* Fix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Fix.h; sourceTree = "<group>"; };
 		B0E7DD09165DEDB700B9B67B /* Fix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Fix.m; sourceTree = "<group>"; };
 		B0FD8AB1165D847C0074DC84 /* iasl4 */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = iasl4; path = ../iasl4; sourceTree = "<group>"; };
+		ED3EF1AC1BB9C3DC0068CC5A /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = ../../../../System/Library/Frameworks/CFNetwork.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,6 +140,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ED3EF1AE1BB9C4BB0068CC5A /* CFNetwork.framework in Frameworks */,
 				84EE674319C4A86D006A80B0 /* Foundation.framework in Frameworks */,
 				8483B01D19C49FFD00253A20 /* IOKit.framework in Frameworks */,
 			);
@@ -156,6 +150,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ED3EF1AD1BB9C3DC0068CC5A /* CFNetwork.framework in Frameworks */,
+				ED3EF1AB1BB9C2A60068CC5A /* CoreServices.framework in Frameworks */,
+				ED3EF1AA1BB9C1240068CC5A /* Foundation.framework in Frameworks */,
 				B017FB2B1861532200DA033A /* SystemConfiguration.framework in Frameworks */,
 				B059B86C16999332004DB0A9 /* QuartzCore.framework in Frameworks */,
 				B0E0185416154CBD008CAC9B /* IOKit.framework in Frameworks */,
@@ -228,6 +225,7 @@
 		B013B825160C529600F6A7F2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				ED3EF1AC1BB9C3DC0068CC5A /* CFNetwork.framework */,
 				84EE674219C4A86D006A80B0 /* Foundation.framework */,
 				8483B01C19C49FFD00253A20 /* IOKit.framework */,
 				B017FB2A1861532200DA033A /* SystemConfiguration.framework */,
@@ -351,7 +349,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				B0663F5217E8183C008D6686 /* PBXTargetDependency */,
 			);
 			name = MaciASL;
 			productName = MaciASL;
@@ -481,14 +478,6 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		B0663F5217E8183C008D6686 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = B0663F3317E815EB008D6686 /* ACPIImporter */;
-			targetProxy = B0663F5117E8183C008D6686 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin PBXVariantGroup section */
 		B013B83B160C529600F6A7F2 /* Document.xib */ = {
 			isa = PBXVariantGroup;
@@ -539,6 +528,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.10;
 				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Debug;
@@ -558,6 +548,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.10;
 				STRIP_INSTALLED_PRODUCT = YES;
 			};
 			name = Release;
@@ -589,7 +580,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx10.8;
 			};
 			name = Debug;
 		};
@@ -614,7 +605,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx10.8;
 			};
 			name = Release;
 		};
@@ -626,6 +617,7 @@
 				GCC_PREFIX_HEADER = "MaciASL/MaciASL-Prefix.pch";
 				INFOPLIST_FILE = "MaciASL/MaciASL-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.10;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -638,6 +630,7 @@
 				GCC_PREFIX_HEADER = "MaciASL/MaciASL-Prefix.pch";
 				INFOPLIST_FILE = "MaciASL/MaciASL-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.10;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
