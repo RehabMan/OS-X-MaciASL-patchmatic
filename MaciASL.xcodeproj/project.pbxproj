@@ -46,6 +46,7 @@
 		ED3EF1AB1BB9C2A60068CC5A /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0663F3517E815EB008D6686 /* CoreServices.framework */; };
 		ED3EF1AD1BB9C3DC0068CC5A /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED3EF1AC1BB9C3DC0068CC5A /* CFNetwork.framework */; };
 		ED3EF1AE1BB9C4BB0068CC5A /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED3EF1AC1BB9C3DC0068CC5A /* CFNetwork.framework */; };
+		EDE4C4101C78CE7E00C90C38 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDE4C40F1C78CE7E00C90C38 /* IOKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,13 +56,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = B013B821160C529600F6A7F2;
 			remoteInfo = MaciASL;
-		};
-		B0663F5117E8183C008D6686 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B013B819160C529600F6A7F2 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = B0663F3317E815EB008D6686;
-			remoteInfo = ACPI;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -155,6 +149,7 @@
 		B0E7DD09165DEDB700B9B67B /* Fix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Fix.m; sourceTree = "<group>"; };
 		B0FD8AB1165D847C0074DC84 /* iasl4 */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = iasl4; path = ../iasl4; sourceTree = "<group>"; };
 		ED3EF1AC1BB9C3DC0068CC5A /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = ../../../../System/Library/Frameworks/CFNetwork.framework; sourceTree = "<group>"; };
+		EDE4C40F1C78CE7E00C90C38 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk/System/Library/Frameworks/IOKit.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +157,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EDE4C4101C78CE7E00C90C38 /* IOKit.framework in Frameworks */,
 				ED3EF1AE1BB9C4BB0068CC5A /* CFNetwork.framework in Frameworks */,
 				84EE674319C4A86D006A80B0 /* Foundation.framework in Frameworks */,
 			);
@@ -255,6 +251,7 @@
 		B013B825160C529600F6A7F2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EDE4C40F1C78CE7E00C90C38 /* IOKit.framework */,
 				ED3EF1AC1BB9C3DC0068CC5A /* CFNetwork.framework */,
 				84EE674219C4A86D006A80B0 /* Foundation.framework */,
 				8483B01C19C49FFD00253A20 /* IOKit.framework */,
@@ -569,11 +566,6 @@
 			isa = PBXTargetDependency;
 			target = B013B821160C529600F6A7F2 /* MaciASL */;
 			targetProxy = B03153A61956A21C0056C7F2 /* PBXContainerItemProxy */;
-		};
-		B0663F5217E8183C008D6686 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = B0663F3317E815EB008D6686 /* ACPIImporter */;
-			targetProxy = B0663F5117E8183C008D6686 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

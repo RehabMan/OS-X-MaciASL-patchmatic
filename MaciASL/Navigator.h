@@ -57,11 +57,13 @@
  */
 +(DefinitionBlock *)build:(NSString *)dsl;
 
+#if !PATCHMATIC
 /*! \brief Filters the receiver
  *
  * \param filter The String used to filter the receiver
  * \returns A copy of the receiver, filtered and flatten for searching
  */
 -(DefinitionBlock *)filteredWithString:(NSString *)filter;
+#endif
 
 @end
