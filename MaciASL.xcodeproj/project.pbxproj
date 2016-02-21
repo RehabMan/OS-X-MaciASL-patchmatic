@@ -38,7 +38,6 @@
 		B0E0184E161531B2008CAC9B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E0184D161531B2008CAC9B /* AppDelegate.m */; };
 		B0E01852161532EB008CAC9B /* iASL.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E01851161532EB008CAC9B /* iASL.m */; };
 		B0E0185416154CBD008CAC9B /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0E0185316154CBD008CAC9B /* IOKit.framework */; };
-		B0E0186116155CB3008CAC9B /* iasl5 in CopyFiles */ = {isa = PBXBuildFile; fileRef = B0E0185D1615512A008CAC9B /* iasl5 */; };
 		B0E0186416157084008CAC9B /* Navigator.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E0186316157084008CAC9B /* Navigator.m */; };
 		B0E7DD0A165DEDB700B9B67B /* Fix.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E7DD09165DEDB700B9B67B /* Fix.m */; };
 		B0FD8AB4165D84820074DC84 /* iasl4 in CopyFiles */ = {isa = PBXBuildFile; fileRef = B0FD8AB1165D847C0074DC84 /* iasl4 */; };
@@ -79,7 +78,6 @@
 			dstSubfolderSpec = 6;
 			files = (
 				ED52E7331C790B6500A32102 /* iasl61 in CopyFiles */,
-				B0E0186116155CB3008CAC9B /* iasl5 in CopyFiles */,
 				B0FD8AB4165D84820074DC84 /* iasl4 in CopyFiles */,
 				B034202D19FB66C80049C764 /* iasl51 in CopyFiles */,
 			);
@@ -111,6 +109,7 @@
 		B013B83C160C529600F6A7F2 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/Document.xib; sourceTree = "<group>"; };
 		B013B83F160C529700F6A7F2 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		B017FB2A1861532200DA033A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		B01968081BC18F6600160692 /* iasl6 */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = iasl6; sourceTree = SOURCE_ROOT; };
 		B01A8101169C1CEB0056B5C6 /* SSDT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSDT.h; sourceTree = "<group>"; };
 		B01A8102169C1CEB0056B5C6 /* SSDT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSDT.m; sourceTree = "<group>"; };
 		B01CAF931618EB4900AB9F0C /* Colorize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Colorize.h; sourceTree = "<group>"; };
@@ -315,6 +314,7 @@
 			isa = PBXGroup;
 			children = (
 				ED52E7311C790B4900A32102 /* iasl61 */,
+				B01968081BC18F6600160692 /* iasl6 */,
 				B034202B19FB54770049C764 /* iasl51 */,
 				B0E0185D1615512A008CAC9B /* iasl5 */,
 				B0FD8AB1165D847C0074DC84 /* iasl4 */,
@@ -669,8 +669,8 @@
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_MARKETING_VERSION = 1.4;
-				CURRENT_PROJECT_VERSION = 266;
+				CURRENT_MARKETING_VERSION = 1.5;
+				CURRENT_PROJECT_VERSION = 270;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -714,8 +714,8 @@
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
-				CURRENT_MARKETING_VERSION = 1.4;
-				CURRENT_PROJECT_VERSION = 266;
+				CURRENT_MARKETING_VERSION = 1.5;
+				CURRENT_PROJECT_VERSION = 270;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_POSTPROCESSING = YES;
 				ENABLE_NS_ASSERTIONS = NO;
