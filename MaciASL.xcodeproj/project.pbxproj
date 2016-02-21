@@ -46,6 +46,8 @@
 		ED3EF1AB1BB9C2A60068CC5A /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0663F3517E815EB008D6686 /* CoreServices.framework */; };
 		ED3EF1AD1BB9C3DC0068CC5A /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED3EF1AC1BB9C3DC0068CC5A /* CFNetwork.framework */; };
 		ED3EF1AE1BB9C4BB0068CC5A /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED3EF1AC1BB9C3DC0068CC5A /* CFNetwork.framework */; };
+		ED52E7321C790B4900A32102 /* iasl61 in Resources */ = {isa = PBXBuildFile; fileRef = ED52E7311C790B4900A32102 /* iasl61 */; };
+		ED52E7331C790B6500A32102 /* iasl61 in CopyFiles */ = {isa = PBXBuildFile; fileRef = ED52E7311C790B4900A32102 /* iasl61 */; };
 		EDE4C4101C78CE7E00C90C38 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDE4C40F1C78CE7E00C90C38 /* IOKit.framework */; };
 /* End PBXBuildFile section */
 
@@ -76,6 +78,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
+				ED52E7331C790B6500A32102 /* iasl61 in CopyFiles */,
 				B0E0186116155CB3008CAC9B /* iasl5 in CopyFiles */,
 				B0FD8AB4165D84820074DC84 /* iasl4 in CopyFiles */,
 				B034202D19FB66C80049C764 /* iasl51 in CopyFiles */,
@@ -149,6 +152,7 @@
 		B0E7DD09165DEDB700B9B67B /* Fix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Fix.m; sourceTree = "<group>"; };
 		B0FD8AB1165D847C0074DC84 /* iasl4 */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = iasl4; path = ../iasl4; sourceTree = "<group>"; };
 		ED3EF1AC1BB9C3DC0068CC5A /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = ../../../../System/Library/Frameworks/CFNetwork.framework; sourceTree = "<group>"; };
+		ED52E7311C790B4900A32102 /* iasl61 */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = iasl61; sourceTree = SOURCE_ROOT; };
 		EDE4C40F1C78CE7E00C90C38 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk/System/Library/Frameworks/IOKit.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
@@ -310,6 +314,7 @@
 		B013B82D160C529600F6A7F2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				ED52E7311C790B4900A32102 /* iasl61 */,
 				B034202B19FB54770049C764 /* iasl51 */,
 				B0E0185D1615512A008CAC9B /* iasl5 */,
 				B0FD8AB1165D847C0074DC84 /* iasl4 */,
@@ -474,6 +479,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ED52E7321C790B4900A32102 /* iasl61 in Resources */,
 				B013B83D160C529600F6A7F2 /* Document.xib in Resources */,
 				B013B840160C529700F6A7F2 /* MainMenu.xib in Resources */,
 				B06352E2177EA65B00956EB1 /* Patch.xib in Resources */,
