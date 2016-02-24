@@ -334,13 +334,17 @@ static NSUInteger _build;
     NSURL *url = self.tempAML;
     [aml writeToURL:url atomically:true];
     NSArray *output, *error;
-    NSArray *args;
+    NSMutableArray *args = [NSMutableArray array];
     if (externals) {
+        NSArray* args1;
         if ([NSUserDefaults.standardUserDefaults integerForKey:@"acpi"] == 4)
-            args = @[@"-e", [[externals valueForKey:@"lastPathComponent"] componentsJoinedByString:@","]];
+            args1 = @[@"-e", [[externals valueForKey:@"lastPathComponent"] componentsJoinedByString:@","]];
         else
-            args = [@[@"-e"] arrayByAddingObjectsFromArray:[externals valueForKey:@"lastPathComponent"]];
+            args1 = [@[@"-e"] arrayByAddingObjectsFromArray:[externals valueForKey:@"lastPathComponent"]];
+        [args addObjectsFromArray:args1];
     }
+    if ([NSUserDefaults.standardUserDefaults integerForKey:@"acpi"] != 4)
+        [args insertObject:@"-dl" atIndex:0];
     NSError *result = [self taskWithURL:url arguments:[args ?: @[] arrayByAddingObjectsFromArray:@[@"-d", url.lastPathComponent]] output:&output error:&error];
     NSError *err;
     NSFileManager *manager = NSFileManager.defaultManager;
