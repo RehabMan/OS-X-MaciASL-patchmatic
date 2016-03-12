@@ -23,7 +23,7 @@ enum noticeType {
 +(NSData *)fetchTable:(NSString *)table;
 +(NSDictionary *)decompile:(NSData *)aml withResolution:(NSString *)tableset;
 +(NSDictionary *)compile:(NSString *)dsl force:(bool)force;
-+(iASL *)create:(NSArray *)args withFile:(NSString *)file;
++(iASL *)create:(NSArray *)args withFile:(NSString *)file andVersion:(NSInteger)acpi;
 -(NSString *)stdOut;
 -(NSString *)stdErr;
 

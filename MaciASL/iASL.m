@@ -167,11 +167,13 @@ static NSString *bootlog;
         [args addObjectsFromArray:@[@"-e",[[amls valueForKey:@"lastPathComponent"] componentsJoinedByString:@","]]];
         ////args = @[@"-e",[[amls valueForKey:@"lastPathComponent"] componentsJoinedByString:@","]];
     }
-    if ([NSUserDefaults.standardUserDefaults integerForKey:@"acpi"] != 4)
+    //NSInteger acpi = [NSUserDefaults.standardUserDefaults integerForKey:@"acpi"];
+    NSInteger acpi = 61;    //REHABMAN: for disassembly, use ACPI 6.1 always 
+    if (acpi != 4)
         [args insertObject:@"-dl" atIndex:0];
     NSString *path = [iASL tempFile:@"iASLXXXXXX.aml"];
     [NSFileManager.defaultManager createFileAtPath:path contents:aml attributes:nil];
-    iASL *decompile = [iASL create:[args arrayByAddingObjectsFromArray:@[@"-d",path.lastPathComponent]] withFile:path];
+    iASL *decompile = [iASL create:[args arrayByAddingObjectsFromArray:@[@"-d",path.lastPathComponent]] withFile:path andVersion:acpi];
     NSError *err;
     for (NSString *aml in amls)
         if (![NSFileManager.defaultManager removeItemAtPath:aml error:&err])
@@ -199,7 +201,7 @@ static NSString *bootlog;
     NSString *path = [iASL tempFile:@"iASLXXXXXX.dsl"];
     [NSFileManager.defaultManager createFileAtPath:path contents:[dsl dataUsingEncoding:NSASCIIStringEncoding] attributes:nil];
     NSArray *args = @[@"-p", path.lastPathComponent.stringByDeletingPathExtension, path.lastPathComponent];
-    iASL *compile = [iASL create:force?[@[@"-f"] arrayByAddingObjectsFromArray:args]:args withFile:path];
+    iASL *compile = [iASL create:force?[@[@"-f"] arrayByAddingObjectsFromArray:args]:args withFile:path andVersion:0];
     path = [path.stringByDeletingPathExtension stringByAppendingPathExtension:@"aml"];
     NSMutableArray *temp = [NSMutableArray array];
     Notice *notice;
@@ -211,7 +213,9 @@ static NSString *bootlog;
             [temp addObject:notice];
     return @{@"notices":[temp copy], @"summary":[[[compile.task.stdOut lastObject] componentsSeparatedByString:@". "] lastObject], @"aml":path, @"success":@(compile.status && [NSFileManager.defaultManager fileExistsAtPath:path])};
 }
-+(iASL *)create:(NSArray *)args withFile:(NSString *)file{
++(iASL *)create:(NSArray *)args withFile:(NSString *)file andVersion:(NSInteger)acpi{
+    if (!acpi)
+        acpi = [NSUserDefaults.standardUserDefaults integerForKey:@"acpi"];
     NSMutableArray *arguments = [@[@"-vs", @"-vi"] mutableCopy];
     [arguments addObjectsFromArray:args];
     iASL *temp = [iASL new];
@@ -219,9 +223,9 @@ static NSString *bootlog;
         [arguments insertObject:@"-vr" atIndex:0];
     if ([NSUserDefaults.standardUserDefaults boolForKey:@"optimizations"])
         [arguments insertObject:@"-vo" atIndex:0];
-    if ([NSUserDefaults.standardUserDefaults boolForKey:@"werror"] && [NSUserDefaults.standardUserDefaults integerForKey:@"acpi"] > 4)
+    if ([NSUserDefaults.standardUserDefaults boolForKey:@"werror"] && acpi > 4)
         [arguments insertObject:@"-we" atIndex:0];
-    temp.task = [NSTask create:[NSBundle.mainBundle pathForAuxiliaryExecutable:[NSString stringWithFormat:@"iasl%ld", [NSUserDefaults.standardUserDefaults integerForKey:@"acpi"]]] args:arguments callback:@selector(logEntry:) listener:(AppDelegate *)[NSApp delegate]];
+    temp.task = [NSTask create:[NSBundle.mainBundle pathForAuxiliaryExecutable:[NSString stringWithFormat:@"iasl%ld", acpi]] args:arguments callback:@selector(logEntry:) listener:(AppDelegate *)[NSApp delegate]];
     if (file) temp.task.currentDirectoryPath = file.stringByDeletingLastPathComponent;
     [temp.task launchAndWait];
     NSError *err;

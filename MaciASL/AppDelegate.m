@@ -65,7 +65,9 @@
     NSArray *lines = [[temp.stdOut componentsSeparatedByString:@"\n"] subarrayWithRange:NSMakeRange(0, 3)];
     for (NSString *line in lines) [self logEntry:line];
     self.compiler = [lines componentsJoinedByString:@"\n"];
+#if 0 //REVIEW_REHABMAN this is annoying...
     [[NSDocumentController.sharedDocumentController documents] makeObjectsPerformSelector:@selector(compile:) withObject:self];
+#endif
 }
 
 #pragma mark GUI
