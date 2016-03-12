@@ -67,6 +67,11 @@ https://github.com/RehabMan/OS-X-MaciASL-patchmatic
 
 ### Change Log:
 
+2016-03-12
+
+- Switched ACPI 5.1 -> ACPI 6.1
+
+
 2014-10-14
 
 - Merged with latest MaciASL from SJ...
