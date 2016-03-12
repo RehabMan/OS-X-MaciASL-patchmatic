@@ -1828,10 +1828,10 @@
 							<object class="NSButtonCell" id="918301184">
 								<int key="NSCellFlags">67108864</int>
 								<int key="NSCellFlags2">0</int>
-								<string key="NSContents">ACPI 5.0</string>
+								<string key="NSContents">ACPI 6.1</string>
 								<reference key="NSSupport" ref="1259246"/>
 								<reference key="NSControlView" ref="94420841"/>
-								<int key="NSTag">5</int>
+								<int key="NSTag">61</int>
 								<int key="NSButtonFlags">1211912448</int>
 								<int key="NSButtonFlags2">0</int>
 								<reference key="NSAlternateImage" ref="309529772"/>

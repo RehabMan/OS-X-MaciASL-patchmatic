@@ -140,7 +140,7 @@
 	<key>CFBundleIconFile</key>
 	<string>MaciASL</string>
 	<key>CFBundleIdentifier</key>
-	<string>net.sourceforge.${PRODUCT_NAME:rfc1034identifier}</string>
+	<string>org.rehabman.githib.${PRODUCT_NAME:rfc1034identifier}v1.31</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -148,7 +148,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>${CURRENT_MARKETING_VERSION}</string>
+	<string>RM-${CURRENT_MARKETING_VERSION}</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>

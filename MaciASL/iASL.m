@@ -167,7 +167,7 @@ static NSString *bootlog;
         [args addObjectsFromArray:@[@"-e",[[amls valueForKey:@"lastPathComponent"] componentsJoinedByString:@","]]];
         ////args = @[@"-e",[[amls valueForKey:@"lastPathComponent"] componentsJoinedByString:@","]];
     }
-    if ([NSUserDefaults.standardUserDefaults integerForKey:@"acpi"] == 5)
+    if ([NSUserDefaults.standardUserDefaults integerForKey:@"acpi"] != 4)
         [args insertObject:@"-dl" atIndex:0];
     NSString *path = [iASL tempFile:@"iASLXXXXXX.aml"];
     [NSFileManager.defaultManager createFileAtPath:path contents:aml attributes:nil];
