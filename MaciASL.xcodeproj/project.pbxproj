@@ -42,9 +42,7 @@
 		B0E0186416157084008CAC9B /* Navigator.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E0186316157084008CAC9B /* Navigator.m */; };
 		B0E7DD0A165DEDB700B9B67B /* Fix.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E7DD09165DEDB700B9B67B /* Fix.m */; };
 		B0FD8AB4165D84820074DC84 /* iasl4 in CopyFiles */ = {isa = PBXBuildFile; fileRef = B0FD8AB1165D847C0074DC84 /* iasl4 */; };
-		ED0DD9AE1C81274100D2238F /* iasl61 in Resources */ = {isa = PBXBuildFile; fileRef = ED0DD9AD1C81274100D2238F /* iasl61 */; };
-		ED0DD9B01C81275400D2238F /* iasl51 in Resources */ = {isa = PBXBuildFile; fileRef = ED0DD9AF1C81275400D2238F /* iasl51 */; };
-		ED0DD9B11C81278000D2238F /* iasl61 in CopyFiles */ = {isa = PBXBuildFile; fileRef = ED0DD9AD1C81274100D2238F /* iasl61 */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		ED0DD9B11C81278000D2238F /* iasl61 in CopyFiles */ = {isa = PBXBuildFile; fileRef = ED0DD9AD1C81274100D2238F /* iasl61 */; };
 		ED3EF1AA1BB9C1240068CC5A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B013B82B160C529600F6A7F2 /* Foundation.framework */; };
 		ED3EF1AB1BB9C2A60068CC5A /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0663F3517E815EB008D6686 /* CoreServices.framework */; };
 		ED3EF1AD1BB9C3DC0068CC5A /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED3EF1AC1BB9C3DC0068CC5A /* CFNetwork.framework */; };
@@ -410,7 +408,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ED0DD9AE1C81274100D2238F /* iasl61 in Resources */,
 				B013B83D160C529600F6A7F2 /* Document.xib in Resources */,
 				B013B840160C529700F6A7F2 /* MainMenu.xib in Resources */,
 				B06352E2177EA65B00956EB1 /* Patch.xib in Resources */,
@@ -419,7 +416,6 @@
 				B0899355161D781C00FE7BD8 /* DSL.icns in Resources */,
 				B0CABE551652CE8A00A04C7E /* MaciASL.sdef in Resources */,
 				B06352E5177EA65F00956EB1 /* SSDT.xib in Resources */,
-				ED0DD9B01C81275400D2238F /* iasl51 in Resources */,
 				B0A7EAF1173CA9A300363AD1 /* ACPI.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -572,7 +568,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_MARKETING_VERSION = 1.31;
-				CURRENT_PROJECT_VERSION = 252.1;
+				CURRENT_PROJECT_VERSION = 252.2;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -603,7 +599,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
 				CURRENT_MARKETING_VERSION = 1.31;
-				CURRENT_PROJECT_VERSION = 252.1;
+				CURRENT_PROJECT_VERSION = 252.2;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
