@@ -28,7 +28,7 @@ Usage can be displayed by running the program with no arguments.
 
 Downloads are available on Bitbucket:
 
-https://bitbucket.org/RehabMan/os-x-maciasl-patchmatic/downloads
+https://bitbucket.org/RehabMan/os-x-maciasl-patchmatic/downloads/
 
 Note: Archived (old) downloads are available on Google Code:
 
