@@ -58,7 +58,7 @@ static void PatchMatic(NSString* strInputFile, NSString* strPatchesFile, NSStrin
     NSPrintF(@"patched result written to '%@'\n", strOutputFile);
 }
 
-void ExtractTables(bool all)
+void ExtractTables(bool all, NSString* strTargetDirectory)
 {
     io_service_t expert;
     if ((expert = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("AppleACPIPlatformExpert")))) {
@@ -70,7 +70,12 @@ void ExtractTables(bool all)
                 if (aml) {
                     NSMutableString* name = [NSMutableString stringWithString:table];
                     [name appendString:@".aml"];
+                    // Add directory
+                    if(strTargetDirectory != nil){
+                        [name insertString:strTargetDirectory atIndex:0];
+                    }
                     [aml writeToFile:name atomically:false];
+                    ////NSPrintF(@"%@\n", name);
                 }
             }
         }
@@ -83,32 +88,62 @@ int main(int argc, const char* argv[]) {
     @autoreleasepool {
         if (2 == argc && 0 == strcmp(argv[1], "-extract"))
         {
-            ExtractTables(false);
+            ExtractTables(false, nil);
             return 0;
+        }
+        //// If <target> is given
+        if (3 == argc && 0 == strcmp(argv[1], "-extract"))
+        {
+            bool isDir;
+            NSString* strTargetDirectory = [NSString stringWithCString:argv[2] encoding:NSASCIIStringEncoding];
+            if([[NSFileManager defaultManager] fileExistsAtPath:strTargetDirectory isDirectory:&isDir]){
+                if(isDir){
+                    if(![strTargetDirectory hasSuffix:@"/"]) strTargetDirectory = [strTargetDirectory stringByAppendingString:@"/"];
+                    ExtractTables(false, strTargetDirectory);
+                    return 0;
+                }
+            }
+            return 1;
         }
         if (2 == argc && 0 == strcmp(argv[1], "-extractall"))
         {
-            ExtractTables(true);
+            ExtractTables(true, nil);
             return 0;
+        }
+        //// If <target> is given
+        if (3 == argc && 0 == strcmp(argv[1], "-extractall"))
+        {
+            bool isDir;
+            NSString* strTargetDirectory = [NSString stringWithCString:argv[2] encoding:NSASCIIStringEncoding];
+            if([[NSFileManager defaultManager] fileExistsAtPath:strTargetDirectory isDirectory:&isDir]){
+                if(isDir){
+                    if(![strTargetDirectory hasSuffix:@"/"]) strTargetDirectory = [strTargetDirectory stringByAppendingString:@"/"];
+                    ExtractTables(true, strTargetDirectory);
+                    return 0;
+                }
+            }
+            return 1;
         }
         if (argc < 3)
         {
             NSString* usage =
-               @"Usage: patchmatic <dsl-input> <patches-file> [<dsl-output>]\n"
-                " where:\n"
-                "   <dsl-input>     name of ASCII DSL input file (output from iasl -d)\n"
-                "   <patches-file>  name of file containing patches to apply to <dsl-input>\n"
-                "   <dsl-output>    name of patched output file (to be compiled with iasl)\n"
-                ">> Patches <dsl-input> with <patches-file> and produces patched <dsl-output>\n"
-                "\n"
-                "-OR-\n"
-                "\n"
-                "Usage: patchmatic -extract\n"
-                "Usage: patchmatic -extractall\n"
-                ">> Extracts loaded ACPI binaries from ioreg\n"
-                "  -extract will extract just DSDT/SSDTs\n"
-                "  -extractall will extract all ACPI tables\n"
-                "\n";
+            @"Usage: patchmatic <dsl-input> <patches-file> [<dsl-output>]\n"
+            " where:\n"
+            "   <dsl-input>     name of ASCII DSL input file (output from iasl -d)\n"
+            "   <patches-file>  name of file containing patches to apply to <dsl-input>\n"
+            "   <dsl-output>    name of patched output file (to be compiled with iasl)\n"
+            ">> Patches <dsl-input> with <patches-file> and produces patched <dsl-output>\n"
+            "\n"
+            "-OR-\n"
+            "\n"
+            "Usage: patchmatic -extract [<target>]\n"
+            "Usage: patchmatic -extractall [<target>]\n"
+            " where:\n"
+            "   <target>        target directory (must be an existing directory)\n"
+            ">> Extracts loaded ACPI binaries from ioreg\n"
+            "  -extract will extract just DSDT/SSDTs\n"
+            "  -extractall will extract all ACPI tables\n"
+            "\n";
             NSPrintF(@"%@", usage);
             return 1;
         }
@@ -170,8 +205,8 @@ int main(int argc, const char* argv[]) {
         
         NSPrintF(@"begin replacementStringForResult test...\n");
         matches = [regex matchesInString:string
-                                          options:0
-                                            range:NSMakeRange(0, [string length])];
+                                 options:0
+                                   range:NSMakeRange(0, [string length])];
         for (NSUInteger x = 0; x < [matches count]; x++) {
             NSString* replacementString = [regex replacementStringForResult:[matches objectAtIndex:x] inString:string offset:0 template:@"$$$$0__$xyz$$TE\\$T0$0_TEST1$1\\TEST2_$2LAST\\$"];
             NSPrintF(@"replacementString(%ld) = '%@'\n", x, replacementString);
