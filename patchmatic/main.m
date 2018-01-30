@@ -68,8 +68,8 @@ void ExtractTables(bool all)
                 ////NSPrintF(@"%@\n", table);
                 NSData* aml = [tableset objectForKey:table];
                 if (aml) {
-                    NSMutableString* name = [NSMutableString stringWithString:table];
-                    [name appendString:@".aml"];
+                    NSString* suffix = [[[NSString alloc] initWithData:[[tableset objectForKey:table] subdataWithRange:NSMakeRange(16, 8)] encoding:NSASCIIStringEncoding] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+                    NSString* name = [suffix length] == 0 ? [NSString stringWithFormat:@"%@.aml", table] : [NSString stringWithFormat:@"%@-%@.aml", table, suffix];
                     [aml writeToFile:name atomically:false];
                 }
             }
