@@ -32,7 +32,16 @@
 -(void)awakeFromNib{
     log = [NSMutableArray array];
     [NSUserDefaults.standardUserDefaults addObserver:self forKeyPath:@"acpi" options:0 context:NULL];
-    [NSUserDefaults.standardUserDefaults registerDefaults:@{@"theme":@"Light", @"dsdt":@(YES), @"suggest":@(NO), @"acpi":@61, @"context":@(NO), @"isolation":@(NO), @"colorize":@(YES), @"remarks":@(NO), @"optimizations": @(NO), @"werror": @(NO), @"preference": @0, @"font": @{@"name":@"Menlo", @"size": @11}, @"sources":@[@{@"name":@"RehabMan Laptop", @"url":@"http://raw.github.com/RehabMan/Laptop-DSDT-Patch/master"}, @{@"name":@"Sourceforge", @"url":@"http://maciasl.sourceforge.net"}, @{@"name":@"Gigabyte", @"url":@"http://maciasl.sourceforge.net/pjalm/gigabyte"}, @{@"name":@"ASUS", @"url":@"http://maciasl.sourceforge.net/pjalm/asus"},]}];
+    [NSUserDefaults.standardUserDefaults registerDefaults:@{@"theme":@"Light", @"dsdt":@(YES), @"suggest":@(NO), @"acpi":@62, @"context":@(NO), @"isolation":@(NO), @"colorize":@(YES), @"remarks":@(NO), @"optimizations": @(NO), @"werror": @(NO), @"preference": @0, @"font": @{@"name":@"Menlo", @"size": @11},
+        @"sources":@[
+            @{@"name":@"_RehabMan Laptop", @"url":@"http://raw.github.com/RehabMan/Laptop-DSDT-Patch/master"},
+            @{@"name":@"_OS-X-ACPI-Debug", @"url":@"http://raw.github.com/RehabMan/OS-X-ACPI-Debug/master"},
+            @{@"name":@"_VoodooI2C-Patches", @"url":@"http://raw.github.com/alexandred/VoodooI2C-Patches/master"},
+            @{@"name":@"Sourceforge", @"url":@"http://maciasl.sourceforge.net"},
+            @{@"name":@"Gigabyte", @"url":@"http://maciasl.sourceforge.net/pjalm/gigabyte"},
+            @{@"name":@"ASUS", @"url":@"http://maciasl.sourceforge.net/pjalm/asus"},
+        ]
+    }];
     NSFontManager.sharedFontManager.target = self;
     NSDictionary *font = [NSUserDefaults.standardUserDefaults objectForKey:@"font"];
     [NSFontManager.sharedFontManager setSelectedFont:[NSFont fontWithName:[font objectForKey:@"name"] size:[[font objectForKey:@"size"] floatValue]] isMultiple:false];
