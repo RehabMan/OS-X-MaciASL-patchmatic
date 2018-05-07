@@ -42,11 +42,11 @@
 		B0E0186416157084008CAC9B /* Navigator.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E0186316157084008CAC9B /* Navigator.m */; };
 		B0E7DD0A165DEDB700B9B67B /* Fix.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E7DD09165DEDB700B9B67B /* Fix.m */; };
 		B0FD8AB4165D84820074DC84 /* iasl4 in CopyFiles */ = {isa = PBXBuildFile; fileRef = B0FD8AB1165D847C0074DC84 /* iasl4 */; };
-		ED0DD9B11C81278000D2238F /* iasl61 in CopyFiles */ = {isa = PBXBuildFile; fileRef = ED0DD9AD1C81274100D2238F /* iasl61 */; };
 		ED3EF1AA1BB9C1240068CC5A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B013B82B160C529600F6A7F2 /* Foundation.framework */; };
 		ED3EF1AB1BB9C2A60068CC5A /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0663F3517E815EB008D6686 /* CoreServices.framework */; };
 		ED3EF1AD1BB9C3DC0068CC5A /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED3EF1AC1BB9C3DC0068CC5A /* CFNetwork.framework */; };
 		ED3EF1AE1BB9C4BB0068CC5A /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED3EF1AC1BB9C3DC0068CC5A /* CFNetwork.framework */; };
+		ED9926C820A0A6760047D5FF /* iasl62 in CopyFiles */ = {isa = PBXBuildFile; fileRef = ED9926C620A0A5E90047D5FF /* iasl62 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -66,7 +66,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
-				ED0DD9B11C81278000D2238F /* iasl61 in CopyFiles */,
+				ED9926C820A0A6760047D5FF /* iasl62 in CopyFiles */,
 				B0FD8AB4165D84820074DC84 /* iasl4 in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -135,6 +135,7 @@
 		ED0DD9AD1C81274100D2238F /* iasl61 */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = iasl61; sourceTree = SOURCE_ROOT; };
 		ED0DD9AF1C81275400D2238F /* iasl51 */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = iasl51; sourceTree = SOURCE_ROOT; };
 		ED3EF1AC1BB9C3DC0068CC5A /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = ../../../../System/Library/Frameworks/CFNetwork.framework; sourceTree = "<group>"; };
+		ED9926C620A0A5E90047D5FF /* iasl62 */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = iasl62; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -287,6 +288,7 @@
 			children = (
 				ED0DD9AF1C81275400D2238F /* iasl51 */,
 				ED0DD9AD1C81274100D2238F /* iasl61 */,
+				ED9926C620A0A5E90047D5FF /* iasl62 */,
 				B0E0185D1615512A008CAC9B /* iasl5 */,
 				B0FD8AB1165D847C0074DC84 /* iasl4 */,
 				B0A7EAF0173CA9A300363AD1 /* ACPI.icns */,
@@ -568,7 +570,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_MARKETING_VERSION = 1.31;
-				CURRENT_PROJECT_VERSION = 252.3;
+				CURRENT_PROJECT_VERSION = 252.4;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -599,7 +601,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
 				CURRENT_MARKETING_VERSION = 1.31;
-				CURRENT_PROJECT_VERSION = 252.3;
+				CURRENT_PROJECT_VERSION = 252.4;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;

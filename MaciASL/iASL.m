@@ -168,7 +168,7 @@ static NSString *bootlog;
         ////args = @[@"-e",[[amls valueForKey:@"lastPathComponent"] componentsJoinedByString:@","]];
     }
     //NSInteger acpi = [NSUserDefaults.standardUserDefaults integerForKey:@"acpi"];
-    NSInteger acpi = 61;    //REHABMAN: for disassembly, use ACPI 6.1 always 
+    NSInteger acpi = 62;    //REHABMAN: for disassembly, use ACPI 6.2 always
     if (acpi != 4)
         [args insertObject:@"-dl" atIndex:0];
     NSString *path = [iASL tempFile:@"iASLXXXXXX.aml"];
