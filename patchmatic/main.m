@@ -60,7 +60,7 @@ static void PatchMatic(NSString* strInputFile, NSString* strPatchesFile, NSStrin
     NSPrintF(@"patched result written to '%@'\n", strOutputFile);
 }
 
-void ExtractTables(bool all, bool noOemTableId, bool noHotpatchNaming)
+void ExtractTables(NSString* target, bool all, bool noOemTableId, bool noHotpatchNaming)
 {
     io_service_t expert;
     if ((expert = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("AppleACPIPlatformExpert")))) {
@@ -103,13 +103,43 @@ void ExtractTables(bool all, bool noOemTableId, bool noHotpatchNaming)
                         }
                     }
                     [name appendString:@".aml"];
-                    //NSPrintF(@"name: \"%@\"\n", name);
+                    // add target directory
+                    if (target != nil) {
+                        [name insertString:target atIndex:0];
+                    }
+                    ////NSPrintF(@"name: \"%@\"\n", name);
                     [aml writeToFile:name atomically:NO];
                 }
             }
         }
         IOObjectRelease(expert);
     }
+}
+
+void Usage()
+{
+    NSString* usage =
+        @"Usage: patchmatic <dsl-input> <patches-file> [<dsl-output>]\n"
+        " where:\n"
+        "   <dsl-input>     name of ASCII DSL input file (output from iasl -d)\n"
+        "   <patches-file>  name of file containing patches to apply to <dsl-input>\n"
+        "   [dsl-output]    optional name of patched output file (to be compiled with iasl)\n"
+        ">> Patches <dsl-input> with <patches-file> and produces patched [dsl-output]\n"
+        "   (when [dsl-output] not specified, output is to <dsl-input>)\n"
+        "\n"
+        "-OR-\n"
+        "\n"
+        "Usage: patchmatic [options] -extract [target-directory]\n"
+        "Usage: patchmatic [options] -extractall [target-directory]\n"
+        ">> Extracts loaded ACPI binaries from ioreg\n"
+        "  -extract will extract just DSDT/SSDTs\n"
+        "  -extractall will extract all ACPI tables\n"
+        ">> Options (may appear after -extract/-extractall or before)\n"
+        "  -nooemtableid: omits OEM table ID from file names\n"
+        "  -nohotpatchnaming: no OEM table ID handling based on RM hotpatch conventions\n"
+        "  -raw: same as both -nooemtableid and -nohotpatchnaming\n"
+        "\n";
+    NSPrintF(@"%@", usage);
 }
 
 #ifndef REGEXTEST
@@ -119,6 +149,7 @@ int main(int argc, const char* argv[]) {
         bool all = false;
         bool noOemTableId = false;
         bool noHotpatchNaming = false;
+        NSString* target = nil;
         int i = 1;
         for (; i < argc; i++) {
             const char* arg = argv[i];
@@ -144,35 +175,34 @@ int main(int argc, const char* argv[]) {
             }
         }
         if (extract) {
-            ExtractTables(all, noOemTableId, noHotpatchNaming);
+            if (argc - i > 1) {
+                Usage();
+                return 0;
+            }
+            if (argc - i == 1) {
+                // target directory specified
+                target = [NSString stringWithCString:argv[i] encoding:NSASCIIStringEncoding];
+                BOOL isDir;
+                if (![[NSFileManager defaultManager] fileExistsAtPath:target isDirectory:&isDir]) {
+                    NSPrintF(@"Error: target specified, \"%@\", does not exist\n", target);
+                    return 0;
+                }
+                if (!isDir) {
+                    NSPrintF(@"Error: target specified, \"%@\", is not a directory\n", target);
+                    return 0;
+                }
+                if (![target hasSuffix:@"/"])
+                    target = [target stringByAppendingString:@"/"];
+            }
+            ExtractTables(target, all, noOemTableId, noHotpatchNaming);
             return 0;
         }
         if (argc - i < 2 || argc - i > 3)
         {
-            NSString* usage =
-               @"Usage: patchmatic <dsl-input> <patches-file> [<dsl-output>]\n"
-                " where:\n"
-                "   <dsl-input>     name of ASCII DSL input file (output from iasl -d)\n"
-                "   <patches-file>  name of file containing patches to apply to <dsl-input>\n"
-                "   [dsl-output]    optional name of patched output file (to be compiled with iasl)\n"
-                ">> Patches <dsl-input> with <patches-file> and produces patched [dsl-output]\n"
-                "   (when [dsl-output] not specified, output is to <dsl-input>)\n"
-                "\n"
-                "-OR-\n"
-                "\n"
-                "Usage: patchmatic [options] -extract\n"
-                "Usage: patchmatic [options] -extractall\n"
-                ">> Extracts loaded ACPI binaries from ioreg\n"
-                "  -extract will extract just DSDT/SSDTs\n"
-                "  -extractall will extract all ACPI tables\n"
-                ">> Options (may appear after -extract/-extractall or before)\n"
-                "  -nooemtableid: omits OEM table ID from file names\n"
-                "  -nohotpatchnaming: no OEM table ID handling based on RM hotpatch conventions\n"
-                "  -raw: same as both -nooemtableid and -nohotpatchnaming\n"
-                "\n";
-            NSPrintF(@"%@", usage);
+            Usage();
             return 1;
         }
+        // Normal patching function (now rarely used)
         NSString* strInputFile = [NSString stringWithCString:argv[i+0] encoding:NSASCIIStringEncoding];
         NSString* strPatchesFile = [NSString stringWithCString:argv[i+1] encoding:NSASCIIStringEncoding];
         NSString* strOutputFile = argc > 3 ? [NSString stringWithCString:argv[i+2] encoding:NSASCIIStringEncoding] : strInputFile;
