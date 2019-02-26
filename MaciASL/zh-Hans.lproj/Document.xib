@@ -59,7 +59,7 @@
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{494, 288}, {732, 480}}</string>
 				<int key="NSWTFlags">1886912512</int>
-				<string key="NSWindowTitle">Window</string>
+				<string key="NSWindowTitle">窗口</string>
 				<string key="NSWindowClass">NSWindow</string>
 				<object class="NSToolbar" key="NSViewClass" id="984109039">
 					<object class="NSMutableString" key="NSToolbarIdentifier">
@@ -77,8 +77,8 @@
 							<object class="NSMutableString" key="NSToolbarItemIdentifier">
 								<characters key="NS.bytes">3AFB2E98-965D-4579-A8E3-B4CE91C4BED3</characters>
 							</object>
-							<string key="NSToolbarItemLabel">Summary</string>
-							<string key="NSToolbarItemPaletteLabel">Summary</string>
+							<string key="NSToolbarItemLabel">总结</string>
+							<string key="NSToolbarItemPaletteLabel">总结</string>
 							<string key="NSToolbarItemToolTip"/>
 							<nil key="NSToolbarItemView"/>
 							<object class="NSCustomResource" key="NSToolbarItemImage">
@@ -99,8 +99,8 @@
 							<object class="NSMutableString" key="NSToolbarItemIdentifier">
 								<characters key="NS.bytes">5952A668-45C2-4A5A-97AF-A8E7CA5A8233</characters>
 							</object>
-							<string key="NSToolbarItemLabel">Compile</string>
-							<string key="NSToolbarItemPaletteLabel">Compile</string>
+							<string key="NSToolbarItemLabel">编译</string>
+							<string key="NSToolbarItemPaletteLabel">编译</string>
 							<string key="NSToolbarItemToolTip"/>
 							<nil key="NSToolbarItemView"/>
 							<object class="NSCustomResource" key="NSToolbarItemImage">
@@ -121,8 +121,8 @@
 							<object class="NSMutableString" key="NSToolbarItemIdentifier">
 								<characters key="NS.bytes">D8339D20-AA4F-4500-9C05-3E9E9CFCDE89</characters>
 							</object>
-							<string key="NSToolbarItemLabel">Log</string>
-							<string key="NSToolbarItemPaletteLabel">Log</string>
+							<string key="NSToolbarItemLabel">日志</string>
+							<string key="NSToolbarItemPaletteLabel">日志</string>
 							<string key="NSToolbarItemToolTip"/>
 							<nil key="NSToolbarItemView"/>
 							<object class="NSCustomResource" key="NSToolbarItemImage">
@@ -143,8 +143,8 @@
 							<object class="NSMutableString" key="NSToolbarItemIdentifier">
 								<characters key="NS.bytes">FE256CD2-686C-46EC-8FC5-322EFF5A1AD5</characters>
 							</object>
-							<string key="NSToolbarItemLabel">Patch</string>
-							<string key="NSToolbarItemPaletteLabel">Patch</string>
+							<string key="NSToolbarItemLabel">补丁库</string>
+							<string key="NSToolbarItemPaletteLabel">补丁库</string>
 							<string key="NSToolbarItemToolTip"/>
 							<nil key="NSToolbarItemView"/>
 							<object class="NSCustomResource" key="NSToolbarItemImage">
@@ -196,9 +196,9 @@
 						</object>
 						<object class="NSToolbarItem" key="NSToolbarPrintItem" id="839029568">
 							<string key="NSToolbarItemIdentifier">NSToolbarPrintItem</string>
-							<string key="NSToolbarItemLabel">Print</string>
-							<string key="NSToolbarItemPaletteLabel">Print</string>
-							<string key="NSToolbarItemToolTip">Print</string>
+							<string key="NSToolbarItemLabel">打印</string>
+							<string key="NSToolbarItemPaletteLabel">打印</string>
+							<string key="NSToolbarItemToolTip">打印</string>
 							<nil key="NSToolbarItemView"/>
 							<object class="NSCustomResource" key="NSToolbarItemImage">
 								<string key="NSClassName">NSImage</string>
@@ -216,9 +216,9 @@
 						</object>
 						<object class="NSToolbarItem" key="NSToolbarShowFontsItem" id="822386963">
 							<string key="NSToolbarItemIdentifier">NSToolbarShowFontsItem</string>
-							<string key="NSToolbarItemLabel">Fonts</string>
-							<string key="NSToolbarItemPaletteLabel">Fonts</string>
-							<string key="NSToolbarItemToolTip">Show Font Panel</string>
+							<string key="NSToolbarItemLabel">字体</string>
+							<string key="NSToolbarItemPaletteLabel">字体</string>
+							<string key="NSToolbarItemToolTip">显示字体面板</string>
 							<nil key="NSToolbarItemView"/>
 							<object class="NSCustomResource" key="NSToolbarItemImage">
 								<string key="NSClassName">NSImage</string>
@@ -310,7 +310,7 @@
 											<object class="NSTextFieldCell" key="NSTitleCell">
 												<int key="NSCellFlags">67108864</int>
 												<int key="NSCellFlags2">0</int>
-												<string key="NSContents">Box</string>
+												<string key="NSContents">容器</string>
 												<object class="NSFont" key="NSSupport" id="194073856">
 													<string key="NSName">LucidaGrande</string>
 													<double key="NSSize">13</double>
@@ -371,7 +371,7 @@
 												<object class="NSButtonCell" key="NSSearchButtonCell">
 													<int key="NSCellFlags">0</int>
 													<int key="NSCellFlags2">0</int>
-													<string key="NSContents">search</string>
+													<string key="NSContents">搜索</string>
 													<reference key="NSControlView" ref="28547587"/>
 													<string key="NSAction">_searchFieldSearch:</string>
 													<reference key="NSTarget" ref="225579155"/>
@@ -384,7 +384,7 @@
 												<object class="NSButtonCell" key="NSCancelButtonCell">
 													<int key="NSCellFlags">0</int>
 													<int key="NSCellFlags2">0</int>
-													<string key="NSContents">clear</string>
+													<string key="NSContents">清空</string>
 													<array class="NSMutableArray" key="NSAccessibilityOverriddenAttributes">
 														<dictionary class="NSMutableDictionary">
 															<string key="AXDescription">cancel</string>
@@ -926,7 +926,7 @@ wGw</bytes>
 							<object class="NSTextFieldCell" key="NSTitleCell">
 								<int key="NSCellFlags">67108864</int>
 								<int key="NSCellFlags2">0</int>
-								<string key="NSContents">Box</string>
+								<string key="NSContents">容器</string>
 								<reference key="NSSupport" ref="194073856"/>
 								<reference key="NSBackgroundColor" ref="603627037"/>
 								<object class="NSColor" key="NSTextColor">
@@ -957,7 +957,7 @@ wGw</bytes>
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{196, 207}, {173, 95}}</string>
 				<int key="NSWTFlags">1685586944</int>
-				<string key="NSWindowTitle">Jump To Line</string>
+				<string key="NSWindowTitle">跳转到行</string>
 				<string key="NSWindowClass">NSWindow</string>
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
@@ -975,7 +975,7 @@ wGw</bytes>
 							<object class="NSButtonCell" key="NSCell" id="579132174">
 								<int key="NSCellFlags">67108864</int>
 								<int key="NSCellFlags2">134217728</int>
-								<string key="NSContents">Go</string>
+								<string key="NSContents">跳转</string>
 								<reference key="NSSupport" ref="194073856"/>
 								<string key="NSCellIdentifier">_NS:9</string>
 								<reference key="NSControlView" ref="498864286"/>
@@ -999,7 +999,7 @@ wGw</bytes>
 							<object class="NSButtonCell" key="NSCell" id="812131529">
 								<int key="NSCellFlags">67108864</int>
 								<int key="NSCellFlags2">134217728</int>
-								<string key="NSContents">Cancel</string>
+								<string key="NSContents">取消</string>
 								<reference key="NSSupport" ref="194073856"/>
 								<string key="NSCellIdentifier">_NS:9</string>
 								<reference key="NSControlView" ref="961621501"/>
@@ -1093,7 +1093,7 @@ wGw</bytes>
 							<object class="NSTextFieldCell" key="NSCell" id="765965318">
 								<int key="NSCellFlags">68157504</int>
 								<int key="NSCellFlags2">272630784</int>
-								<string key="NSContents">Line:</string>
+								<string key="NSContents">行:</string>
 								<reference key="NSSupport" ref="194073856"/>
 								<string key="NSCellIdentifier">_NS:1535</string>
 								<reference key="NSControlView" ref="218671916"/>

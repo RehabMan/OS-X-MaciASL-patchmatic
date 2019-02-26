@@ -56,7 +56,7 @@
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{196, 207}, {599, 368}}</string>
 				<int key="NSWTFlags">611845120</int>
-				<string key="NSWindowTitle">Window</string>
+				<string key="NSWindowTitle">窗口</string>
 				<string key="NSWindowClass">NSWindow</string>
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
@@ -260,7 +260,7 @@
 											<object class="NSTextFieldCell" key="NSCell" id="653022344">
 												<int key="NSCellFlags">68157504</int>
 												<int key="NSCellFlags2">272630784</int>
-												<string key="NSContents">10 Patches, 10 Changes</string>
+												<string key="NSContents">10个补丁, 10个变化</string>
 												<reference key="NSSupport" ref="830188467"/>
 												<string key="NSCellIdentifier">_NS:1535</string>
 												<reference key="NSControlView" ref="247448033"/>
@@ -286,7 +286,7 @@
 											<object class="NSButtonCell" key="NSCell" id="178969402">
 												<int key="NSCellFlags">603979776</int>
 												<int key="NSCellFlags2">134217728</int>
-												<string key="NSContents">Apply</string>
+												<string key="NSContents">应用</string>
 												<reference key="NSSupport" ref="830188467"/>
 												<string key="NSCellIdentifier">_NS:9</string>
 												<reference key="NSControlView" ref="486684169"/>
@@ -311,7 +311,7 @@
 											<object class="NSButtonCell" key="NSCell" id="482234302">
 												<int key="NSCellFlags">67108864</int>
 												<int key="NSCellFlags2">134217728</int>
-												<string key="NSContents">Open</string>
+												<string key="NSContents">应用本地补丁文件</string>
 												<reference key="NSSupport" ref="830188467"/>
 												<string key="NSCellIdentifier">_NS:9</string>
 												<reference key="NSControlView" ref="107358269"/>
@@ -336,7 +336,7 @@
 											<object class="NSButtonCell" key="NSCell" id="377081184">
 												<int key="NSCellFlags">67108864</int>
 												<int key="NSCellFlags2">134217728</int>
-												<string key="NSContents">Close</string>
+												<string key="NSContents">关闭</string>
 												<reference key="NSSupport" ref="830188467"/>
 												<string key="NSCellIdentifier">_NS:9</string>
 												<reference key="NSControlView" ref="150478511"/>
@@ -697,7 +697,7 @@ wGw</bytes>
 																			<object class="NSTableHeaderCell" key="NSHeaderCell">
 																				<int key="NSCellFlags">75497536</int>
 																				<int key="NSCellFlags2">2048</int>
-																				<string key="NSContents">Before</string>
+																				<string key="NSContents">使用前</string>
 																				<reference key="NSSupport" ref="26"/>
 																				<object class="NSColor" key="NSBackgroundColor" id="952840402">
 																					<int key="NSColorSpace">3</int>
@@ -725,7 +725,7 @@ wGw</bytes>
 																			<object class="NSTableHeaderCell" key="NSHeaderCell">
 																				<int key="NSCellFlags">75497536</int>
 																				<int key="NSCellFlags2">2048</int>
-																				<string key="NSContents">After</string>
+																				<string key="NSContents">使用后</string>
 																				<reference key="NSSupport" ref="26"/>
 																				<reference key="NSBackgroundColor" ref="952840402"/>
 																				<reference key="NSTextColor" ref="462405475"/>

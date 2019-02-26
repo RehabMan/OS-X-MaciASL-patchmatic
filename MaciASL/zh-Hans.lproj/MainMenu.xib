@@ -83,7 +83,7 @@
 							<array class="NSMutableArray" key="NSMenuItems">
 								<object class="NSMenuItem" id="238522557">
 									<reference key="NSMenu" ref="110575045"/>
-									<string key="NSTitle">About MaciASL</string>
+									<string key="NSTitle">关于 MaciASL</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="1033313550"/>
@@ -102,7 +102,7 @@
 								</object>
 								<object class="NSMenuItem" id="609285721">
 									<reference key="NSMenu" ref="110575045"/>
-									<string key="NSTitle">Preferences…</string>
+									<string key="NSTitle">偏好设置…</string>
 									<string key="NSKeyEquiv">,</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -122,7 +122,7 @@
 								</object>
 								<object class="NSMenuItem" id="1046388886">
 									<reference key="NSMenu" ref="110575045"/>
-									<string key="NSTitle">Services</string>
+									<string key="NSTitle">服务</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -130,7 +130,7 @@
 									<reference key="NSMixedImage" ref="310636482"/>
 									<string key="NSAction">submenuAction:</string>
 									<object class="NSMenu" key="NSSubmenu" id="752062318">
-										<string key="NSTitle">Services</string>
+										<string key="NSTitle">服务</string>
 										<array class="NSMutableArray" key="NSMenuItems"/>
 										<string key="NSName">_NSServicesMenu</string>
 									</object>
@@ -148,7 +148,7 @@
 								</object>
 								<object class="NSMenuItem" id="755159360">
 									<reference key="NSMenu" ref="110575045"/>
-									<string key="NSTitle">Hide MaciASL</string>
+									<string key="NSTitle">隐藏 MaciASL</string>
 									<string key="NSKeyEquiv">h</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -157,7 +157,7 @@
 								</object>
 								<object class="NSMenuItem" id="342932134">
 									<reference key="NSMenu" ref="110575045"/>
-									<string key="NSTitle">Hide Others</string>
+									<string key="NSTitle">隐藏其他</string>
 									<string key="NSKeyEquiv">h</string>
 									<int key="NSKeyEquivModMask">1572864</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -166,7 +166,7 @@
 								</object>
 								<object class="NSMenuItem" id="908899353">
 									<reference key="NSMenu" ref="110575045"/>
-									<string key="NSTitle">Show All</string>
+									<string key="NSTitle">显示全部</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -186,7 +186,7 @@
 								</object>
 								<object class="NSMenuItem" id="632727374">
 									<reference key="NSMenu" ref="110575045"/>
-									<string key="NSTitle">Quit MaciASL</string>
+									<string key="NSTitle">退出 MaciASL</string>
 									<string key="NSKeyEquiv">q</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -199,18 +199,18 @@
 					</object>
 					<object class="NSMenuItem" id="487529617">
 						<reference key="NSMenu" ref="649796088"/>
-						<string key="NSTitle">File</string>
+						<string key="NSTitle">文件</string>
 						<string key="NSKeyEquiv"/>
 						<int key="NSMnemonicLoc">2147483647</int>
 						<reference key="NSOnImage" ref="1033313550"/>
 						<reference key="NSMixedImage" ref="310636482"/>
 						<string key="NSAction">submenuAction:</string>
 						<object class="NSMenu" key="NSSubmenu" id="1063095879">
-							<string key="NSTitle">File</string>
+							<string key="NSTitle">文件</string>
 							<array class="NSMutableArray" key="NSMenuItems">
 								<object class="NSMenuItem" id="598559978">
 									<reference key="NSMenu" ref="1063095879"/>
-									<string key="NSTitle">New</string>
+									<string key="NSTitle">新建</string>
 									<string key="NSKeyEquiv">n</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -219,20 +219,20 @@
 								</object>
 								<object class="NSMenuItem" id="517011475">
 									<reference key="NSMenu" ref="1063095879"/>
-									<string key="NSTitle">New from ACPI</string>
+									<string key="NSTitle">从 ACPI 中获取</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="1033313550"/>
 									<reference key="NSMixedImage" ref="310636482"/>
 									<string key="NSAction">submenuAction:</string>
 									<object class="NSMenu" key="NSSubmenu" id="638697277">
-										<string key="NSTitle">New from ACPI</string>
+										<string key="NSTitle">从 ACPI 中获取</string>
 										<array class="NSMutableArray" key="NSMenuItems"/>
 									</object>
 								</object>
 								<object class="NSMenuItem" id="369125836">
 									<reference key="NSMenu" ref="1063095879"/>
-									<string key="NSTitle">Open…</string>
+									<string key="NSTitle">打开…</string>
 									<string key="NSKeyEquiv">o</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -241,18 +241,18 @@
 								</object>
 								<object class="NSMenuItem" id="845691996">
 									<reference key="NSMenu" ref="1063095879"/>
-									<string key="NSTitle">Open Recent</string>
+									<string key="NSTitle">最近打开</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="1033313550"/>
 									<reference key="NSMixedImage" ref="310636482"/>
 									<string key="NSAction">submenuAction:</string>
 									<object class="NSMenu" key="NSSubmenu" id="35092217">
-										<string key="NSTitle">Open Recent</string>
+										<string key="NSTitle">最近打开</string>
 										<array class="NSMutableArray" key="NSMenuItems">
 											<object class="NSMenuItem" id="604478491">
 												<reference key="NSMenu" ref="35092217"/>
-												<string key="NSTitle">Clear Menu</string>
+												<string key="NSTitle">清空目录</string>
 												<string key="NSKeyEquiv"/>
 												<int key="NSKeyEquivModMask">1048576</int>
 												<int key="NSMnemonicLoc">2147483647</int>
@@ -275,7 +275,7 @@
 								</object>
 								<object class="NSMenuItem" id="849658429">
 									<reference key="NSMenu" ref="1063095879"/>
-									<string key="NSTitle">Close</string>
+									<string key="NSTitle">关闭</string>
 									<string key="NSKeyEquiv">w</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -284,7 +284,7 @@
 								</object>
 								<object class="NSMenuItem" id="76152688">
 									<reference key="NSMenu" ref="1063095879"/>
-									<string key="NSTitle">Save</string>
+									<string key="NSTitle">保存</string>
 									<string key="NSKeyEquiv">s</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -293,7 +293,7 @@
 								</object>
 								<object class="NSMenuItem" id="644096673">
 									<reference key="NSMenu" ref="1063095879"/>
-									<string key="NSTitle">Save As…</string>
+									<string key="NSTitle">另存为…</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="1033313550"/>
@@ -301,7 +301,7 @@
 								</object>
 								<object class="NSMenuItem" id="39451999">
 									<reference key="NSMenu" ref="1063095879"/>
-									<string key="NSTitle">Revert to Saved</string>
+									<string key="NSTitle">还原保存</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="1033313550"/>
@@ -309,7 +309,7 @@
 								</object>
 								<object class="NSMenuItem" id="908026718">
 									<reference key="NSMenu" ref="1063095879"/>
-									<string key="NSTitle">Export Tableset...</string>
+									<string key="NSTitle">导出表组...</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="1033313550"/>
@@ -327,7 +327,7 @@
 								</object>
 								<object class="NSMenuItem" id="405701176">
 									<reference key="NSMenu" ref="1063095879"/>
-									<string key="NSTitle">Page Setup…</string>
+									<string key="NSTitle">页面设置…</string>
 									<string key="NSKeyEquiv">P</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -336,7 +336,7 @@
 								</object>
 								<object class="NSMenuItem" id="1007802901">
 									<reference key="NSMenu" ref="1063095879"/>
-									<string key="NSTitle">Print…</string>
+									<string key="NSTitle">打印…</string>
 									<string key="NSKeyEquiv">p</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -348,18 +348,18 @@
 					</object>
 					<object class="NSMenuItem" id="617632241">
 						<reference key="NSMenu" ref="649796088"/>
-						<string key="NSTitle">Edit</string>
+						<string key="NSTitle">编辑</string>
 						<string key="NSKeyEquiv"/>
 						<int key="NSMnemonicLoc">2147483647</int>
 						<reference key="NSOnImage" ref="1033313550"/>
 						<reference key="NSMixedImage" ref="310636482"/>
 						<string key="NSAction">submenuAction:</string>
 						<object class="NSMenu" key="NSSubmenu" id="102008219">
-							<string key="NSTitle">Edit</string>
+							<string key="NSTitle">编辑</string>
 							<array class="NSMutableArray" key="NSMenuItems">
 								<object class="NSMenuItem" id="989823568">
 									<reference key="NSMenu" ref="102008219"/>
-									<string key="NSTitle">Undo</string>
+									<string key="NSTitle">撤销</string>
 									<string key="NSKeyEquiv">z</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -368,7 +368,7 @@
 								</object>
 								<object class="NSMenuItem" id="412590868">
 									<reference key="NSMenu" ref="102008219"/>
-									<string key="NSTitle">Redo</string>
+									<string key="NSTitle">重做</string>
 									<string key="NSKeyEquiv">Z</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -387,7 +387,7 @@
 								</object>
 								<object class="NSMenuItem" id="325495535">
 									<reference key="NSMenu" ref="102008219"/>
-									<string key="NSTitle">Cut</string>
+									<string key="NSTitle">剪切</string>
 									<string key="NSKeyEquiv">x</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -396,7 +396,7 @@
 								</object>
 								<object class="NSMenuItem" id="429358970">
 									<reference key="NSMenu" ref="102008219"/>
-									<string key="NSTitle">Copy</string>
+									<string key="NSTitle">拷贝</string>
 									<string key="NSKeyEquiv">c</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -405,7 +405,7 @@
 								</object>
 								<object class="NSMenuItem" id="846335491">
 									<reference key="NSMenu" ref="102008219"/>
-									<string key="NSTitle">Paste</string>
+									<string key="NSTitle">粘贴</string>
 									<string key="NSKeyEquiv">v</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -414,7 +414,7 @@
 								</object>
 								<object class="NSMenuItem" id="114413741">
 									<reference key="NSMenu" ref="102008219"/>
-									<string key="NSTitle">Paste and Match Style</string>
+									<string key="NSTitle">粘贴并匹配样式</string>
 									<string key="NSKeyEquiv">V</string>
 									<int key="NSKeyEquivModMask">1572864</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -423,7 +423,7 @@
 								</object>
 								<object class="NSMenuItem" id="968259807">
 									<reference key="NSMenu" ref="102008219"/>
-									<string key="NSTitle">Delete</string>
+									<string key="NSTitle">删除</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="1033313550"/>
@@ -431,7 +431,7 @@
 								</object>
 								<object class="NSMenuItem" id="269734425">
 									<reference key="NSMenu" ref="102008219"/>
-									<string key="NSTitle">Select All</string>
+									<string key="NSTitle">全选</string>
 									<string key="NSKeyEquiv">a</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -450,18 +450,18 @@
 								</object>
 								<object class="NSMenuItem" id="213834028">
 									<reference key="NSMenu" ref="102008219"/>
-									<string key="NSTitle">Find</string>
+									<string key="NSTitle">查找</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="1033313550"/>
 									<reference key="NSMixedImage" ref="310636482"/>
 									<string key="NSAction">submenuAction:</string>
 									<object class="NSMenu" key="NSSubmenu" id="934554326">
-										<string key="NSTitle">Find</string>
+										<string key="NSTitle">查找</string>
 										<array class="NSMutableArray" key="NSMenuItems">
 											<object class="NSMenuItem" id="630282595">
 												<reference key="NSMenu" ref="934554326"/>
-												<string key="NSTitle">Find…</string>
+												<string key="NSTitle">查找…</string>
 												<string key="NSKeyEquiv">f</string>
 												<int key="NSKeyEquivModMask">1048576</int>
 												<int key="NSMnemonicLoc">2147483647</int>
@@ -471,7 +471,7 @@
 											</object>
 											<object class="NSMenuItem" id="899489842">
 												<reference key="NSMenu" ref="934554326"/>
-												<string key="NSTitle">Find and Replace…</string>
+												<string key="NSTitle">查找并替换…</string>
 												<string key="NSKeyEquiv">f</string>
 												<int key="NSKeyEquivModMask">1572864</int>
 												<int key="NSMnemonicLoc">2147483647</int>
@@ -482,7 +482,7 @@
 											</object>
 											<object class="NSMenuItem" id="411529490">
 												<reference key="NSMenu" ref="934554326"/>
-												<string key="NSTitle">Find Next</string>
+												<string key="NSTitle">查找下一个</string>
 												<string key="NSKeyEquiv">g</string>
 												<int key="NSKeyEquivModMask">1048576</int>
 												<int key="NSMnemonicLoc">2147483647</int>
@@ -492,7 +492,7 @@
 											</object>
 											<object class="NSMenuItem" id="321031572">
 												<reference key="NSMenu" ref="934554326"/>
-												<string key="NSTitle">Find Previous</string>
+												<string key="NSTitle">查找上一个</string>
 												<string key="NSKeyEquiv">G</string>
 												<int key="NSKeyEquivModMask">1048576</int>
 												<int key="NSMnemonicLoc">2147483647</int>
@@ -502,7 +502,7 @@
 											</object>
 											<object class="NSMenuItem" id="160046479">
 												<reference key="NSMenu" ref="934554326"/>
-												<string key="NSTitle">Use Selection for Find</string>
+												<string key="NSTitle">查找所选内容</string>
 												<string key="NSKeyEquiv">e</string>
 												<int key="NSKeyEquivModMask">1048576</int>
 												<int key="NSMnemonicLoc">2147483647</int>
@@ -512,7 +512,7 @@
 											</object>
 											<object class="NSMenuItem" id="552346055">
 												<reference key="NSMenu" ref="934554326"/>
-												<string key="NSTitle">Jump to Selection</string>
+												<string key="NSTitle">跳到所选内容</string>
 												<string key="NSKeyEquiv">j</string>
 												<int key="NSKeyEquivModMask">1048576</int>
 												<int key="NSMnemonicLoc">2147483647</int>
@@ -521,7 +521,7 @@
 											</object>
 											<object class="NSMenuItem" id="53583891">
 												<reference key="NSMenu" ref="934554326"/>
-												<string key="NSTitle">Jump to Line</string>
+												<string key="NSTitle">选择行</string>
 												<string key="NSKeyEquiv">l</string>
 												<int key="NSKeyEquivModMask">1048576</int>
 												<int key="NSMnemonicLoc">2147483647</int>
@@ -533,18 +533,18 @@
 								</object>
 								<object class="NSMenuItem" id="587525528">
 									<reference key="NSMenu" ref="102008219"/>
-									<string key="NSTitle">Transformations</string>
+									<string key="NSTitle">转换</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="1033313550"/>
 									<reference key="NSMixedImage" ref="310636482"/>
 									<string key="NSAction">submenuAction:</string>
 									<object class="NSMenu" key="NSSubmenu" id="375218441">
-										<string key="NSTitle">Transformations</string>
+										<string key="NSTitle">转换</string>
 										<array class="NSMutableArray" key="NSMenuItems">
 											<object class="NSMenuItem" id="1045852775">
 												<reference key="NSMenu" ref="375218441"/>
-												<string key="NSTitle">Make Upper Case</string>
+												<string key="NSTitle">变为大写</string>
 												<string key="NSKeyEquiv"/>
 												<int key="NSMnemonicLoc">2147483647</int>
 												<reference key="NSOnImage" ref="1033313550"/>
@@ -552,7 +552,7 @@
 											</object>
 											<object class="NSMenuItem" id="310583649">
 												<reference key="NSMenu" ref="375218441"/>
-												<string key="NSTitle">Make Lower Case</string>
+												<string key="NSTitle">变为小写</string>
 												<string key="NSKeyEquiv"/>
 												<int key="NSMnemonicLoc">2147483647</int>
 												<reference key="NSOnImage" ref="1033313550"/>
@@ -560,7 +560,7 @@
 											</object>
 											<object class="NSMenuItem" id="697604523">
 												<reference key="NSMenu" ref="375218441"/>
-												<string key="NSTitle">Capitalize</string>
+												<string key="NSTitle">首字母大写</string>
 												<string key="NSKeyEquiv"/>
 												<int key="NSMnemonicLoc">2147483647</int>
 												<reference key="NSOnImage" ref="1033313550"/>
@@ -568,7 +568,7 @@
 											</object>
 											<object class="NSMenuItem" id="785203790">
 												<reference key="NSMenu" ref="375218441"/>
-												<string key="NSTitle">Comment Selection</string>
+												<string key="NSTitle">提交选择</string>
 												<string key="NSKeyEquiv">/</string>
 												<int key="NSKeyEquivModMask">1048576</int>
 												<int key="NSMnemonicLoc">2147483647</int>
@@ -577,7 +577,7 @@
 											</object>
 											<object class="NSMenuItem" id="871372522">
 												<reference key="NSMenu" ref="375218441"/>
-												<string key="NSTitle">Convert Hexadecimal</string>
+												<string key="NSTitle">转换为16进制</string>
 												<string key="NSKeyEquiv">b</string>
 												<int key="NSKeyEquivModMask">1048576</int>
 												<int key="NSMnemonicLoc">2147483647</int>
@@ -589,18 +589,18 @@
 								</object>
 								<object class="NSMenuItem" id="412178009">
 									<reference key="NSMenu" ref="102008219"/>
-									<string key="NSTitle">Speech</string>
+									<string key="NSTitle">听写</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="1033313550"/>
 									<reference key="NSMixedImage" ref="310636482"/>
 									<string key="NSAction">submenuAction:</string>
 									<object class="NSMenu" key="NSSubmenu" id="217834989">
-										<string key="NSTitle">Speech</string>
+										<string key="NSTitle">听写</string>
 										<array class="NSMutableArray" key="NSMenuItems">
 											<object class="NSMenuItem" id="750639761">
 												<reference key="NSMenu" ref="217834989"/>
-												<string key="NSTitle">Start Speaking</string>
+												<string key="NSTitle">开始听写</string>
 												<string key="NSKeyEquiv"/>
 												<int key="NSMnemonicLoc">2147483647</int>
 												<reference key="NSOnImage" ref="1033313550"/>
@@ -608,7 +608,7 @@
 											</object>
 											<object class="NSMenuItem" id="493308648">
 												<reference key="NSMenu" ref="217834989"/>
-												<string key="NSTitle">Stop Speaking</string>
+												<string key="NSTitle">停止听写</string>
 												<string key="NSKeyEquiv"/>
 												<int key="NSMnemonicLoc">2147483647</int>
 												<reference key="NSOnImage" ref="1033313550"/>
@@ -622,18 +622,18 @@
 					</object>
 					<object class="NSMenuItem" id="693255214">
 						<reference key="NSMenu" ref="649796088"/>
-						<string key="NSTitle">Font</string>
+						<string key="NSTitle">字体</string>
 						<string key="NSKeyEquiv"/>
 						<int key="NSMnemonicLoc">2147483647</int>
 						<reference key="NSOnImage" ref="1033313550"/>
 						<reference key="NSMixedImage" ref="310636482"/>
 						<string key="NSAction">submenuAction:</string>
 						<object class="NSMenu" key="NSSubmenu" id="245609288">
-							<string key="NSTitle">Font</string>
+							<string key="NSTitle">字体</string>
 							<array class="NSMutableArray" key="NSMenuItems">
 								<object class="NSMenuItem" id="292840534">
 									<reference key="NSMenu" ref="245609288"/>
-									<string key="NSTitle">Show Fonts</string>
+									<string key="NSTitle">显示字体</string>
 									<string key="NSKeyEquiv">t</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -652,7 +652,7 @@
 								</object>
 								<object class="NSMenuItem" id="12909881">
 									<reference key="NSMenu" ref="245609288"/>
-									<string key="NSTitle">Bigger</string>
+									<string key="NSTitle">较大</string>
 									<string key="NSKeyEquiv">+</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -662,7 +662,7 @@
 								</object>
 								<object class="NSMenuItem" id="1023772779">
 									<reference key="NSMenu" ref="245609288"/>
-									<string key="NSTitle">Smaller</string>
+									<string key="NSTitle">较小</string>
 									<string key="NSKeyEquiv">-</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -682,18 +682,18 @@
 								</object>
 								<object class="NSMenuItem" id="56618795">
 									<reference key="NSMenu" ref="245609288"/>
-									<string key="NSTitle">Kern</string>
+									<string key="NSTitle">字距调整</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="1033313550"/>
 									<reference key="NSMixedImage" ref="310636482"/>
 									<string key="NSAction">submenuAction:</string>
 									<object class="NSMenu" key="NSSubmenu" id="293933262">
-										<string key="NSTitle">Kern</string>
+										<string key="NSTitle">字距调整</string>
 										<array class="NSMutableArray" key="NSMenuItems">
 											<object class="NSMenuItem" id="452806647">
 												<reference key="NSMenu" ref="293933262"/>
-												<string key="NSTitle">Use Default</string>
+												<string key="NSTitle">使用默认</string>
 												<string key="NSKeyEquiv"/>
 												<int key="NSMnemonicLoc">2147483647</int>
 												<reference key="NSOnImage" ref="1033313550"/>
@@ -701,7 +701,7 @@
 											</object>
 											<object class="NSMenuItem" id="815353004">
 												<reference key="NSMenu" ref="293933262"/>
-												<string key="NSTitle">Use None</string>
+												<string key="NSTitle">都不使用</string>
 												<string key="NSKeyEquiv"/>
 												<int key="NSMnemonicLoc">2147483647</int>
 												<reference key="NSOnImage" ref="1033313550"/>
@@ -709,7 +709,7 @@
 											</object>
 											<object class="NSMenuItem" id="3381815">
 												<reference key="NSMenu" ref="293933262"/>
-												<string key="NSTitle">Tighten</string>
+												<string key="NSTitle">紧排</string>
 												<string key="NSKeyEquiv"/>
 												<int key="NSMnemonicLoc">2147483647</int>
 												<reference key="NSOnImage" ref="1033313550"/>
@@ -717,7 +717,7 @@
 											</object>
 											<object class="NSMenuItem" id="315875091">
 												<reference key="NSMenu" ref="293933262"/>
-												<string key="NSTitle">Loosen</string>
+												<string key="NSTitle">松排</string>
 												<string key="NSKeyEquiv"/>
 												<int key="NSMnemonicLoc">2147483647</int>
 												<reference key="NSOnImage" ref="1033313550"/>
@@ -728,18 +728,18 @@
 								</object>
 								<object class="NSMenuItem" id="807551874">
 									<reference key="NSMenu" ref="245609288"/>
-									<string key="NSTitle">Ligatures</string>
+									<string key="NSTitle">连字</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="1033313550"/>
 									<reference key="NSMixedImage" ref="310636482"/>
 									<string key="NSAction">submenuAction:</string>
 									<object class="NSMenu" key="NSSubmenu" id="625007011">
-										<string key="NSTitle">Ligatures</string>
+										<string key="NSTitle">连字</string>
 										<array class="NSMutableArray" key="NSMenuItems">
 											<object class="NSMenuItem" id="487834801">
 												<reference key="NSMenu" ref="625007011"/>
-												<string key="NSTitle">Use Default</string>
+												<string key="NSTitle">使用默认</string>
 												<string key="NSKeyEquiv"/>
 												<int key="NSMnemonicLoc">2147483647</int>
 												<reference key="NSOnImage" ref="1033313550"/>
@@ -747,7 +747,7 @@
 											</object>
 											<object class="NSMenuItem" id="219788953">
 												<reference key="NSMenu" ref="625007011"/>
-												<string key="NSTitle">Use None</string>
+												<string key="NSTitle">都不使用</string>
 												<string key="NSKeyEquiv"/>
 												<int key="NSMnemonicLoc">2147483647</int>
 												<reference key="NSOnImage" ref="1033313550"/>
@@ -755,7 +755,7 @@
 											</object>
 											<object class="NSMenuItem" id="326832694">
 												<reference key="NSMenu" ref="625007011"/>
-												<string key="NSTitle">Use All</string>
+												<string key="NSTitle">使用全部</string>
 												<string key="NSKeyEquiv"/>
 												<int key="NSMnemonicLoc">2147483647</int>
 												<reference key="NSOnImage" ref="1033313550"/>
@@ -766,18 +766,18 @@
 								</object>
 								<object class="NSMenuItem" id="363588342">
 									<reference key="NSMenu" ref="245609288"/>
-									<string key="NSTitle">Baseline</string>
+									<string key="NSTitle">基线</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="1033313550"/>
 									<reference key="NSMixedImage" ref="310636482"/>
 									<string key="NSAction">submenuAction:</string>
 									<object class="NSMenu" key="NSSubmenu" id="423270402">
-										<string key="NSTitle">Baseline</string>
+										<string key="NSTitle">基线</string>
 										<array class="NSMutableArray" key="NSMenuItems">
 											<object class="NSMenuItem" id="513666175">
 												<reference key="NSMenu" ref="423270402"/>
-												<string key="NSTitle">Use Default</string>
+												<string key="NSTitle">使用默认</string>
 												<string key="NSKeyEquiv"/>
 												<int key="NSMnemonicLoc">2147483647</int>
 												<reference key="NSOnImage" ref="1033313550"/>
@@ -785,7 +785,7 @@
 											</object>
 											<object class="NSMenuItem" id="61261803">
 												<reference key="NSMenu" ref="423270402"/>
-												<string key="NSTitle">Superscript</string>
+												<string key="NSTitle">上标</string>
 												<string key="NSKeyEquiv"/>
 												<int key="NSMnemonicLoc">2147483647</int>
 												<reference key="NSOnImage" ref="1033313550"/>
@@ -793,7 +793,7 @@
 											</object>
 											<object class="NSMenuItem" id="114558250">
 												<reference key="NSMenu" ref="423270402"/>
-												<string key="NSTitle">Subscript</string>
+												<string key="NSTitle">下标</string>
 												<string key="NSKeyEquiv"/>
 												<int key="NSMnemonicLoc">2147483647</int>
 												<reference key="NSOnImage" ref="1033313550"/>
@@ -801,7 +801,7 @@
 											</object>
 											<object class="NSMenuItem" id="846397027">
 												<reference key="NSMenu" ref="423270402"/>
-												<string key="NSTitle">Raise</string>
+												<string key="NSTitle">升高</string>
 												<string key="NSKeyEquiv"/>
 												<int key="NSMnemonicLoc">2147483647</int>
 												<reference key="NSOnImage" ref="1033313550"/>
@@ -809,7 +809,7 @@
 											</object>
 											<object class="NSMenuItem" id="767537864">
 												<reference key="NSMenu" ref="423270402"/>
-												<string key="NSTitle">Lower</string>
+												<string key="NSTitle">降低</string>
 												<string key="NSKeyEquiv"/>
 												<int key="NSMnemonicLoc">2147483647</int>
 												<reference key="NSOnImage" ref="1033313550"/>
@@ -830,7 +830,7 @@
 								</object>
 								<object class="NSMenuItem" id="345379212">
 									<reference key="NSMenu" ref="245609288"/>
-									<string key="NSTitle">Show Colors</string>
+									<string key="NSTitle">显示颜色</string>
 									<string key="NSKeyEquiv">C</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -849,7 +849,7 @@
 								</object>
 								<object class="NSMenuItem" id="1051479756">
 									<reference key="NSMenu" ref="245609288"/>
-									<string key="NSTitle">Copy Style</string>
+									<string key="NSTitle">拷贝样式</string>
 									<string key="NSKeyEquiv">c</string>
 									<int key="NSKeyEquivModMask">1572864</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -858,7 +858,7 @@
 								</object>
 								<object class="NSMenuItem" id="22534477">
 									<reference key="NSMenu" ref="245609288"/>
-									<string key="NSTitle">Paste Style</string>
+									<string key="NSTitle">粘贴样式</string>
 									<string key="NSKeyEquiv">v</string>
 									<int key="NSKeyEquivModMask">1572864</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -871,18 +871,18 @@
 					</object>
 					<object class="NSMenuItem" id="171235481">
 						<reference key="NSMenu" ref="649796088"/>
-						<string key="NSTitle">Tools</string>
+						<string key="NSTitle">工具</string>
 						<string key="NSKeyEquiv"/>
 						<int key="NSMnemonicLoc">2147483647</int>
 						<reference key="NSOnImage" ref="1033313550"/>
 						<reference key="NSMixedImage" ref="310636482"/>
 						<string key="NSAction">submenuAction:</string>
 						<object class="NSMenu" key="NSSubmenu" id="186106464">
-							<string key="NSTitle">Tools</string>
+							<string key="NSTitle">工具</string>
 							<array class="NSMutableArray" key="NSMenuItems">
 								<object class="NSMenuItem" id="298387553">
 									<reference key="NSMenu" ref="186106464"/>
-									<string key="NSTitle">Compile</string>
+									<string key="NSTitle">编译</string>
 									<string key="NSKeyEquiv">i</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -891,7 +891,7 @@
 								</object>
 								<object class="NSMenuItem" id="186183284">
 									<reference key="NSMenu" ref="186106464"/>
-									<string key="NSTitle">Patch</string>
+									<string key="NSTitle">补丁库</string>
 									<string key="NSKeyEquiv">k</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -910,7 +910,7 @@
 								</object>
 								<object class="NSMenuItem" id="1015709883">
 									<reference key="NSMenu" ref="186106464"/>
-									<string key="NSTitle">Generate SSDT</string>
+									<string key="NSTitle">生成 SSDT</string>
 									<string key="NSKeyEquiv">d</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -922,7 +922,7 @@
 					</object>
 					<object class="NSMenuItem" id="713487014">
 						<reference key="NSMenu" ref="649796088"/>
-						<string key="NSTitle">Window</string>
+						<string key="NSTitle">窗口</string>
 						<string key="NSKeyEquiv"/>
 						<int key="NSKeyEquivModMask">1048576</int>
 						<int key="NSMnemonicLoc">2147483647</int>
@@ -930,11 +930,11 @@
 						<reference key="NSMixedImage" ref="310636482"/>
 						<string key="NSAction">submenuAction:</string>
 						<object class="NSMenu" key="NSSubmenu" id="835318025">
-							<string key="NSTitle">Window</string>
+							<string key="NSTitle">窗口</string>
 							<array class="NSMutableArray" key="NSMenuItems">
 								<object class="NSMenuItem" id="47934566">
 									<reference key="NSMenu" ref="835318025"/>
-									<string key="NSTitle">Enter Full Screen</string>
+									<string key="NSTitle">进入全屏幕</string>
 									<string key="NSKeyEquiv">f</string>
 									<int key="NSKeyEquivModMask">1310720</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -943,7 +943,7 @@
 								</object>
 								<object class="NSMenuItem" id="1011231497">
 									<reference key="NSMenu" ref="835318025"/>
-									<string key="NSTitle">Minimize</string>
+									<string key="NSTitle">最小化</string>
 									<string key="NSKeyEquiv">m</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -952,7 +952,7 @@
 								</object>
 								<object class="NSMenuItem" id="575023229">
 									<reference key="NSMenu" ref="835318025"/>
-									<string key="NSTitle">Zoom</string>
+									<string key="NSTitle">最大化</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -972,7 +972,7 @@
 								</object>
 								<object class="NSMenuItem" id="793504012">
 									<reference key="NSMenu" ref="835318025"/>
-									<string key="NSTitle">Log</string>
+									<string key="NSTitle">日志</string>
 									<string key="NSKeyEquiv">0</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -981,7 +981,7 @@
 								</object>
 								<object class="NSMenuItem" id="873724105">
 									<reference key="NSMenu" ref="835318025"/>
-									<string key="NSTitle">Device Properties</string>
+									<string key="NSTitle">设备属性</string>
 									<string key="NSKeyEquiv">1</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -990,7 +990,7 @@
 								</object>
 								<object class="NSMenuItem" id="625202149">
 									<reference key="NSMenu" ref="835318025"/>
-									<string key="NSTitle">Bring All to Front</string>
+									<string key="NSTitle">前置所有窗口</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -1003,18 +1003,18 @@
 					</object>
 					<object class="NSMenuItem" id="1050483726">
 						<reference key="NSMenu" ref="649796088"/>
-						<string key="NSTitle">Help</string>
+						<string key="NSTitle">帮助</string>
 						<string key="NSKeyEquiv"/>
 						<int key="NSMnemonicLoc">2147483647</int>
 						<reference key="NSOnImage" ref="1033313550"/>
 						<reference key="NSMixedImage" ref="310636482"/>
 						<string key="NSAction">submenuAction:</string>
 						<object class="NSMenu" key="NSSubmenu" id="388842427">
-							<string key="NSTitle">Help</string>
+							<string key="NSTitle">帮助</string>
 							<array class="NSMutableArray" key="NSMenuItems">
 								<object class="NSMenuItem" id="253952766">
 									<reference key="NSMenu" ref="388842427"/>
-									<string key="NSTitle">MaciASL Help</string>
+									<string key="NSTitle">MaciASL 帮助</string>
 									<string key="NSKeyEquiv">?</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -1033,7 +1033,7 @@
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{196, 112}, {678, 210}}</string>
 				<int key="NSWTFlags">1685586944</int>
-				<string key="NSWindowTitle">iASL Log</string>
+				<string key="NSWindowTitle">编译器日志</string>
 				<string key="NSWindowClass">NSPanel</string>
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
@@ -1084,7 +1084,7 @@
 													<object class="NSTableHeaderCell" key="NSHeaderCell">
 														<int key="NSCellFlags">75497536</int>
 														<int key="NSCellFlags2">2048</int>
-														<string key="NSContents">Timestamp</string>
+														<string key="NSContents">时间节点</string>
 														<object class="NSFont" key="NSSupport" id="26">
 															<string key="NSName">LucidaGrande</string>
 															<double key="NSSize">11</double>
@@ -1146,7 +1146,7 @@
 													<object class="NSTableHeaderCell" key="NSHeaderCell">
 														<int key="NSCellFlags">75497536</int>
 														<int key="NSCellFlags2">2048</int>
-														<string key="NSContents">Entry</string>
+														<string key="NSContents">条目</string>
 														<reference key="NSSupport" ref="26"/>
 														<reference key="NSBackgroundColor" ref="922507556"/>
 														<reference key="NSTextColor" ref="666077184"/>
@@ -1271,7 +1271,7 @@
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{1280, 366}, {372, 188}}</string>
 				<int key="NSWTFlags">-461896704</int>
-				<string key="NSWindowTitle">Compiler Summary</string>
+				<string key="NSWindowTitle">编译结果</string>
 				<string key="NSWindowClass">FSPanel</string>
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
@@ -1355,7 +1355,7 @@
 													<object class="NSTableHeaderCell" key="NSHeaderCell">
 														<int key="NSCellFlags">75497536</int>
 														<int key="NSCellFlags2">2048</int>
-														<string key="NSContents">Line</string>
+														<string key="NSContents">行</string>
 														<reference key="NSSupport" ref="26"/>
 														<reference key="NSBackgroundColor" ref="151477912"/>
 														<reference key="NSTextColor" ref="666077184"/>
@@ -1424,7 +1424,7 @@
 													<object class="NSTableHeaderCell" key="NSHeaderCell">
 														<int key="NSCellFlags">75497536</int>
 														<int key="NSCellFlags2">2048</int>
-														<string key="NSContents">Code</string>
+														<string key="NSContents">代码</string>
 														<reference key="NSSupport" ref="26"/>
 														<object class="NSColor" key="NSBackgroundColor" id="1031589899">
 															<int key="NSColorSpace">6</int>
@@ -1489,7 +1489,7 @@
 													<object class="NSTableHeaderCell" key="NSHeaderCell">
 														<int key="NSCellFlags">75497536</int>
 														<int key="NSCellFlags2">2048</int>
-														<string key="NSContents">Message</string>
+														<string key="NSContents">信息</string>
 														<reference key="NSSupport" ref="26"/>
 														<reference key="NSBackgroundColor" ref="1031589899"/>
 														<reference key="NSTextColor" ref="666077184"/>
@@ -1628,7 +1628,7 @@
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{196, 207}, {480, 270}}</string>
 				<int key="NSWTFlags">1685586944</int>
-				<string key="NSWindowTitle">Preferences</string>
+				<string key="NSWindowTitle">偏好设置</string>
 				<string key="NSWindowClass">NSWindow</string>
 				<object class="NSToolbar" key="NSViewClass" id="576111891">
 					<object class="NSMutableString" key="NSToolbarIdentifier">
@@ -1646,8 +1646,8 @@
 							<object class="NSMutableString" key="NSToolbarItemIdentifier">
 								<characters key="NS.bytes">5BE613DD-5E22-4886-9B39-66FD3CFCF3EE</characters>
 							</object>
-							<string key="NSToolbarItemLabel">Sources</string>
-							<string key="NSToolbarItemPaletteLabel">Sources</string>
+							<string key="NSToolbarItemLabel">补丁源</string>
+							<string key="NSToolbarItemPaletteLabel">补丁源</string>
 							<string key="NSToolbarItemToolTip"/>
 							<nil key="NSToolbarItemView"/>
 							<object class="NSCustomResource" key="NSToolbarItemImage">
@@ -1668,8 +1668,8 @@
 							<object class="NSMutableString" key="NSToolbarItemIdentifier">
 								<characters key="NS.bytes">6EC7308C-9711-4A2B-9110-70983193274C</characters>
 							</object>
-							<string key="NSToolbarItemLabel">iASL</string>
-							<string key="NSToolbarItemPaletteLabel">iASL</string>
+							<string key="NSToolbarItemLabel">编译器设置</string>
+							<string key="NSToolbarItemPaletteLabel">编译器设置</string>
 							<string key="NSToolbarItemToolTip"/>
 							<nil key="NSToolbarItemView"/>
 							<object class="NSCustomResource" key="NSToolbarItemImage">
@@ -1690,8 +1690,8 @@
 							<object class="NSMutableString" key="NSToolbarItemIdentifier">
 								<characters key="NS.bytes">E856F0D1-CCA6-41DC-8351-CEB05DD9C891</characters>
 							</object>
-							<string key="NSToolbarItemLabel">General</string>
-							<string key="NSToolbarItemPaletteLabel">General</string>
+							<string key="NSToolbarItemLabel">通用</string>
+							<string key="NSToolbarItemPaletteLabel">通用</string>
 							<string key="NSToolbarItemToolTip"/>
 							<nil key="NSToolbarItemView"/>
 							<object class="NSCustomResource" key="NSToolbarItemImage">
@@ -1914,7 +1914,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<object class="NSButtonCell" key="NSCell" id="352056175">
 							<int key="NSCellFlags">67108864</int>
 							<int key="NSCellFlags2">134217728</int>
-							<string key="NSContents">Update iASL</string>
+							<string key="NSContents">更新编译器</string>
 							<reference key="NSSupport" ref="1259246"/>
 							<string key="NSCellIdentifier">_NS:9</string>
 							<reference key="NSControlView" ref="674514407"/>
@@ -1939,7 +1939,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<object class="NSButtonCell" key="NSCell" id="679402685">
 							<int key="NSCellFlags">-2080374784</int>
 							<int key="NSCellFlags2">268435456</int>
-							<string key="NSContents">Treat warnings as errors</string>
+							<string key="NSContents">将警告视为错误</string>
 							<reference key="NSSupport" ref="1259246"/>
 							<string key="NSCellIdentifier">_NS:9</string>
 							<reference key="NSControlView" ref="21181373"/>
@@ -1993,7 +1993,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<object class="NSTextFieldCell" key="NSCell" id="284288618">
 							<int key="NSCellFlags">68157504</int>
 							<int key="NSCellFlags2">272630784</int>
-							<string key="NSContents">Current Compiler:</string>
+							<string key="NSContents">当前编译器:</string>
 							<reference key="NSSupport" ref="1259246"/>
 							<string key="NSCellIdentifier">_NS:1535</string>
 							<reference key="NSControlView" ref="810313589"/>
@@ -2014,7 +2014,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<object class="NSTextFieldCell" key="NSCell" id="649211152">
 							<int key="NSCellFlags">68157504</int>
 							<int key="NSCellFlags2">272630784</int>
-							<string key="NSContents">Compiler Options</string>
+							<string key="NSContents">编译器选项</string>
 							<reference key="NSSupport" ref="1259246"/>
 							<string key="NSCellIdentifier">_NS:1535</string>
 							<reference key="NSControlView" ref="679699664"/>
@@ -2035,7 +2035,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<object class="NSButtonCell" key="NSCell" id="342267093">
 							<int key="NSCellFlags">-2080374784</int>
 							<int key="NSCellFlags2">268435456</int>
-							<string key="NSContents">Enable optimization messages</string>
+							<string key="NSContents">启用优化信息</string>
 							<reference key="NSSupport" ref="1259246"/>
 							<string key="NSCellIdentifier">_NS:9</string>
 							<reference key="NSControlView" ref="609968996"/>
@@ -2062,7 +2062,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<object class="NSButtonCell" key="NSCell" id="387682685">
 							<int key="NSCellFlags">-2080374784</int>
 							<int key="NSCellFlags2">268435456</int>
-							<string key="NSContents">Enable remark messages</string>
+							<string key="NSContents">启用备注信息</string>
 							<reference key="NSSupport" ref="1259246"/>
 							<string key="NSCellIdentifier">_NS:9</string>
 							<reference key="NSControlView" ref="239379700"/>
@@ -2101,7 +2101,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<object class="NSButtonCell" key="NSCell" id="24232164">
 							<int key="NSCellFlags">-2080374784</int>
 							<int key="NSCellFlags2">268435456</int>
-							<string key="NSContents">Code Coloring</string>
+							<string key="NSContents">代码着色</string>
 							<reference key="NSSupport" ref="1259246"/>
 							<string key="NSCellIdentifier">_NS:9</string>
 							<reference key="NSControlView" ref="120909145"/>
@@ -2128,7 +2128,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<object class="NSButtonCell" key="NSCell" id="21821001">
 							<int key="NSCellFlags">-2080374784</int>
 							<int key="NSCellFlags2">268435456</int>
-							<string key="NSContents">Isolate selected patch</string>
+							<string key="NSContents">分离选中的补丁 </string>
 							<reference key="NSSupport" ref="1259246"/>
 							<string key="NSCellIdentifier">_NS:9</string>
 							<reference key="NSControlView" ref="994203641"/>
@@ -2295,7 +2295,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<object class="NSButtonCell" key="NSCell" id="518892997">
 							<int key="NSCellFlags">-2080374784</int>
 							<int key="NSCellFlags2">268435456</int>
-							<string key="NSContents">Show error suggestions</string>
+							<string key="NSContents">显示错误建议</string>
 							<reference key="NSSupport" ref="1259246"/>
 							<string key="NSCellIdentifier">_NS:9</string>
 							<reference key="NSControlView" ref="251064589"/>
@@ -2322,7 +2322,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<object class="NSButtonCell" key="NSCell" id="695507795">
 							<int key="NSCellFlags">-2080374784</int>
 							<int key="NSCellFlags2">268435456</int>
-							<string key="NSContents">Show patching context</string>
+							<string key="NSContents">显示补丁上下文</string>
 							<reference key="NSSupport" ref="1259246"/>
 							<string key="NSCellIdentifier">_NS:9</string>
 							<reference key="NSControlView" ref="135159136"/>
@@ -2349,7 +2349,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<object class="NSTextFieldCell" key="NSCell" id="580872932">
 							<int key="NSCellFlags">68157504</int>
 							<int key="NSCellFlags2">272630784</int>
-							<string key="NSContents">Interface</string>
+							<string key="NSContents">界面</string>
 							<reference key="NSSupport" ref="1259246"/>
 							<string key="NSCellIdentifier">_NS:1535</string>
 							<reference key="NSControlView" ref="269902149"/>
@@ -2370,7 +2370,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<object class="NSTextFieldCell" key="NSCell" id="117316733">
 							<int key="NSCellFlags">68157504</int>
 							<int key="NSCellFlags2">272630784</int>
-							<string key="NSContents">Startup</string>
+							<string key="NSContents">启动</string>
 							<reference key="NSSupport" ref="1259246"/>
 							<string key="NSCellIdentifier">_NS:1535</string>
 							<reference key="NSControlView" ref="978264562"/>
@@ -2391,7 +2391,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<object class="NSTextFieldCell" key="NSCell" id="443015184">
 							<int key="NSCellFlags">68157504</int>
 							<int key="NSCellFlags2">272630784</int>
-							<string key="NSContents">Themes</string>
+							<string key="NSContents">主题</string>
 							<reference key="NSSupport" ref="1259246"/>
 							<string key="NSCellIdentifier">_NS:1535</string>
 							<reference key="NSControlView" ref="1023726972"/>
@@ -2412,7 +2412,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<object class="NSButtonCell" key="NSCell" id="529081138">
 							<int key="NSCellFlags">-2080374784</int>
 							<int key="NSCellFlags2">268435456</int>
-							<string key="NSContents">Open system DSDT by default</string>
+							<string key="NSContents">启动时打开系统 DSDT</string>
 							<reference key="NSSupport" ref="1259246"/>
 							<string key="NSCellIdentifier">_NS:9</string>
 							<reference key="NSControlView" ref="982012630"/>
@@ -2543,7 +2543,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 												<object class="NSTableHeaderCell" key="NSHeaderCell">
 													<int key="NSCellFlags">75497536</int>
 													<int key="NSCellFlags2">2048</int>
-													<string key="NSContents">Name</string>
+													<string key="NSContents">名称</string>
 													<reference key="NSSupport" ref="26"/>
 													<object class="NSColor" key="NSBackgroundColor" id="1042746724">
 														<int key="NSColorSpace">3</int>
@@ -2572,7 +2572,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 												<object class="NSTableHeaderCell" key="NSHeaderCell">
 													<int key="NSCellFlags">75497536</int>
 													<int key="NSCellFlags2">2048</int>
-													<string key="NSContents">URL</string>
+													<string key="NSContents">URL地址</string>
 													<reference key="NSSupport" ref="26"/>
 													<reference key="NSBackgroundColor" ref="1042746724"/>
 													<reference key="NSTextColor" ref="666077184"/>
@@ -2690,7 +2690,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<object class="NSTextFieldCell" key="NSCell" id="1010762511">
 							<int key="NSCellFlags">68157504</int>
 							<int key="NSCellFlags2">272630784</int>
-							<string key="NSContents">MaciASL and its developer take no responsibility for these patches</string>
+							<string key="NSContents">MaciASL 和它的开发者对这些补丁不负任何责任</string>
 							<object class="NSFont" key="NSSupport">
 								<string key="NSName">LucidaGrande</string>
 								<double key="NSSize">9</double>
@@ -2715,7 +2715,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<object class="NSTextFieldCell" key="NSCell" id="1051288059">
 							<int key="NSCellFlags">68157504</int>
 							<int key="NSCellFlags2">272630784</int>
-							<string key="NSContents">Patch Sources</string>
+							<string key="NSContents">补丁源</string>
 							<reference key="NSSupport" ref="1259246"/>
 							<string key="NSCellIdentifier">_NS:1535</string>
 							<reference key="NSControlView" ref="924430813"/>
@@ -2782,7 +2782,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{196, 207}, {335, 102}}</string>
 				<int key="NSWTFlags">1685586944</int>
-				<string key="NSWindowTitle">Tableset Selection</string>
+				<string key="NSWindowTitle">表组选择</string>
 				<string key="NSWindowClass">NSWindow</string>
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
@@ -2802,7 +2802,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<object class="NSButtonCell" key="NSCell" id="796837757">
 								<int key="NSCellFlags">67108864</int>
 								<int key="NSCellFlags2">134217728</int>
-								<string key="NSContents">Open Selected</string>
+								<string key="NSContents">打开选择</string>
 								<reference key="NSSupport" ref="1259246"/>
 								<string key="NSCellIdentifier">_NS:9</string>
 								<reference key="NSControlView" ref="892315462"/>
@@ -2827,7 +2827,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<object class="NSButtonCell" key="NSCell" id="297001160">
 								<int key="NSCellFlags">67108864</int>
 								<int key="NSCellFlags2">134217728</int>
-								<string key="NSContents">Cancel</string>
+								<string key="NSContents">取消</string>
 								<reference key="NSSupport" ref="1259246"/>
 								<string key="NSCellIdentifier">_NS:9</string>
 								<reference key="NSControlView" ref="27306136"/>
@@ -2863,7 +2863,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 								<int key="NSPeriodicInterval">75</int>
 								<object class="NSMenuItem" key="NSMenuItem" id="750055196">
 									<reference key="NSMenu" ref="883156748"/>
-									<string key="NSTitle">Item 1</string>
+									<string key="NSTitle">项目 1</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -2874,12 +2874,12 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 								</object>
 								<bool key="NSMenuItemRespectAlignment">YES</bool>
 								<object class="NSMenu" key="NSMenu" id="883156748">
-									<string key="NSTitle">OtherViews</string>
+									<string key="NSTitle">显示其它</string>
 									<array class="NSMutableArray" key="NSMenuItems">
 										<reference ref="750055196"/>
 										<object class="NSMenuItem" id="720378674">
 											<reference key="NSMenu" ref="883156748"/>
-											<string key="NSTitle">Item 2</string>
+											<string key="NSTitle">项目 2</string>
 											<string key="NSKeyEquiv"/>
 											<int key="NSKeyEquivModMask">1048576</int>
 											<int key="NSMnemonicLoc">2147483647</int>
@@ -2890,7 +2890,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 										</object>
 										<object class="NSMenuItem" id="345472274">
 											<reference key="NSMenu" ref="883156748"/>
-											<string key="NSTitle">Item 3</string>
+											<string key="NSTitle">项目 3</string>
 											<string key="NSKeyEquiv"/>
 											<int key="NSKeyEquivModMask">1048576</int>
 											<int key="NSMnemonicLoc">2147483647</int>
@@ -2921,7 +2921,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<object class="NSButtonCell" key="NSCell" id="239856415">
 								<int key="NSCellFlags">67108864</int>
 								<int key="NSCellFlags2">134217728</int>
-								<string key="NSContents">Open All</string>
+								<string key="NSContents">打开全部</string>
 								<reference key="NSSupport" ref="1259246"/>
 								<string key="NSCellIdentifier">_NS:9</string>
 								<reference key="NSControlView" ref="533795463"/>
@@ -2950,7 +2950,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{196, 112}, {378, 276}}</string>
 				<int key="NSWTFlags">-461896704</int>
-				<string key="NSWindowTitle">Device Properties</string>
+				<string key="NSWindowTitle">设备属性</string>
 				<string key="NSWindowClass">NSPanel</string>
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
@@ -3001,7 +3001,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 													<object class="NSTableHeaderCell" key="NSHeaderCell">
 														<int key="NSCellFlags">75497536</int>
 														<int key="NSCellFlags2">2048</int>
-														<string key="NSContents">Name</string>
+														<string key="NSContents">名称</string>
 														<reference key="NSSupport" ref="26"/>
 														<object class="NSColor" key="NSBackgroundColor" id="557918119">
 															<int key="NSColorSpace">3</int>
@@ -3033,7 +3033,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 													<object class="NSTableHeaderCell" key="NSHeaderCell">
 														<int key="NSCellFlags">75497536</int>
 														<int key="NSCellFlags2">2048</int>
-														<string key="NSContents">Value</string>
+														<string key="NSContents">值</string>
 														<reference key="NSSupport" ref="26"/>
 														<reference key="NSBackgroundColor" ref="557918119"/>
 														<reference key="NSTextColor" ref="666077184"/>

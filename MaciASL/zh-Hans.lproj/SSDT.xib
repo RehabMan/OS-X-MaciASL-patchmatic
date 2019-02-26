@@ -56,7 +56,7 @@
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{196, 207}, {577, 401}}</string>
 				<int key="NSWTFlags">1685586944</int>
-				<string key="NSWindowTitle">Generate SSDT</string>
+				<string key="NSWindowTitle">生成 SSDT</string>
 				<string key="NSWindowClass">NSWindow</string>
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
@@ -266,7 +266,7 @@
 													<object class="NSButtonCell" key="NSCell" id="354407222">
 														<int key="NSCellFlags">67108864</int>
 														<int key="NSCellFlags2">134217728</int>
-														<string key="NSContents">Reset</string>
+														<string key="NSContents">重置</string>
 														<reference key="NSSupport" ref="309417918"/>
 														<string key="NSCellIdentifier">_NS:9</string>
 														<reference key="NSControlView" ref="973076633"/>
@@ -291,7 +291,7 @@
 													<object class="NSButtonCell" key="NSCell" id="775337448">
 														<int key="NSCellFlags">67108864</int>
 														<int key="NSCellFlags2">134217728</int>
-														<string key="NSContents">Cancel</string>
+														<string key="NSContents">取消</string>
 														<reference key="NSSupport" ref="309417918"/>
 														<string key="NSCellIdentifier">_NS:9</string>
 														<reference key="NSControlView" ref="430276381"/>
@@ -316,7 +316,7 @@
 													<object class="NSButtonCell" key="NSCell" id="470441223">
 														<int key="NSCellFlags">67108864</int>
 														<int key="NSCellFlags2">134217728</int>
-														<string key="NSContents">OK</string>
+														<string key="NSContents">确认</string>
 														<reference key="NSSupport" ref="309417918"/>
 														<string key="NSCellIdentifier">_NS:9</string>
 														<reference key="NSControlView" ref="501620644"/>
@@ -438,7 +438,7 @@
 													<object class="NSTextFieldCell" key="NSCell" id="327647861">
 														<int key="NSCellFlags">68157504</int>
 														<int key="NSCellFlags2">272630784</int>
-														<string key="NSContents">CPU Frequency (MHz)</string>
+														<string key="NSContents">CPU 主频 (兆赫)</string>
 														<reference key="NSSupport" ref="309417918"/>
 														<string key="NSCellIdentifier">_NS:1535</string>
 														<reference key="NSControlView" ref="1051251748"/>
@@ -464,7 +464,7 @@
 													<object class="NSTextFieldCell" key="NSCell" id="187142586">
 														<int key="NSCellFlags">68157504</int>
 														<int key="NSCellFlags2">272630784</int>
-														<string key="NSContents">Logical CPUs (Greater than 0)</string>
+														<string key="NSContents">逻辑处理器数量 (大于 0)</string>
 														<reference key="NSSupport" ref="309417918"/>
 														<string key="NSCellIdentifier">_NS:1535</string>
 														<reference key="NSControlView" ref="583295489"/>
@@ -566,7 +566,7 @@
 													<object class="NSTextFieldCell" key="NSCell" id="905912315">
 														<int key="NSCellFlags">68157504</int>
 														<int key="NSCellFlags2">272630784</int>
-														<string key="NSContents">Maximum Turbo Frequency (MHz)</string>
+														<string key="NSContents">最大睿频频率 (兆赫)</string>
 														<reference key="NSSupport" ref="309417918"/>
 														<string key="NSCellIdentifier">_NS:1535</string>
 														<reference key="NSControlView" ref="211243493"/>
@@ -669,7 +669,7 @@
 													<object class="NSTextFieldCell" key="NSCell" id="35820144">
 														<int key="NSCellFlags">68157504</int>
 														<int key="NSCellFlags2">272630784</int>
-														<string key="NSContents">Thermal Design Power (Watts)</string>
+														<string key="NSContents">TDP (瓦特)</string>
 														<reference key="NSSupport" ref="309417918"/>
 														<string key="NSCellIdentifier">_NS:1535</string>
 														<reference key="NSControlView" ref="565492347"/>

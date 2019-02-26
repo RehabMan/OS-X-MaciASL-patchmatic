@@ -74,6 +74,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		50C257A72225283900ABD2CA /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/Document.xib"; sourceTree = "<group>"; };
+		50C257A82225283900ABD2CA /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/MainMenu.xib"; sourceTree = "<group>"; };
+		50C257A92225283900ABD2CA /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/Patch.xib"; sourceTree = "<group>"; };
+		50C257AA2225283900ABD2CA /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/SSDT.xib"; sourceTree = "<group>"; };
 		8405F156170B763A0084D4BE /* RKL_NSRegularExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKL_NSRegularExpression.h; sourceTree = "<group>"; };
 		8405F157170B763A0084D4BE /* RKL_NSRegularExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKL_NSRegularExpression.m; sourceTree = "<group>"; };
 		8452CFAD170B6DA80007B3F4 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RegexKitLite.h; path = "RegexKitLite-4.0/RegexKitLite.h"; sourceTree = SOURCE_ROOT; };
@@ -392,6 +396,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				"zh-Hans",
 			);
 			mainGroup = B013B817160C529600F6A7F2;
 			productRefGroup = B013B823160C529600F6A7F2 /* Products */;
@@ -489,6 +494,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				B013B83C160C529600F6A7F2 /* en */,
+				50C257A72225283900ABD2CA /* zh-Hans */,
 			);
 			name = Document.xib;
 			sourceTree = "<group>";
@@ -497,6 +503,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				B013B83F160C529700F6A7F2 /* en */,
+				50C257A82225283900ABD2CA /* zh-Hans */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
@@ -505,6 +512,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				B06352E3177EA65B00956EB1 /* en */,
+				50C257A92225283900ABD2CA /* zh-Hans */,
 			);
 			name = Patch.xib;
 			sourceTree = "<group>";
@@ -513,6 +521,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				B06352E6177EA65F00956EB1 /* en */,
+				50C257AA2225283900ABD2CA /* zh-Hans */,
 			);
 			name = SSDT.xib;
 			sourceTree = "<group>";
@@ -563,6 +572,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -594,6 +604,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
